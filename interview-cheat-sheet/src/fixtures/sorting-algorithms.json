@@ -1,0 +1,230 @@
+{
+  "bubble": {
+    "name": "Bubble",
+    "description": "Repeatedly compares adjacent elements and swaps them if they are in the wrong order.",
+    "time": {
+      "average": {
+        "access": null,
+        "search": null,
+        "insertion": null,
+        "deletion": null
+      },
+      "worst": {
+        "access": null,
+        "search": null,
+        "insertion": null,
+        "deletion": null
+      }
+    },
+    "space": { "worst": null }
+  },
+  "selection": {
+    "name": "Selection",
+    "description": "Finds the smallest (or largest) element and places it at the beginning (or end) of the array.",
+    "time": {
+      "average": {
+        "access": null,
+        "search": null,
+        "insertion": null,
+        "deletion": null
+      },
+      "worst": {
+        "access": null,
+        "search": null,
+        "insertion": null,
+        "deletion": null
+      }
+    },
+    "space": { "worst": null }
+  },
+  "insertion": {
+    "name": "Insertion",
+    "description": "Builds the final sorted array one element at a time by inserting each element into its position.",
+    "time": {
+      "average": {
+        "access": null,
+        "search": null,
+        "insertion": null,
+        "deletion": null
+      },
+      "worst": {
+        "access": null,
+        "search": null,
+        "insertion": null,
+        "deletion": null
+      }
+    },
+    "space": { "worst": null }
+  },
+  "heap": {
+    "name": "Heap",
+    "description": "Uses a binary heap to extract the maximum (or minimum) element and place it in the sorted array.",
+    "time": {
+      "average": {
+        "access": null,
+        "search": null,
+        "insertion": null,
+        "deletion": null
+      },
+      "worst": {
+        "access": null,
+        "search": null,
+        "insertion": null,
+        "deletion": null
+      }
+    },
+    "space": { "worst": null }
+  },
+  "merge": {
+    "name": "Merge",
+    "description": "Divides the array, recursively sorts halves, and merges them.",
+    "time": {
+      "average": {
+        "access": null,
+        "search": null,
+        "insertion": null,
+        "deletion": null
+      },
+      "worst": {
+        "access": null,
+        "search": null,
+        "insertion": null,
+        "deletion": null
+      }
+    },
+    "space": { "worst": null }
+  },
+  "quick": {
+    "name": "Quick",
+    "description": "Chooses a pivot, partitions the array, and recursively sorts partitions.",
+    "time": {
+      "average": {
+        "access": null,
+        "search": null,
+        "insertion": null,
+        "deletion": null
+      },
+      "worst": {
+        "access": null,
+        "search": null,
+        "insertion": null,
+        "deletion": null
+      }
+    },
+    "space": { "worst": null }
+  },
+  "radix": {
+    "name": "Radix",
+    "description": "Sorts based on individual digits or characters, from least to most significant.",
+    "time": {
+      "average": {
+        "access": null,
+        "search": null,
+        "insertion": null,
+        "deletion": null
+      },
+      "worst": {
+        "access": null,
+        "search": null,
+        "insertion": null,
+        "deletion": null
+      }
+    },
+    "space": { "worst": null }
+  },
+  "bucket": {
+    "name": "Bucket",
+    "description": "Divides the input array into a number of buckets, each of which is then sorted individually, typically with another sorting algorithm or by recursively applying bucket sort.",
+    "time": {
+      "average": {
+        "access": null,
+        "search": null,
+        "insertion": null,
+        "deletion": null
+      },
+      "worst": {
+        "access": null,
+        "search": null,
+        "insertion": null,
+        "deletion": null
+      }
+    },
+    "space": { "worst": null }
+  },
+  "shell": {
+    "name": "Shell",
+    "description": "Extension of insertion sort that allows the exchange of items that are far apart. It starts by sorting pairs of elements far apart from each other, then progressively reduces the gap between elements to be compared.",
+    "time": {
+      "average": {
+        "access": null,
+        "search": null,
+        "insertion": null,
+        "deletion": null
+      },
+      "worst": {
+        "access": null,
+        "search": null,
+        "insertion": null,
+        "deletion": null
+      }
+    },
+    "space": { "worst": null }
+  },
+  "comb": {
+    "name": "Comb",
+    "description": "Improves upon bubble sort by using a gap sequence to eliminate turtles, or small values near the end of the list, which slows down the sorting process in bubble sort.",
+    "time": {
+      "average": {
+        "access": null,
+        "search": null,
+        "insertion": null,
+        "deletion": null
+      },
+      "worst": {
+        "access": null,
+        "search": null,
+        "insertion": null,
+        "deletion": null
+      }
+    },
+    "space": { "worst": null }
+  },
+  "counting": {
+    "name": "Counting",
+    "description": "An integer sorting algorithm that works by determining the number of objects having distinct key values and using arithmetic to determine their position in the output array.",
+    "time": {
+      "average": {
+        "access": null,
+        "search": null,
+        "insertion": null,
+        "deletion": null
+      },
+      "worst": {
+        "access": null,
+        "search": null,
+        "insertion": null,
+        "deletion": null
+      }
+    },
+    "space": { "worst": null }
+  },
+  "cube": {
+    "name": "Cube",
+    "description": "Operates by recursively dividing the array into sub-cubes, sorting each cube individually, and then merging them back together, offering a balance between time complexity and space complexity.",
+    "time": {
+      "average": {
+        "access": null,
+        "search": null,
+        "insertion": null,
+        "deletion": null
+      },
+      "worst": {
+        "access": null,
+        "search": null,
+        "insertion": null,
+        "deletion": null
+      }
+    },
+    "space": { "worst": null }
+  }
+}

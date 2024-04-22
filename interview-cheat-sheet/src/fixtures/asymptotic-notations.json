@@ -1,0 +1,32 @@
+{
+  "big-o": {
+    "name": "Big-O",
+    "notation": "O",
+    "definition": "Upper bound (worst-case time complexity)",
+    "note": "Never more than"
+  },
+  "big-omega": {
+    "name": "Big-Omega",
+    "notation": "Ω",
+    "definition": "Lower bound (best-case time complexity)",
+    "note": "Never less than"
+  },
+  "theta": {
+    "name": "Theta",
+    "notation": "Θ",
+    "definition": "Tight bound (average-case time complexity)",
+    "note": "Exactly equal to"
+  },
+  "little-o": {
+    "name": "Little-O",
+    "notation": "o",
+    "definition": "Strictly smaller than upper bound (non-asymptotic)",
+    "note": "Always less than"
+  },
+  "little-omega": {
+    "name": "Little-Omega",
+    "notation": "ω",
+    "definition": "Strictly greater than lower bound (non-asymptotic)",
+    "note": "Always greater than"
+  }
+}
