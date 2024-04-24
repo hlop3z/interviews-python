@@ -46,5 +46,47 @@
       "name": "Dependency Inversion",
       "description": "High-level modules should not depend on low-level modules. Both should depend on abstractions. Abstractions should not depend on details; details should depend on abstractions."
     }
+  ],
+  "design": [
+    {
+      "name": "Singleton",
+      "description": "Ensures that a class has only one instance and provides a global point of access to that instance."
+    },
+    {
+      "name": "Factory Method",
+      "description": "Defines an interface for creating an object but allows subclasses to alter the type of objects that will be created."
+    },
+    {
+      "name": "Abstract Factory",
+      "description": "Provides an interface for creating families of related or dependent objects without specifying their concrete classes."
+    },
+    {
+      "name": "Builder",
+      "description": "Separates the construction of a complex object from its representation, allowing the same construction process to create different representations."
+    },
+    {
+      "name": "Prototype",
+      "description": "Creates new objects by copying an existing object, typically used when the creation of a new instance is more efficient than creating it from scratch or with initial parameters."
+    },
+    {
+      "name": "Adapter",
+      "description": "Allows incompatible interfaces to work together by providing a bridge between them."
+    },
+    {
+      "name": "Decorator",
+      "description": "Attaches additional responsibilities to an object dynamically, providing a flexible alternative to subclassing for extending functionality."
+    },
+    {
+      "name": "Observer",
+      "description": "Defines a one-to-many dependency between objects so that when one object changes state, all its dependents are notified and updated automatically."
+    },
+    {
+      "name": "Strategy",
+      "description": "Defines a family of algorithms, encapsulates each one, and makes them interchangeable."
+    },
+    {
+      "name": "Command",
+      "description": "Encapsulates a request as an object, thereby allowing for parameterization of clients with queues, requests, and operations."
+    }
   ]
 }

@@ -202,10 +202,12 @@ function AsymptoticTable() {
 
       <br />
 
-      <div class="title-bar">
-        <span class="title">Visual Chart</span>
+      <div class="tac">
+        <div class="title-bar" style="justify-content:center;">
+          <span class="title">Visual Chart</span>
+        </div>
+        <VisualChart />
       </div>
-      <VisualChart />
     </>
   );
 }
@@ -441,6 +443,12 @@ function ObjectOrientedTable() {
       <td class="tal">{item.description}</td>
     </tr>
   ));
+  const designRows = objectOriented.design.map((item) => (
+    <tr>
+      <td>{item.name}</td>
+      <td class="tal">{item.description}</td>
+    </tr>
+  ));
 
   return (
     <>
@@ -465,11 +473,26 @@ function ObjectOrientedTable() {
       <table>
         <thead>
           <tr>
-            <th style="width: 160px">Algorithm</th>
+            <th style="width: 160px">Name</th>
             <th>Description</th>
           </tr>
         </thead>
         <tbody>{solidRows}</tbody>
+      </table>
+
+      <br />
+
+      <div class="title-bar">
+        <span class="title">Software Design Patterns</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 160px">Pattern</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>{designRows}</tbody>
       </table>
     </>
   );
@@ -578,16 +601,17 @@ function PythonOthersTable() {
   );
 }
 
-function PythonView() {
+function PythonTable() {
   return (
     <div style="display: flex; justify-content: space-between">
       <div>
         <PythonDunderMethodsTable />
       </div>
       <div>
-        <PythonOthersTable />
-        <br />
         <PythonZenTable />
+      </div>
+      <div>
+        <PythonOthersTable />
       </div>
     </div>
   );
@@ -615,7 +639,7 @@ export function App() {
       {show(2, <SortingAlgorithmsTable />)}
       {show(3, <SearchAlgorithmsTable />)}
       {show(4, <ObjectOrientedTable />)}
-      {show(5, <PythonView />)}
+      {show(5, <PythonTable />)}
     </>
   );
 }

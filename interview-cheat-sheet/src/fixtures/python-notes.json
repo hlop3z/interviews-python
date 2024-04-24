@@ -2,7 +2,7 @@
   "others": [
     {
       "title": "PEP 8 (Style Guide)",
-      "notes": "black | isort | pylint | ruff | mypy | pyright"
+      "notes": "black | isort | pylint | mypy | pyright | ruff"
     },
     {
       "title": "PEP 484",
@@ -10,7 +10,7 @@
     },
     {
       "title": "Immutables",
-      "notes": "Tuples(tuple) | Frozen Sets(frozenset) | Integers(int) | Floats(float) | Strings(str) | Boolean(bool)"
+      "notes": "tuple | frozenset | int | float | str | bool"
     },
     {
       "title": "Testing",
