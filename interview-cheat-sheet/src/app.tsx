@@ -610,12 +610,12 @@ export function App() {
         <li onClick={() => (currentView.value = 5)}>Python</li>
       </ul>
 
-      {show(99, <AsymptoticTable />)}
+      {show(0, <AsymptoticTable />)}
       {show(1, <DataStructuresTable />)}
       {show(2, <SortingAlgorithmsTable />)}
       {show(3, <SearchAlgorithmsTable />)}
       {show(4, <ObjectOrientedTable />)}
-      {show(0, <PythonView />)}
+      {show(5, <PythonView />)}
     </>
   );
 }
