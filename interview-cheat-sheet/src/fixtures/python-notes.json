@@ -1,0 +1,208 @@
+{
+  "others": [
+    {
+      "title": "PEP 8 (Style Guide)",
+      "notes": "black | isort | pylint | ruff | mypy | pyright"
+    },
+    {
+      "title": "PEP 484",
+      "notes": "Type Hints"
+    },
+    {
+      "title": "Immutables",
+      "notes": "Tuples(tuple) | Frozen Sets(frozenset) | Integers(int) | Floats(float) | Strings(str) | Boolean(bool)"
+    },
+    {
+      "title": "Testing",
+      "notes": "pytest"
+    },
+    {
+      "title": "Dependency Manager",
+      "notes": "pip | pdm | conda | poetry"
+    },
+    {
+      "title": "Virtual Environments",
+      "notes": "venv"
+    }
+  ],
+  "zen": [
+    {
+      "index": 1,
+      "description": "Beautiful is better than ugly."
+    },
+    {
+      "index": 2,
+      "description": "Explicit is better than implicit."
+    },
+    {
+      "index": 3,
+      "description": "Simple is better than complex."
+    },
+    {
+      "index": 4,
+      "description": "Complex is better than complicated."
+    },
+    {
+      "index": 5,
+      "description": "Flat is better than nested."
+    },
+    {
+      "index": 6,
+      "description": "Sparse is better than dense."
+    },
+    {
+      "index": 7,
+      "description": "Readability counts."
+    },
+    {
+      "index": 8,
+      "description": "Special cases aren't special enough to break the rules."
+    },
+    {
+      "index": 9,
+      "description": "Although practicality beats purity."
+    },
+    {
+      "index": 10,
+      "description": "Errors should never pass silently."
+    },
+    {
+      "index": 11,
+      "description": "Unless explicitly silenced."
+    },
+    {
+      "index": 12,
+      "description": "In the face of ambiguity, refuse the temptation to guess."
+    },
+    {
+      "index": 13,
+      "description": "There should be one-- and preferably only one --obvious way to do it."
+    },
+    {
+      "index": 14,
+      "description": "Although that way may not be obvious at first unless you're Dutch."
+    },
+    {
+      "index": 15,
+      "description": "Now is better than never."
+    },
+    {
+      "index": 16,
+      "description": "Although never is often better than *right* now."
+    },
+    {
+      "index": 17,
+      "description": "If the implementation is hard to explain, it's a bad idea."
+    },
+    {
+      "index": 18,
+      "description": "If the implementation is easy to explain, it may be a good idea."
+    },
+    {
+      "index": 19,
+      "description": "Namespaces are one honking great idea -- let's do more of those!"
+    }
+  ],
+  "magic": [
+    {
+      "method": "__new__",
+      "description": "Creates a new instance of a class."
+    },
+    {
+      "method": "__init__",
+      "description": "Initializes an object when it is created."
+    },
+    {
+      "method": "__call__",
+      "description": "Enables objects to be called like functions."
+    },
+    {
+      "method": "__dir__",
+      "description": "Returns the attributes of a class."
+    },
+    {
+      "method": "__repr__",
+      "description": "Returns an unambiguous string representation of the object."
+    },
+    {
+      "method": "__str__",
+      "description": "Returns a readable string representation of the object."
+    },
+    {
+      "method": "__len__",
+      "description": "Returns the length of the object."
+    },
+    {
+      "method": "__getitem__",
+      "description": "Enables indexing and slicing operations."
+    },
+    {
+      "method": "__setitem__",
+      "description": "Enables setting values using indexing."
+    },
+    {
+      "method": "__delitem__",
+      "description": "Enables deletion of items using indexing."
+    },
+    {
+      "method": "__iter__",
+      "description": "Returns an iterator object for iteration."
+    },
+    {
+      "method": "__next__",
+      "description": "Retrieves the next item in the iteration sequence."
+    },
+    {
+      "method": "__enter__",
+      "description": "Sets up the context for a with statement."
+    },
+    {
+      "method": "__exit__",
+      "description": "Cleans up resources when the with statement exits."
+    },
+    {
+      "method": "__getattr__",
+      "description": "Handles attribute access when an attribute is not found."
+    },
+    {
+      "method": "__setattr__",
+      "description": "Handles setting attribute values."
+    },
+    {
+      "method": "__delattr__",
+      "description": "Handles deletion of attributes."
+    },
+    {
+      "method": "__eq__",
+      "description": "Defines equality comparison."
+    },
+    {
+      "method": "__ne__",
+      "description": "Defines inequality comparison."
+    },
+    {
+      "method": "__lt__",
+      "description": "Defines less than comparison."
+    },
+    {
+      "method": "__gt__",
+      "description": "Defines greater than comparison."
+    },
+    {
+      "method": "__le__",
+      "description": "Defines less than or equal to comparison."
+    },
+    {
+      "method": "__ge__",
+      "description": "Defines greater than or equal to comparison."
+    },
+    {
+      "method": "__del__",
+      "description": "Cleans up resources when an object is about to be destroyed."
+    },
+    {
+      "method": "__hash__",
+      "description": "Returns the hash value of the object."
+    }
+  ]
+}

@@ -1,50 +1,50 @@
-{
-  "constant": {
+[
+  {
     "name": "Constant",
     "notation": "O(1)",
     "description": "Constant time regardless of input size",
     "level": "best"
   },
-  "logarithmic": {
+  {
     "name": "Logarithmic",
     "notation": "O(log n)",
     "description": "Increases logarithmically with input size",
     "level": "good"
   },
-  "linear": {
+  {
     "name": "Linear",
     "notation": "O(n)",
     "description": "Increases linearly with input size",
     "level": "fair"
   },
-  "linearithmic": {
+  {
     "name": "Linearithmic",
     "notation": "O(n log n)",
     "description": "Increases in proportion to the product of input size and its logarithm",
     "level": "fair"
   },
-  "quadratic": {
+  {
     "name": "Quadratic",
     "notation": "O(n^2)",
     "description": "Increases quadratically with input size",
     "level": "bad"
   },
-  "cubic": {
+  {
     "name": "Cubic",
     "notation": "O(n^3)",
     "description": "Increases cubically with input size",
     "level": "bad"
   },
-  "exponential": {
+  {
     "name": "Exponential",
     "notation": "O(2^n)",
     "description": "Doubles with each additional element in input",
     "level": "worst"
   },
-  "factorial": {
+  {
     "name": "Factorial",
     "notation": "O(n!)",
     "description": "Grows factorially with input size",
     "level": "worst"
   }
-}
+]

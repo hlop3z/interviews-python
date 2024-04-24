@@ -1,0 +1,50 @@
+{
+  "oop": [
+    {
+      "name": "Object",
+      "description": "An instance of a class that encapsulates data and behavior."
+    },
+    {
+      "name": "Class",
+      "description": "A blueprint for creating objects, defining their attributes (data) and methods (behavior)."
+    },
+    {
+      "name": "Inheritance",
+      "description": "A mechanism in OOP that allows a class to inherit properties and behaviors from another class, promoting code reusability and establishing a parent-child relationship."
+    },
+    {
+      "name": "Polymorphism",
+      "description": "The ability for objects of different classes to be treated as objects of a common superclass, enabling methods to be invoked dynamically based on the type of object."
+    },
+    {
+      "name": "Abstraction",
+      "description": "The process of hiding complex implementation details and exposing only the essential features of an object, making it easier to understand and use."
+    },
+    {
+      "name": "Encapsulation",
+      "description": "The bundling of data and methods within a class, restricting access to the internal state of an object and promoting data integrity by controlling how data is accessed and modified."
+    }
+  ],
+  "solid": [
+    {
+      "name": "Single Responsibility",
+      "description": "A class should have only one reason to change, meaning it should have only one responsibility or job."
+    },
+    {
+      "name": "Open / Closed",
+      "description": "Software entities (classes, modules, functions, etc.) should be open for extension but closed for modification, allowing new functionality to be added without altering existing code."
+    },
+    {
+      "name": "Liskov Substitution",
+      "description": "Objects of a superclass should be replaceable with objects of its subclasses without affecting the correctness of the program."
+    },
+    {
+      "name": "Interface Segregation",
+      "description": "Clients should not be forced to depend on interfaces they do not use. Instead, interfaces should be specific to the needs of the client."
+    },
+    {
+      "name": "Dependency Inversion",
+      "description": "High-level modules should not depend on low-level modules. Both should depend on abstractions. Abstractions should not depend on details; details should depend on abstractions."
+    }
+  ]
+}

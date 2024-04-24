@@ -1,0 +1,107 @@
+/* App */
+.title-bar {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.title {
+  font-size: 2em;
+  margin-right: 20px;
+}
+
+input {
+  padding: 6px 2px;
+}
+
+.graph-help code {
+  background-color: #f2f2f2;
+  padding: 0 4px;
+  font-weight: bolder;
+  font-size: 16px;
+}
+
+/* Navbar */
+ul.navbar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+.navbar li {
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  user-select: none;
+  cursor: pointer;
+}
+
+/* Table */
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th {
+  background-color: #f2f2f2;
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
+td {
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 8px;
+}
+
+/* Text Align */
+.tal {
+  text-align: left;
+}
+
+/* Images */
+.shape {
+  width: auto;
+  height: 80px;
+}
+
+/* Colors */
+.gray {
+  color: black;
+  background-color: #e3e3e3;
+}
+
+.green {
+  color: black;
+  background-color: #53d000;
+}
+
+.yellow-green {
+  color: black;
+  background-color: #c8ea00;
+}
+
+.yellow {
+  color: black;
+  background-color: #ffeb3b;
+}
+
+.orange {
+  color: black;
+  background-color: #ffc543;
+}
+
+.red {
+  color: black;
+  background-color: #ff8989;
+}

@@ -1,0 +1,359 @@
+[
+  {
+    "name": "Array",
+    "shape": "Array.png",
+    "group": "List",
+    "description": "A collection of elements, each identified by an index or a key",
+    "time": {
+      "average": {
+        "access": "Θ(1)",
+        "search": "Θ(n)",
+        "insertion": "Θ(n)",
+        "deletion": "Θ(n)"
+      },
+      "worst": {
+        "access": "O(1)",
+        "search": "O(n)",
+        "insertion": "O(n)",
+        "deletion": "O(n)"
+      }
+    },
+    "space": { "worst": "O(n)" }
+  },
+  {
+    "name": "Stack",
+    "shape": "Stack.png",
+    "group": "List",
+    "description": "Follows the Last-In-First-Out (LIFO) principle",
+    "time": {
+      "average": {
+        "access": "Θ(n)",
+        "search": "Θ(n)",
+        "insertion": "Θ(1)",
+        "deletion": "Θ(1)"
+      },
+      "worst": {
+        "access": "O(n)",
+        "search": "O(n)",
+        "insertion": "O(1)",
+        "deletion": "O(1)"
+      }
+    },
+    "space": { "worst": "O(n)" }
+  },
+  {
+    "name": "Queue",
+    "shape": "Queue.png",
+    "group": "List",
+    "description": "Follows the First-In-First-Out (FIFO) principle",
+    "time": {
+      "average": {
+        "access": "Θ(n)",
+        "search": "Θ(n)",
+        "insertion": "Θ(1)",
+        "deletion": "Θ(1)"
+      },
+      "worst": {
+        "access": "O(n)",
+        "search": "O(n)",
+        "insertion": "O(1)",
+        "deletion": "O(1)"
+      }
+    },
+    "space": { "worst": "O(n)" }
+  },
+  {
+    "name": "Single-Linked-List",
+    "shape": "Single-Linked-List.png",
+    "group": "List",
+    "description": "Consists of nodes, each containing data and a reference to the next node. It allows efficient insertion and deletion at the head or tail",
+    "time": {
+      "average": {
+        "access": "Θ(n)",
+        "search": "Θ(n)",
+        "insertion": "Θ(1)",
+        "deletion": "Θ(1)"
+      },
+      "worst": {
+        "access": "O(n)",
+        "search": "O(n)",
+        "insertion": "O(1)",
+        "deletion": "O(1)"
+      }
+    },
+    "space": { "worst": "O(n)" }
+  },
+  {
+    "name": "Double-Linked-List",
+    "shape": "Double-Linked-List.png",
+    "group": "List",
+    "description": "Extends the single-linked list by having references to both the next and previous nodes. It enables bidirectional traversal",
+    "time": {
+      "average": {
+        "access": "Θ(n)",
+        "search": "Θ(n)",
+        "insertion": "Θ(1)",
+        "deletion": "Θ(1)"
+      },
+      "worst": {
+        "access": "O(n)",
+        "search": "O(n)",
+        "insertion": "O(1)",
+        "deletion": "O(1)"
+      }
+    },
+    "space": { "worst": "O(n)" }
+  },
+  {
+    "name": "Skip-List",
+    "shape": "Skip-List.png",
+    "group": "List",
+    "description": "Probabilistic data structure, it uses multiple levels of linked lists",
+    "time": {
+      "average": {
+        "access": "Θ(log(n))",
+        "search": "Θ(log(n))",
+        "insertion": "Θ(log(n))",
+        "deletion": "Θ(log(n))"
+      },
+      "worst": {
+        "access": "O(n)",
+        "search": "O(n)",
+        "insertion": "O(n)",
+        "deletion": "O(n)"
+      }
+    },
+    "space": { "worst": "O(n log(n))" }
+  },
+  {
+    "name": "Binary-Search-Tree",
+    "shape": "Binary-AVL-Tree.png",
+    "group": "Tree",
+    "description": "Consists of nodes, each having at most two children",
+    "time": {
+      "average": {
+        "access": "Θ(log(n))",
+        "search": "Θ(log(n))",
+        "insertion": "Θ(log(n))",
+        "deletion": "Θ(log(n))"
+      },
+      "worst": {
+        "access": "O(n)",
+        "search": "O(n)",
+        "insertion": "O(n)",
+        "deletion": "O(n)"
+      }
+    },
+    "space": { "worst": "O(n)" }
+  },
+  {
+    "name": "Cartesian-Tree",
+    "shape": "Cartesian-Tree.png",
+    "group": "Tree",
+    "description": "Binary tree where the values of nodes satisfy the heap property with respect to both the parent and the child",
+    "time": {
+      "average": {
+        "access": "N/A",
+        "search": "Θ(log(n))",
+        "insertion": "Θ(log(n))",
+        "deletion": "Θ(log(n))"
+      },
+      "worst": {
+        "access": "N/A",
+        "search": "O(n)",
+        "insertion": "O(n)",
+        "deletion": "O(n)"
+      }
+    },
+    "space": { "worst": "O(n)" }
+  },
+  {
+    "name": "B-Tree",
+    "shape": "B-Tree.png",
+    "group": "Tree",
+    "description": "Self-balancing tree structure that maintains sorted data and is commonly used in databases and file systems",
+    "time": {
+      "average": {
+        "access": "Θ(log(n))",
+        "search": "Θ(log(n))",
+        "insertion": "Θ(log(n))",
+        "deletion": "Θ(log(n))"
+      },
+      "worst": {
+        "access": "O(log(n))",
+        "search": "O(log(n))",
+        "insertion": "O(log(n))",
+        "deletion": "O(log(n))"
+      }
+    },
+    "space": { "worst": "O(n)" }
+  },
+  {
+    "name": "Red-Black-Tree",
+    "shape": "Red-Black-Tree.png",
+    "group": "Tree",
+    "description": "Self-balancing binary search tree that maintains balance through color-coded nodes",
+    "time": {
+      "average": {
+        "access": "Θ(log(n))",
+        "search": "Θ(log(n))",
+        "insertion": "Θ(log(n))",
+        "deletion": "Θ(log(n))"
+      },
+      "worst": {
+        "access": "O(log(n))",
+        "search": "O(log(n))",
+        "insertion": "O(log(n))",
+        "deletion": "O(log(n))"
+      }
+    },
+    "space": { "worst": "O(n)" }
+  },
+  {
+    "name": "Splay-Tree",
+    "shape": "Splay-Tree.png",
+    "group": "Tree",
+    "description": "Self-adjusting binary search tree. It reorganizes itself during operations to improve access times for frequently accessed nodes",
+    "time": {
+      "average": {
+        "access": "N/A",
+        "search": "Θ(log(n))",
+        "insertion": "Θ(log(n))",
+        "deletion": "Θ(log(n))"
+      },
+      "worst": {
+        "access": "N/A",
+        "search": "O(log(n))",
+        "insertion": "O(log(n))",
+        "deletion": "O(log(n))"
+      }
+    },
+    "space": { "worst": "O(n)" }
+  },
+  {
+    "name": "AVL-Tree",
+    "shape": "Binary-AVL-Tree.png",
+    "group": "Tree",
+    "description": "Self-balancing binary search tree. It ensures that the height difference between left and right subtrees is at most one",
+    "time": {
+      "average": {
+        "access": "Θ(log(n))",
+        "search": "Θ(log(n))",
+        "insertion": "Θ(log(n))",
+        "deletion": "Θ(log(n))"
+      },
+      "worst": {
+        "access": "O(log(n))",
+        "search": "O(log(n))",
+        "insertion": "O(log(n))",
+        "deletion": "O(log(n))"
+      }
+    },
+    "space": { "worst": "O(n)" }
+  },
+  {
+    "name": "KD-Tree",
+    "shape": "KD-Tree.png",
+    "group": "Tree",
+    "description": "Binary tree used for efficient multidimensional data search. It partitions space into regions based on data points",
+    "time": {
+      "average": {
+        "access": "Θ(log(n))",
+        "search": "Θ(log(n))",
+        "insertion": "Θ(log(n))",
+        "deletion": "Θ(log(n))"
+      },
+      "worst": {
+        "access": "O(n)",
+        "search": "O(n)",
+        "insertion": "O(n)",
+        "deletion": "O(n)"
+      }
+    },
+    "space": { "worst": "O(n)" }
+  },
+  {
+    "name": "Min-Heap",
+    "shape": "Min-Heap.png",
+    "group": "Tree",
+    "description": "The parent is less than or equal to its children",
+    "time": {
+      "average": {
+        "access": "Θ(1)",
+        "search": "Θ(n)",
+        "insertion": "Θ(log(n))",
+        "deletion": "Θ(log(n))"
+      },
+      "worst": {
+        "access": "O(1)",
+        "search": "O(n)",
+        "insertion": "O(log(n))",
+        "deletion": "O(log(n))"
+      }
+    },
+    "space": { "worst": "O(n)" }
+  },
+  {
+    "name": "Max-Heap",
+    "shape": "Max-Heap.png",
+    "group": "Tree",
+    "description": "The parent is greater than or equal to its children",
+    "time": {
+      "average": {
+        "access": "Θ(1)",
+        "search": "Θ(n)",
+        "insertion": "Θ(log(n))",
+        "deletion": "Θ(log(n))"
+      },
+      "worst": {
+        "access": "O(1)",
+        "search": "O(n)",
+        "insertion": "O(log(n))",
+        "deletion": "O(log(n))"
+      }
+    },
+    "space": { "worst": "O(n)" }
+  },
+  {
+    "name": "Hash-Table",
+    "shape": "Hash-Table.png",
+    "group": "Other",
+    "description": "Uses a hash function to map keys to indices in an array",
+    "time": {
+      "average": {
+        "access": "N/A",
+        "search": "Θ(1)",
+        "insertion": "Θ(1)",
+        "deletion": "Θ(1)"
+      },
+      "worst": {
+        "access": "N/A",
+        "search": "O(n)",
+        "insertion": "O(n)",
+        "deletion": "O(n)"
+      }
+    },
+    "space": { "worst": "O(n)" }
+  },
+  {
+    "name": "Graph",
+    "shape": "Graph.png",
+    "group": "Other",
+    "description": "Consists of nodes connected by edges",
+    "time": {
+      "average": {
+        "access": "Θ(1)",
+        "search": "Θ(V + E)",
+        "insertion": "Θ(1)",
+        "deletion": "Θ(1)"
+      },
+      "worst": {
+        "access": "O(1)",
+        "search": "O(V + E)",
+        "insertion": "O(1)",
+        "deletion": "O(1)"
+      }
+    },
+    "space": { "worst": "O(V + E)" }
+  }
+]

@@ -1,0 +1,49 @@
+{
+  "array": [
+    {
+      "name": "Linear",
+      "description": "Sequentially checks each element in a list until a match is found.",
+      "average": "Θ(n)",
+      "worst": "O(n)"
+    },
+    {
+      "name": "Binary",
+      "description": "Efficiently locates a target value within a sorted array by repeatedly dividing the search interval in half.",
+      "average": "Θ(log n)",
+      "worst": "O(log n)"
+    }
+  ],
+
+  "graph": [
+    {
+      "name": "Depth-First",
+      "description": "Explores all neighbor nodes at the present depth prior to moving on to nodes at the next depth level.",
+      "average": "Θ(v + e)",
+      "worst": "O(v + e)"
+    },
+    {
+      "name": "Breadth-First",
+      "description": "Traverses as far as possible along each branch before backtracking.",
+      "average": "Θ(v + e)",
+      "worst": "O(v + e)"
+    },
+    {
+      "name": "Bellman-Ford",
+      "description": "Finds the shortest path from a single source vertex to all other vertices in a weighted graph, including negative edge weights.",
+      "average": "Θ(v * e)",
+      "worst": "O(v * e)"
+    },
+    {
+      "name": "Dijkstra's",
+      "description": "Finds the shortest path from a single source vertex to all other vertices in a weighted graph, with non-negative edge weights.",
+      "average": "Θ((v + e) log v)",
+      "worst": "O((v + e) log v)"
+    },
+    {
+      "name": "A-Star (A*)",
+      "description": "An informed search algorithm that uses a heuristic to estimate the cost of reaching the goal, combining the cost to reach the current node and the estimated cost to reach the goal.",
+      "average": "Θ(b ^ d)",
+      "worst": "O(b ^ d)"
+    }
+  ]
+}
