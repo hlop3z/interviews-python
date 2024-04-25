@@ -373,21 +373,6 @@ function ObjectOrientedTable() {
       <br />
 
       <div class="title-bar">
-        <span class="title">Software Development Paradigms</span>
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <th style="width: 360px">Name</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>{objectOriented.paradigms.map(tableRow)}</tbody>
-      </table>
-
-      <br />
-
-      <div class="title-bar">
         <span class="title">Software Development Principles</span>
       </div>
       <table>
@@ -398,6 +383,21 @@ function ObjectOrientedTable() {
           </tr>
         </thead>
         <tbody>{objectOriented.principles.map(tableRow)}</tbody>
+      </table>
+
+      <br />
+
+      <div class="title-bar">
+        <span class="title">Software Development Paradigms</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 360px">Name</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>{objectOriented.paradigms.map(tableRow)}</tbody>
       </table>
     </>
   );
