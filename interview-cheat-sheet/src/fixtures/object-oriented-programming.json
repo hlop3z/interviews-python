@@ -88,5 +88,121 @@
       "name": "Command",
       "description": "Encapsulates a request as an object, thereby allowing for parameterization of clients with queues, requests, and operations."
     }
+  ],
+  "paradigms": [
+    {
+      "name": "Procedural Programming",
+      "description": "Focuses on procedures or routines to execute a series of computational steps."
+    },
+    {
+      "name": "Object-Oriented Programming (OOP)",
+      "description": "Organizes software design around objects that encapsulate data and behavior."
+    },
+    {
+      "name": "Functional Programming",
+      "description": "Emphasizes the use of pure functions and immutable data to model computation."
+    },
+    {
+      "name": "Imperative Programming",
+      "description": "Specifies a series of statements that change a program's state."
+    },
+    {
+      "name": "Declarative Programming",
+      "description": "Describes what the program should accomplish rather than how to achieve it, allowing for a more abstract approach."
+    },
+    {
+      "name": "Event-Driven Programming",
+      "description": "Relies on events triggered by user actions or system events to determine program flow."
+    },
+    {
+      "name": "Aspect-Oriented Programming (AOP)",
+      "description": "Separates cross-cutting concerns (such as logging or security) from the main application logic."
+    },
+    {
+      "name": "Service-Oriented Architecture (SOA)",
+      "description": "Designs software as a collection of services that communicate through standardized protocols."
+    },
+    {
+      "name": "Microservices Architecture",
+      "description": "Breaks down applications into small, independently deployable services that work together."
+    },
+    {
+      "name": "Component-Based Architecture",
+      "description": "Constructs software from reusable, self-contained components with well-defined interfaces."
+    },
+    {
+      "name": "Model-View-Controller (MVC)",
+      "description": "Separates the application into three interconnected components: Model (data), View (user interface), and Controller (logic)."
+    },
+    {
+      "name": "Model-View-ViewModel (MVVM)",
+      "description": "A variation of MVC where the ViewModel mediates communication between the View and Model."
+    },
+    {
+      "name": "Model-Driven Architecture (MDA)",
+      "description": "Focuses on models as the primary artifacts of the development process, generating code from these models."
+    },
+    {
+      "name": "Domain-Driven Design (DDD)",
+      "description": "Centers software design around a rich understanding of the domain and domain logic."
+    },
+    {
+      "name": "Event Sourcing",
+      "description": "Stores all changes to application state as a sequence of events, allowing for easy replay and auditing."
+    },
+    {
+      "name": "CQRS (Command Query Responsibility Segregation)",
+      "description": "Separates read and write operations for data storage, optimizing each for its specific purpose."
+    },
+    {
+      "name": "Actor Model",
+      "description": "Models concurrent computation as a collection of actors that communicate via asynchronous messages."
+    },
+    {
+      "name": "Reactive Programming",
+      "description": "Deals with asynchronous data streams and the propagation of changes, allowing for reactive and scalable systems."
+    },
+    {
+      "name": "Service-Oriented Integration (SOI)",
+      "description": "Integrates software systems using services exposed via well-defined interfaces."
+    },
+    {
+      "name": "Distributed Computing",
+      "description": "Designs software to run across multiple interconnected computers, enabling scalability and fault tolerance."
+    }
+  ],
+  "principles": [
+    {
+      "name": "Modularity",
+      "description": "Divide the software into separate modules to enhance maintainability, reusability, and scalability."
+    },
+    {
+      "name": "Decoupling",
+      "description": "Minimize dependencies between modules or components to improve flexibility and facilitate easier updates or replacements."
+    },
+    {
+      "name": "SoC (Separation of Concerns)",
+      "description": "Divide a software system into distinct sections, each addressing a separate concern, to improve readability and maintainability."
+    },
+    {
+      "name": "KISS (Keep It Simple, Stupid)",
+      "description": "Strive for simplicity in design and implementation, avoiding unnecessary complexity that can lead to confusion and maintenance difficulties."
+    },
+    {
+      "name": "DRY (Don't Repeat Yourself)",
+      "description": "Eliminate redundancy in code by abstracting common functionalities into reusable components, reducing the risk of errors and improving maintainability."
+    },
+    {
+      "name": "YAGNI (You Aren't Gonna Need It)",
+      "description": "Avoid implementing features or functionalities until they are actually needed, preventing unnecessary complexity and over-engineering."
+    },
+    {
+      "name": "Fail-Fast",
+      "description": "Detect and report errors as soon as possible to prevent them from propagating and causing further issues, facilitating faster debugging and resolution."
+    },
+    {
+      "name": "Convention Over Configuration",
+      "description": "Use sensible defaults and conventions to minimize the need for explicit configuration, promoting consistency and reducing cognitive load."
+    }
   ]
 }

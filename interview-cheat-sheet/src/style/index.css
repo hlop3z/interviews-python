@@ -10,6 +10,11 @@
   margin-right: 20px;
 }
 
+img {
+  max-width: 100%;
+  height: auto; /* Ensures the image height adjusts proportionally */
+}
+
 input {
   padding: 6px 2px;
 }
