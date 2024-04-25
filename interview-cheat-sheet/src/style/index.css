@@ -19,6 +19,10 @@ input {
   padding: 6px 2px;
 }
 
+.links li {
+  margin: 16px 0;
+}
+
 .graph-help code {
   background-color: #f2f2f2;
   padding: 0 4px;

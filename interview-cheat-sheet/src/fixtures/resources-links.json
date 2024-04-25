@@ -1,0 +1,36 @@
+[
+  {
+    "title": "Big-O Cheat-Sheet",
+    "url": "https://www.bigocheatsheet.com/"
+  },
+  {
+    "title": "Big-O Cheat-Sheet IO",
+    "url": "https://www.bigocheatsheet.com/"
+  },
+
+  {
+    "title": "Python: PEP-8",
+    "url": "https://peps.python.org/pep-0008"
+  },
+  {
+    "title": "Python: PEP-20",
+    "url": "https://peps.python.org/pep-0020"
+  },
+
+  {
+    "title": "Python: Heap",
+    "url": "https://docs.python.org/3/library/heapq.html#module-heapq"
+  },
+  {
+    "title": "Python: Binary Search & Insertion",
+    "url": "https://docs.python.org/3/library/bisect.html#module-bisect"
+  },
+  {
+    "title": "Python: Specialized Container Data-Types",
+    "url": "https://docs.python.org/3/library/collections.html#module-collections"
+  },
+  {
+    "title": "Python: Queue FIFO & Stack LIFO",
+    "url": "https://docs.python.org/3/library/queue.html#module-queue"
+  }
+]

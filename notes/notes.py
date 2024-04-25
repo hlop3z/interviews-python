@@ -3,6 +3,9 @@
 # https://docs.python.org/3/library/collections.html#module-collections
 # https://docs.python.org/3/library/queue.html#module-queue
 
+# https://peps.python.org/pep-0020/
+# https://peps.python.org/pep-0008/
+
 # Import heapq module for heap operations
 import heapq
 

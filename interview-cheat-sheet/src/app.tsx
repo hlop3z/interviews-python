@@ -11,6 +11,7 @@ import dataStructures from "./fixtures/data-structures.json";
 
 import objectOriented from "./fixtures/object-oriented-programming.json";
 import pyNotes from "./fixtures/python-notes.json";
+import resourcesLinks from "./fixtures/resources-links.json";
 
 /*
 Best    => big-omega
@@ -317,24 +318,12 @@ function SearchAlgorithmsTable() {
 }
 
 function ObjectOrientedTable() {
-  const oopRows = objectOriented.oop.map((item) => (
+  const tableRow = (item: any) => (
     <tr>
       <td>{item.name}</td>
       <td class="tal">{item.description}</td>
     </tr>
-  ));
-  const solidRows = objectOriented.solid.map((item) => (
-    <tr>
-      <td>{item.name}</td>
-      <td class="tal">{item.description}</td>
-    </tr>
-  ));
-  const designRows = objectOriented.design.map((item) => (
-    <tr>
-      <td>{item.name}</td>
-      <td class="tal">{item.description}</td>
-    </tr>
-  ));
+  );
 
   return (
     <>
@@ -348,7 +337,7 @@ function ObjectOrientedTable() {
             <th>Description</th>
           </tr>
         </thead>
-        <tbody>{oopRows}</tbody>
+        <tbody>{objectOriented.oop.map(tableRow)}</tbody>
       </table>
 
       <br />
@@ -363,7 +352,7 @@ function ObjectOrientedTable() {
             <th>Description</th>
           </tr>
         </thead>
-        <tbody>{solidRows}</tbody>
+        <tbody>{objectOriented.solid.map(tableRow)}</tbody>
       </table>
 
       <br />
@@ -378,7 +367,37 @@ function ObjectOrientedTable() {
             <th>Description</th>
           </tr>
         </thead>
-        <tbody>{designRows}</tbody>
+        <tbody>{objectOriented.design.map(tableRow)}</tbody>
+      </table>
+
+      <br />
+
+      <div class="title-bar">
+        <span class="title">Software Development Paradigms</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 360px">Name</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>{objectOriented.paradigms.map(tableRow)}</tbody>
+      </table>
+
+      <br />
+
+      <div class="title-bar">
+        <span class="title">Software Development Principles</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 260px">Name</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>{objectOriented.principles.map(tableRow)}</tbody>
       </table>
     </>
   );
@@ -503,6 +522,32 @@ function PythonTable() {
   );
 }
 
+function ResourcesView() {
+  return (
+    <>
+      <div class="title-bar">
+        <span class="title">Resources Links</span>
+      </div>
+      <ul class="links">
+        {resourcesLinks.map((item) => (
+          <li>
+            <a href={item.url} target="_blank">
+              {item.title}
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <br />
+      <br />
+      <div>
+        <strong>Disclaimer:</strong> The information in this website was gather
+        with the help of ChatGPT and Copilot.
+      </div>
+    </>
+  );
+}
+
 export function App() {
   const currentView = useSignal(0);
 
@@ -518,6 +563,7 @@ export function App() {
         <li onClick={() => (currentView.value = 3)}>Searching</li>
         <li onClick={() => (currentView.value = 4)}>Principles & Design</li>
         <li onClick={() => (currentView.value = 5)}>Python</li>
+        <li onClick={() => (currentView.value = 6)}>Resources</li>
       </ul>
 
       {show(0, <AsymptoticTable />)}
@@ -526,6 +572,7 @@ export function App() {
       {show(3, <SearchAlgorithmsTable />)}
       {show(4, <ObjectOrientedTable />)}
       {show(5, <PythonTable />)}
+      {show(6, <ResourcesView />)}
     </>
   );
 }
