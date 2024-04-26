@@ -16,6 +16,10 @@
     "title": "Python: PEP-20",
     "url": "https://peps.python.org/pep-0020"
   },
+  {
+    "title": "Python: PEP-484",
+    "url": "https://peps.python.org/pep-0484/"
+  },
 
   {
     "title": "Python: Heap",

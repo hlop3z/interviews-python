@@ -30,6 +30,17 @@ input {
   font-size: 16px;
 }
 
+.note-box {
+  border: 2px solid gray;
+  display: flex;
+}
+.note-text {
+  background: gray;
+  color: white;
+  padding: 0 8px;
+  margin-right: 8px;
+}
+
 /* Navbar */
 ul.navbar {
   list-style-type: none;

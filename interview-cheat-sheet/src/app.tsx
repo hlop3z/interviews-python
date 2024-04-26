@@ -11,6 +11,7 @@ import dataStructures from "./fixtures/data-structures.json";
 
 import objectOriented from "./fixtures/object-oriented-programming.json";
 import pyNotes from "./fixtures/python-notes.json";
+import apiNotes from "./fixtures/api-notes.json";
 import resourcesLinks from "./fixtures/resources-links.json";
 
 /*
@@ -522,6 +523,68 @@ function PythonTable() {
   );
 }
 
+function RestTable() {
+  return (
+    <>
+      <div style="display: flex; ">
+        <div>
+          <div class="title-bar">
+            <span class="title">REST Architectural Constraints</span>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 200px">Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              {apiNotes.rest_constraints.map((item) => (
+                <tr>
+                  <td>{item.name}</td>
+                  <td class="tal">{item.description}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <br />
+
+          <div class="note-box">
+            <strong class="note-text">Note</strong>
+            <span style="font-size: 18px">
+              <strong>REST</strong> stands for{" "}
+              <strong>"Representational State Transfer"</strong>
+            </span>
+          </div>
+        </div>
+
+        <div style="margin-left: 30px;">
+          <div class="title-bar">
+            <span class="title">REST Methods</span>
+          </div>
+          <table style="width:300px">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>CRUD</th>
+              </tr>
+            </thead>
+            <tbody>
+              {apiNotes.rest_methods.map((item) => (
+                <tr>
+                  <td>{item.name}</td>
+                  <td>{item.description}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </>
+  );
+}
+
 function ResourcesView() {
   return (
     <>
@@ -562,8 +625,9 @@ export function App() {
         <li onClick={() => (currentView.value = 2)}>Sorting</li>
         <li onClick={() => (currentView.value = 3)}>Searching</li>
         <li onClick={() => (currentView.value = 4)}>Principles & Design</li>
-        <li onClick={() => (currentView.value = 5)}>Python</li>
-        <li onClick={() => (currentView.value = 6)}>Resources</li>
+        <li onClick={() => (currentView.value = 5)}>APIs</li>
+        <li onClick={() => (currentView.value = 6)}>Python</li>
+        <li onClick={() => (currentView.value = 7)}>Resources</li>
       </ul>
 
       {show(0, <AsymptoticTable />)}
@@ -571,8 +635,9 @@ export function App() {
       {show(2, <SortingAlgorithmsTable />)}
       {show(3, <SearchAlgorithmsTable />)}
       {show(4, <ObjectOrientedTable />)}
-      {show(5, <PythonTable />)}
-      {show(6, <ResourcesView />)}
+      {show(5, <RestTable />)}
+      {show(6, <PythonTable />)}
+      {show(7, <ResourcesView />)}
     </>
   );
 }

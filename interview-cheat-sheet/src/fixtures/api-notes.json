@@ -1,0 +1,50 @@
+{
+  "rest_methods": [
+    {
+      "name": "POST",
+      "description": "Create"
+    },
+    {
+      "name": "GET",
+      "description": "Read"
+    },
+    {
+      "name": "PUT",
+      "description": "Update"
+    },
+    {
+      "name": "PATCH",
+      "description": "Specific-Update"
+    },
+    {
+      "name": "DELETE",
+      "description": "Delete"
+    }
+  ],
+  "rest_constraints": [
+    {
+      "name": "Client-Server (Decoupling)",
+      "description": "Separation of concerns between the client and server, allowing them to evolve independently and improve scalability, reliability, and portability."
+    },
+    {
+      "name": "Stateless",
+      "description": "Each request from the client to the server must contain all the information necessary to understand and fulfill the request, meaning no client context is stored on the server between requests."
+    },
+    {
+      "name": "Cacheability",
+      "description": "Responses must define themselves as cacheable or non-cacheable, improving efficiency, scalability, and user-perceived performance through the use of caching."
+    },
+    {
+      "name": "Uniform Interface",
+      "description": "A uniform and standardized way of interacting with resources through well-defined operations (HTTP methods) and resource representations (media types)."
+    },
+    {
+      "name": "Layered System",
+      "description": "A hierarchical system where intermediaries (proxies, gateways, etc.) can be used to improve scalability, security, and encapsulation by providing additional layers of abstraction."
+    },
+    {
+      "name": "Code-On-Demand (Optional)",
+      "description": "Servers can temporarily extend the functionality of a client by transferring executable code (e.g., JavaScript) within a response, enhancing flexibility and reducing client-server coupling."
+    }
+  ]
+}

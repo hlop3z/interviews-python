@@ -17,13 +17,13 @@
   "graph": [
     {
       "name": "Depth-First",
-      "description": "Explores all neighbor nodes at the present depth prior to moving on to nodes at the next depth level.",
+      "description": "Traverses as far as possible along each branch before backtracking.",
       "average": "Θ(v + e)",
       "worst": "O(v + e)"
     },
     {
       "name": "Breadth-First",
-      "description": "Traverses as far as possible along each branch before backtracking.",
+      "description": "Explores all neighbor nodes at the present depth prior to moving on to nodes at the next depth level.",
       "average": "Θ(v + e)",
       "worst": "O(v + e)"
     },
