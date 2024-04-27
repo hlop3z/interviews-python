@@ -11,6 +11,7 @@ import dataStructures from "./fixtures/data-structures.json";
 
 import objectOriented from "./fixtures/object-oriented-programming.json";
 import pyNotes from "./fixtures/python-notes.json";
+import pyModules from "./fixtures/python-modules.json";
 import apiNotes from "./fixtures/api-notes.json";
 import resourcesLinks from "./fixtures/resources-links.json";
 
@@ -404,125 +405,6 @@ function ObjectOrientedTable() {
   );
 }
 
-function PythonDunderMethodsTable() {
-  const searchQuery = useSignal("");
-  const datasetMagic = useComputed(() => {
-    return pyNotes.magic.filter(
-      (row) =>
-        row.method.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-        row.description.toLowerCase().includes(searchQuery.value.toLowerCase())
-    );
-  });
-
-  return (
-    <>
-      <div class="title-bar">
-        <span class="title">Dunder Methods</span>
-        <input
-          onInput={(e: any) => (searchQuery.value = e.target.value)}
-          placeholder="Search"
-        />
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <th style="width: 160px">Magic Method</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          {datasetMagic.value.map((item) => (
-            <tr>
-              <td>{item.method}</td>
-              <td class="tal">{item.description}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </>
-  );
-}
-
-function PythonZenTable() {
-  const searchQuery = useSignal("");
-  const datasetMagic = useComputed(() => {
-    return pyNotes.zen.filter((row) =>
-      row.description.toLowerCase().includes(searchQuery.value.toLowerCase())
-    );
-  });
-
-  return (
-    <>
-      <div class="title-bar">
-        <span class="title">PEP 20 – The Zen of Python</span>
-        <input
-          style="display:none;"
-          onInput={(e: any) => (searchQuery.value = e.target.value)}
-          placeholder="Search"
-        />
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <th style="width: 30px">Index</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          {datasetMagic.value.map((item) => (
-            <tr>
-              <td>{item.index}</td>
-              <td class="tal">{item.description}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </>
-  );
-}
-
-function PythonOthersTable() {
-  return (
-    <>
-      <div class="title-bar">
-        <span class="title">Useful Notes</span>
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <th style="width: 160px">Title</th>
-            <th>Notes</th>
-          </tr>
-        </thead>
-        <tbody>
-          {pyNotes.others.map((item) => (
-            <tr>
-              <td>{item.title}</td>
-              <td class="tal">{item.notes}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </>
-  );
-}
-
-function PythonTable() {
-  return (
-    <div style="display: flex; justify-content: space-between">
-      <div>
-        <PythonDunderMethodsTable />
-      </div>
-      <div>
-        <PythonZenTable />
-      </div>
-      <div>
-        <PythonOthersTable />
-      </div>
-    </div>
-  );
-}
-
 function RestTable() {
   return (
     <>
@@ -585,6 +467,177 @@ function RestTable() {
   );
 }
 
+function PythonDunderMethodsTable() {
+  const searchQuery = useSignal("");
+  const datasetMagic = useComputed(() => {
+    return pyNotes.magic.filter(
+      (row) =>
+        row.method.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+        row.description.toLowerCase().includes(searchQuery.value.toLowerCase())
+    );
+  });
+
+  return (
+    <>
+      <div class="title-bar">
+        <span class="title">Dunder Methods</span>
+        <input
+          onInput={(e: any) => (searchQuery.value = e.target.value)}
+          placeholder="Search"
+        />
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 110px">Magic Method</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          {datasetMagic.value.map((item) => (
+            <tr>
+              <td>{item.method}</td>
+              <td class="tal">{item.description}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
+  );
+}
+
+function PythonZenTable() {
+  return (
+    <>
+      <div class="title-bar">
+        <span class="title">PEP 20 – The Zen of Python</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30px">Index</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          {pyNotes.zen.map((item) => (
+            <tr>
+              <td>{item.index}</td>
+              <td class="tal">{item.description}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
+  );
+}
+
+function PythonOtherNotesTable() {
+  return (
+    <>
+      <div class="title-bar">
+        <span class="title">Useful Notes</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 160px">Title</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          {pyNotes.others.map((item) => (
+            <tr>
+              <td>{item.title}</td>
+              <td class="tal">{item.notes}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
+  );
+}
+
+function PythonTable() {
+  return (
+    <div style="display: flex; justify-content: space-between">
+      <div>
+        <PythonDunderMethodsTable />
+      </div>
+      <div>
+        <PythonZenTable />
+      </div>
+      <div>
+        <PythonOtherNotesTable />
+      </div>
+    </div>
+  );
+}
+
+function PythonMethodsTable() {
+  const allPyMethods: any = [];
+  Object.keys(pyModules).forEach((group: any) => {
+    //@ts-ignore
+    pyModules[group].forEach((item) => {
+      allPyMethods.push({
+        method: item.method,
+        group: group,
+        description: item.description,
+      });
+    });
+  });
+
+  const searchQuery = useSignal("");
+  const datasetMagic = useComputed(() => {
+    return allPyMethods.filter(
+      (row: any) =>
+        row.method.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+        row.group.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+        row.description.toLowerCase().includes(searchQuery.value.toLowerCase())
+    );
+  });
+
+  return (
+    <>
+      <div class="title-bar">
+        <span class="title">Common Methods</span>
+        <input
+          onInput={(e: any) => (searchQuery.value = e.target.value)}
+          placeholder="Search"
+        />
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 360px">Method</th>
+            <th>Group</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          {datasetMagic.value.map((item: any) => (
+            <tr>
+              <td>{item.method}</td>
+              <td>{item.group}</td>
+              <td class="tal">{item.description}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
+  );
+}
+
+function PythonExtended() {
+  return (
+    <div style="display: flex; justify-content: space-between">
+      <div>
+        <PythonMethodsTable />
+      </div>
+    </div>
+  );
+}
+
 function ResourcesView() {
   return (
     <>
@@ -627,7 +680,16 @@ export function App() {
         <li onClick={() => (currentView.value = 4)}>Principles & Design</li>
         <li onClick={() => (currentView.value = 5)}>APIs</li>
         <li onClick={() => (currentView.value = 6)}>Python</li>
-        <li onClick={() => (currentView.value = 7)}>Resources</li>
+        <li onClick={() => (currentView.value = 7)}>Python Extended</li>
+        <li onClick={() => (currentView.value = 99)}>Resources</li>
+        <li
+          onClick={() =>
+            window.open("https://github.com/hlop3z/interviews-python", "_blank")
+          }
+          style="float: right;"
+        >
+          GitHub
+        </li>
       </ul>
 
       {show(0, <AsymptoticTable />)}
@@ -637,7 +699,8 @@ export function App() {
       {show(4, <ObjectOrientedTable />)}
       {show(5, <RestTable />)}
       {show(6, <PythonTable />)}
-      {show(7, <ResourcesView />)}
+      {show(7, <PythonExtended />)}
+      {show(99, <ResourcesView />)}
     </>
   );
 }

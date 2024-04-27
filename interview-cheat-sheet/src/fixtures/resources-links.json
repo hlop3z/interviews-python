@@ -36,5 +36,34 @@
   {
     "title": "Python: Queue FIFO & Stack LIFO",
     "url": "https://docs.python.org/3/library/queue.html#module-queue"
+  },
+  {
+    "title": "Python: Deque (Queue + Stack)",
+    "url": "https://docs.python.org/3/library/collections.html#collections.deque"
+  },
+
+  {
+    "title": "Python: Built-in",
+    "url": "https://docs.python.org/3/library/functions.html"
+  },
+  {
+    "title": "Python: Functools",
+    "url": "https://docs.python.org/3/library/functools.html"
+  },
+  {
+    "title": "Python: Collections",
+    "url": "https://docs.python.org/3/library/collections.html"
+  },
+  {
+    "title": "Python: Itertools",
+    "url": "https://docs.python.org/3/library/itertools.html"
+  },
+  {
+    "title": "Python: Random",
+    "url": "https://docs.python.org/3/library/random.html"
+  },
+  {
+    "title": "Python: Math",
+    "url": "https://docs.python.org/3/library/math.html"
   }
 ]
