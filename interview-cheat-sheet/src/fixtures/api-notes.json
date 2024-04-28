@@ -46,5 +46,51 @@
       "name": "Code-On-Demand (Optional)",
       "description": "Servers can temporarily extend the functionality of a client by transferring executable code (e.g., JavaScript) within a response, enhancing flexibility and reducing client-server coupling."
     }
+  ],
+  "graphql": [
+    {
+      "name": "Schema",
+      "description": "Defines the structure of the data in the GraphQL API, including types, fields, and relationships."
+    },
+    {
+      "name": "Query",
+      "description": "Defines how clients can fetch data from the GraphQL server. Queries are used to retrieve data from the server."
+    },
+    {
+      "name": "Mutation",
+      "description": "Defines how clients can modify data on the GraphQL server. Mutations are used to create, update, or delete data."
+    },
+    {
+      "name": "Subscription",
+      "description": "Defines how clients can subscribe to real-time data updates from the GraphQL server. Subscriptions allow clients to receive data as it changes."
+    },
+    {
+      "name": "Resolver",
+      "description": "Functions that define how GraphQL fields are resolved. Resolvers are responsible for fetching the data associated with each field."
+    },
+    {
+      "name": "Scalar",
+      "description": "Primitive data types in GraphQL that represent single values, such as integers, strings, booleans, and floats."
+    },
+    {
+      "name": "Type",
+      "description": "Composite data types in GraphQL that represent complex objects with multiple fields. Object types define the structure of the data returned by queries and mutations."
+    },
+    {
+      "name": "Input",
+      "description": "Similar to object types, input types represent complex input data for mutations. Input types define the structure of the data that clients can provide when executing mutations."
+    },
+    {
+      "name": "Enum",
+      "description": "An enumeration type in GraphQL that represents a predefined set of possible values. Enums are used to define a specific domain of valid options for a field."
+    },
+    {
+      "name": "Union",
+      "description": "A type in GraphQL that represents a combination of one or more object types. Unions allow for flexibility in query responses by allowing a field to return different types of objects."
+    },
+    {
+      "name": "Interface",
+      "description": "A type in GraphQL that defines a common set of fields that multiple object types can implement. Interfaces enable polymorphism and ensure consistent field structures across related types."
+    }
   ]
 }

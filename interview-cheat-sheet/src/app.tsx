@@ -1,4 +1,4 @@
-// import { useState } from "preact/hooks";
+import { useEffect, useRef } from "preact/hooks";
 import { useSignal, useComputed } from "@preact/signals";
 
 import codeColor from "./fixtures/code-color.json";
@@ -13,6 +13,7 @@ import objectOriented from "./fixtures/object-oriented-programming.json";
 import pyNotes from "./fixtures/python-notes.json";
 import pyModules from "./fixtures/python-modules.json";
 import apiNotes from "./fixtures/api-notes.json";
+import sqlNotes from "./fixtures/sql-notes.json";
 import resourcesLinks from "./fixtures/resources-links.json";
 
 /*
@@ -21,6 +22,47 @@ Average => theta
 Worst   => big-o
 */
 
+/* Components */
+function Note(props: any) {
+  return (
+    <div class="note-box">
+      <div class="note-title">{props.title || "Note"}</div>
+      <span class="note-text">{props.children}</span>
+    </div>
+  );
+}
+
+function Title(props: any) {
+  return (
+    <div class="title-bar">
+      <span class="title">{props.text}</span>
+      {props.children}
+    </div>
+  );
+}
+
+const Code = (props: any) => {
+  // Create a ref to the code element
+  const codeRef = useRef(null);
+
+  // Run Highlight.js on the code element when the component mounts
+  useEffect(() => {
+    if (codeRef.current) {
+      //@ts-ignore
+      hljs.highlightBlock(codeRef.current);
+    }
+  }, [props.text]);
+
+  return (
+    <pre>
+      <code ref={codeRef} className={`language-${props.lang}`}>
+        {props.text}
+      </code>
+    </pre>
+  );
+};
+
+/* App */
 function VisualChart() {
   return <img src="./big-o-chart.png" />;
 }
@@ -31,7 +73,8 @@ function AsymptoticTable() {
       <td>{item.name}</td>
       <td>{item.notation}</td>
       <td class="tal">{item.description}</td>
-      <td>{item.note}</td>
+      <td>{item.simplified}</td>
+      <td class="tal">{item.note}</td>
     </tr>
   ));
 
@@ -51,26 +94,37 @@ function AsymptoticTable() {
 
   return (
     <>
-      <div class="title-bar">
-        <span class="title">Asymptotic Notations</span>
-      </div>
+      <Title text="Asymptotic Notations" />
       <table>
         <thead>
           <tr>
-            <th>Name</th>
+            <th style="width: 100px">Name</th>
             <th>Notation</th>
             <th>Description</th>
+            <th style="width: 120px">Simplified</th>
             <th>Note</th>
           </tr>
         </thead>
         <tbody>{asymptoticRows}</tbody>
       </table>
 
+      <Note>
+        Asymptotic notations like <strong>Big O</strong>,{" "}
+        <strong>Big Omega</strong> and <strong>Big Theta</strong>, provide
+        insights into the runtime performance characteristics of algorithms.
+        <br />
+        On the other hand, terms like <strong>Best Case</strong>,{" "}
+        <strong>Worst Case</strong> and <strong>Expected Case</strong> describe
+        the algorithm's performance under specific conditions or input.
+        <br />
+        Please note that there is{" "}
+        <strong>no specific relationship between these two concepts</strong>.
+      </Note>
+
       <br />
 
-      <div class="title-bar">
-        <span class="title">Time Complexities</span>
-      </div>
+      <Title text="Time & Space Complexities" />
+
       <table>
         <thead>
           <tr>
@@ -83,11 +137,10 @@ function AsymptoticTable() {
         <tbody>{complexityRows}</tbody>
       </table>
 
-      <div>
-        <br />
-        <strong>Note:</strong> log(n) without a specified base, it's usually
-        assumed to be base 2.
-      </div>
+      <Note>
+        <strong>Log(n)</strong> without a specified base, it's usually assumed
+        to be <strong>base 2</strong>.
+      </Note>
 
       <br />
 
@@ -137,15 +190,18 @@ function DataStructuresTable() {
     </tr>
   ));
 
+  const CrudHeaders = ["Access", "Search", "Insertion", "Deletion"].map(
+    (item) => <th>{item}</th>
+  );
+
   return (
     <>
-      <div class="title-bar">
-        <span class="title">Data Structures</span>
+      <Title text="Data Structures">
         <input
           onInput={(e: any) => (searchQuery.value = e.target.value)}
           placeholder="Search"
         />
-      </div>
+      </Title>
 
       <table>
         <thead>
@@ -165,14 +221,8 @@ function DataStructuresTable() {
             <th style="width: 100px">Shape</th>
             <th style="width: 60px">Group</th>
             <th style="width: 240px">Description</th>
-            <th>Access</th>
-            <th>Search</th>
-            <th>Insertion</th>
-            <th>Deletion</th>
-            <th>Access</th>
-            <th>Search</th>
-            <th>Insertion</th>
-            <th>Deletion</th>
+            {CrudHeaders}
+            {CrudHeaders}
             <th></th>
           </tr>
         </thead>
@@ -210,13 +260,12 @@ export function SortingAlgorithmsTable() {
 
   return (
     <>
-      <div class="title-bar">
-        <span class="title">Sorting Algorithms</span>
+      <Title text="Sorting Algorithms">
         <input
           onInput={(e: any) => (searchQuery.value = e.target.value)}
           placeholder="Search"
         />
-      </div>
+      </Title>
 
       <table>
         <thead>
@@ -261,9 +310,8 @@ function SearchAlgorithmsTable() {
 
   return (
     <>
-      <div class="title-bar">
-        <span class="title">Array Search Operations</span>
-      </div>
+      <Title text="Array Search Operations" />
+
       <div>
         <table>
           <thead>
@@ -280,9 +328,8 @@ function SearchAlgorithmsTable() {
 
       <br />
 
-      <div class="title-bar">
-        <span class="title">Graph Search Operations</span>
-      </div>
+      <Title text="Graph Search Operations" />
+
       <div style="display: flex">
         <div>
           <table>
@@ -329,9 +376,7 @@ function ObjectOrientedTable() {
 
   return (
     <>
-      <div class="title-bar">
-        <span class="title">Object-Oriented Programming (OOP)</span>
-      </div>
+      <Title text="Object-Oriented Programming (OOP)" />
       <table>
         <thead>
           <tr>
@@ -344,9 +389,7 @@ function ObjectOrientedTable() {
 
       <br />
 
-      <div class="title-bar">
-        <span class="title">Solid Principles</span>
-      </div>
+      <Title text="Solid Principles" />
       <table>
         <thead>
           <tr>
@@ -359,9 +402,7 @@ function ObjectOrientedTable() {
 
       <br />
 
-      <div class="title-bar">
-        <span class="title">Software Design Patterns</span>
-      </div>
+      <Title text="Software Design Patterns" />
       <table>
         <thead>
           <tr>
@@ -374,9 +415,7 @@ function ObjectOrientedTable() {
 
       <br />
 
-      <div class="title-bar">
-        <span class="title">Software Development Principles</span>
-      </div>
+      <Title text="Software Development Principles" />
       <table>
         <thead>
           <tr>
@@ -389,9 +428,7 @@ function ObjectOrientedTable() {
 
       <br />
 
-      <div class="title-bar">
-        <span class="title">Software Development Paradigms</span>
-      </div>
+      <Title text="Software Development Paradigms" />
       <table>
         <thead>
           <tr>
@@ -410,9 +447,7 @@ function RestTable() {
     <>
       <div style="display: flex; ">
         <div>
-          <div class="title-bar">
-            <span class="title">REST Architectural Constraints</span>
-          </div>
+          <Title text="REST Architectural Constraints" />
           <table>
             <thead>
               <tr>
@@ -430,21 +465,14 @@ function RestTable() {
             </tbody>
           </table>
 
-          <br />
-
-          <div class="note-box">
-            <strong class="note-text">Note</strong>
-            <span style="font-size: 18px">
-              <strong>REST</strong> stands for{" "}
-              <strong>"Representational State Transfer"</strong>
-            </span>
-          </div>
+          <Note>
+            <strong>REST</strong> stands for{" "}
+            <strong>REpresentational State Transfer</strong>
+          </Note>
         </div>
 
         <div style="margin-left: 30px;">
-          <div class="title-bar">
-            <span class="title">REST Methods</span>
-          </div>
+          <Title text="REST Methods" />
           <table style="width:300px">
             <thead>
               <tr>
@@ -463,6 +491,60 @@ function RestTable() {
           </table>
         </div>
       </div>
+
+      <br />
+
+      <div>
+        <Title text="GraphQL" />
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 160px">Name</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            {apiNotes.graphql.map((item) => (
+              <tr>
+                <td>{item.name}</td>
+                <td class="tal">{item.description}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
+  );
+}
+
+function SQLTable() {
+  return (
+    <>
+      <Title text="SQL (Structured Query Language)" />
+      <Code lang="sql" text={`SELECT column_1, column_2 FROM table_name;`} />
+
+      <br />
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 120px">Statement</th>
+            <th>Description</th>
+            <th>Example</th>
+          </tr>
+        </thead>
+        <tbody>
+          {sqlNotes.map((item) => (
+            <tr>
+              <td>{item.statement}</td>
+              <td class="tal">{item.description}</td>
+              <td class="tal">
+                <Code lang="sql" text={item.example} />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </>
   );
 }
@@ -479,13 +561,12 @@ function PythonDunderMethodsTable() {
 
   return (
     <>
-      <div class="title-bar">
-        <span class="title">Dunder Methods</span>
+      <Title text="Dunder Methods">
         <input
           onInput={(e: any) => (searchQuery.value = e.target.value)}
           placeholder="Search"
         />
-      </div>
+      </Title>
       <table>
         <thead>
           <tr>
@@ -509,9 +590,7 @@ function PythonDunderMethodsTable() {
 function PythonZenTable() {
   return (
     <>
-      <div class="title-bar">
-        <span class="title">PEP 20 – The Zen of Python</span>
-      </div>
+      <Title text="PEP 20 – The Zen of Python" />
       <table>
         <thead>
           <tr>
@@ -535,9 +614,7 @@ function PythonZenTable() {
 function PythonOtherNotesTable() {
   return (
     <>
-      <div class="title-bar">
-        <span class="title">Useful Notes</span>
-      </div>
+      <Title text="Useful Notes" />
       <table>
         <thead>
           <tr>
@@ -599,17 +676,16 @@ function PythonMethodsTable() {
 
   return (
     <>
-      <div class="title-bar">
-        <span class="title">Common Methods</span>
+      <Title text="Common Methods">
         <input
           onInput={(e: any) => (searchQuery.value = e.target.value)}
           placeholder="Search"
         />
-      </div>
+      </Title>
       <table>
         <thead>
           <tr>
-            <th style="width: 360px">Method</th>
+            <th style="width: 380px">Method</th>
             <th>Group</th>
             <th>Description</th>
           </tr>
@@ -654,8 +730,6 @@ function ResourcesView() {
         ))}
       </ul>
 
-      <br />
-      <br />
       <div>
         <strong>Disclaimer:</strong> The information in this website was gather
         with the help of ChatGPT and Copilot.
@@ -679,8 +753,9 @@ export function App() {
         <li onClick={() => (currentView.value = 3)}>Searching</li>
         <li onClick={() => (currentView.value = 4)}>Principles & Design</li>
         <li onClick={() => (currentView.value = 5)}>APIs</li>
-        <li onClick={() => (currentView.value = 6)}>Python</li>
-        <li onClick={() => (currentView.value = 7)}>Python Extended</li>
+        <li onClick={() => (currentView.value = 6)}>SQL</li>
+        <li onClick={() => (currentView.value = 7)}>Python</li>
+        <li onClick={() => (currentView.value = 8)}>Python Extended</li>
         <li onClick={() => (currentView.value = 99)}>Resources</li>
         <li
           onClick={() =>
@@ -698,8 +773,9 @@ export function App() {
       {show(3, <SearchAlgorithmsTable />)}
       {show(4, <ObjectOrientedTable />)}
       {show(5, <RestTable />)}
-      {show(6, <PythonTable />)}
-      {show(7, <PythonExtended />)}
+      {show(6, <SQLTable />)}
+      {show(7, <PythonTable />)}
+      {show(8, <PythonExtended />)}
       {show(99, <ResourcesView />)}
     </>
   );

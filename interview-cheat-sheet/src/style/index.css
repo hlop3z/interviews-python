@@ -1,3 +1,8 @@
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+
 /* App */
 .title-bar {
   display: flex;
@@ -23,6 +28,13 @@ input {
   margin: 16px 0;
 }
 
+code {
+  font-size: 14px;
+}
+pre {
+  margin: 0;
+}
+
 .graph-help code {
   background-color: #f2f2f2;
   padding: 0 4px;
@@ -33,12 +45,19 @@ input {
 .note-box {
   border: 2px solid gray;
   display: flex;
+  margin: 12px 0;
 }
-.note-text {
+.note-title {
   background: gray;
   color: white;
   padding: 0 8px;
   margin-right: 8px;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+}
+.note-text {
+  font-size: 16px;
 }
 
 /* Navbar */

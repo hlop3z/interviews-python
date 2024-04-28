@@ -2,31 +2,22 @@
   {
     "name": "Big-O",
     "notation": "O",
-    "description": "Upper bound (worst-case time complexity)",
-    "note": "Never more than"
+    "description": "Represents an (upper) bound on the growth rate of a function or the maximum resource consumption of an algorithm.",
+    "note": "Associated with (worst-case) scenarios, indicating that the actual runtime will never exceed this upper limit.",
+    "simplified": "Order at Most <="
+  },
+  {
+    "name": "Big-Theta",
+    "notation": "Θ",
+    "description": "Represents a (tight) bound on the growth rate of a function or both the upper and lower bounds together.",
+    "note": "Associated with (average-case) scenarios, indicating that the actual runtime will consistently fall within this bound.",
+    "simplified": "Order Exactly =="
   },
   {
     "name": "Big-Omega",
     "notation": "Ω",
-    "description": "Lower bound (best-case time complexity)",
-    "note": "Never less than"
-  },
-  {
-    "name": "Theta",
-    "notation": "Θ",
-    "description": "Tight bound (average-case time complexity)",
-    "note": "Exactly equal to"
-  },
-  {
-    "name": "Little-O",
-    "notation": "o",
-    "description": "Strictly smaller than upper bound (non-asymptotic)",
-    "note": "Always less than"
-  },
-  {
-    "name": "Little-Omega",
-    "notation": "ω",
-    "description": "Strictly greater than lower bound (non-asymptotic)",
-    "note": "Always greater than"
+    "description": "Represents a (lower) bound on the growth rate of a function or the minimum resource consumption of an algorithm.",
+    "note": "Associated with (best-case) scenarios, indicating that the actual runtime will never exceed this lower limit.",
+    "simplified": "Order at Least >="
   }
 ]

@@ -1,0 +1,62 @@
+[
+  {
+    "statement": "WHERE",
+    "description": "Filters rows based on a specified condition.",
+    "example": "SELECT * FROM table_name WHERE condition_1;"
+  },
+  {
+    "statement": "AND",
+    "description": "Combines multiple conditions in a WHERE clause, requiring all to be true.",
+    "example": "SELECT * FROM table_name WHERE condition_1 AND condition_2;"
+  },
+  {
+    "statement": "OR",
+    "description": "Combines multiple conditions in a WHERE clause, requiring at least one to be true.",
+    "example": "SELECT * FROM table_name WHERE condition_1 OR condition_2;"
+  },
+  {
+    "statement": "LIMIT",
+    "description": "Limits the number of rows returned by a query.",
+    "example": "SELECT * FROM table_name LIMIT 10;"
+  },
+  {
+    "statement": "GROUP BY",
+    "description": "Groups rows that have the same values into summary rows.",
+    "example": "SELECT column_name, COUNT(*) FROM table_name GROUP BY column_name;"
+  },
+  {
+    "statement": "ORDER BY",
+    "description": "Sorts the result set by specified columns (ASC or DESC).",
+    "example": "SELECT * FROM table_name ORDER BY column_name ASC|DESC;"
+  },
+  {
+    "statement": "COUNT",
+    "description": "Counts the number of rows in a specified column or all rows.",
+    "example": "SELECT COUNT(*) FROM table_name;"
+  },
+  {
+    "statement": "AS",
+    "description": "Aliases are used to rename a table or column in a SQL query result.",
+    "example": "SELECT column_name AS alias_name FROM table_name;"
+  },
+  {
+    "statement": "INNER JOIN",
+    "description": "Returns records that have matching values in both tables.",
+    "example": "SELECT * FROM table1 INNER JOIN table2 ON table1.column_name = table2.column_name;"
+  },
+  {
+    "statement": "LEFT JOIN",
+    "description": "Returns all records from the left table and the matched records from the right table.",
+    "example": "SELECT * FROM table1 LEFT JOIN table2 ON table1.column_name = table2.column_name;"
+  },
+  {
+    "statement": "RIGHT JOIN",
+    "description": "Returns all records from the right table and the matched records from the left table.",
+    "example": "SELECT * FROM table1 RIGHT JOIN table2 ON table1.column_name = table2.column_name;"
+  },
+  {
+    "statement": "FULL JOIN",
+    "description": "Returns all records when there is a match in either left or right table.",
+    "example": "SELECT * FROM table1 FULL JOIN table2 ON table1.column_name = table2.column_name;"
+  }
+]
