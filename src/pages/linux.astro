@@ -1,0 +1,152 @@
+---
+import DocsLayout from '@/layouts/DocsLayout.astro';
+import NoteBox from '@/components/ui/NoteBox.astro';
+import SeniorInsight from '@/components/ui/SeniorInsight.astro';
+import Gotcha from '@/components/ui/Gotcha.astro';
+import {
+  signals,
+  processCommands,
+  searchCommands,
+  permissions,
+  fileDescriptorsNote,
+} from '@/data/linux-notes';
+
+const renderCommands = (cmds: { caption: string; command: string; note?: string }[]) => cmds;
+---
+
+<DocsLayout title="Linux">
+  <h1 class="text-3xl font-bold mb-2">Linux</h1>
+  <p class="text-gray-600 dark:text-gray-400 mb-6">
+    Basics a backend engineer needs to debug a container or a host. Not kernel
+    internals.
+  </p>
+
+  <!-- Signals -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">Signals</h2>
+    <p class="text-gray-600 dark:text-gray-400 mb-4">
+      Signals are how the OS (and you) communicate with running processes. The
+      graceful-shutdown handler for SIGTERM is the single most-interviewed detail.
+    </p>
+    <div class="overflow-x-auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th class="text-center">#</th>
+            <th>Behavior</th>
+            <th>Catchable?</th>
+            <th>Use</th>
+          </tr>
+        </thead>
+        <tbody>
+          {signals.map((s) => (
+            <tr>
+              <td class="font-mono font-medium">{s.name}</td>
+              <td class="text-center font-mono">{s.number}</td>
+              <td class="text-sm">{s.behavior}</td>
+              <td class="text-sm">{s.canCatch}</td>
+              <td class="text-sm text-gray-600 dark:text-gray-400">{s.use}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <SeniorInsight label="The graceful shutdown pattern">
+      Catch SIGTERM → stop accepting new work → finish in-flight work within a
+      grace period → exit. Containers that exit quickly on SIGTERM avoid the
+      kubelet / Docker escalating to SIGKILL, which means no lost requests mid-shutdown.
+    </SeniorInsight>
+  </section>
+
+  <!-- Process commands -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">Process &amp; resource inspection</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      {renderCommands(processCommands).map((c) => (
+        <div>
+          <p class="text-xs text-gray-600 dark:text-gray-400 mb-1">{c.caption}</p>
+          <code class="block bg-gray-100 dark:bg-gray-800 py-2 px-3 rounded text-[13px] font-mono overflow-x-auto text-blue-700 dark:text-blue-300 whitespace-pre">
+            {c.command}
+          </code>
+          {c.note && <p class="text-xs text-gray-500 italic mt-1">{c.note}</p>}
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- File descriptors -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">File descriptors &amp; redirection</h2>
+    <p class="text-gray-700 dark:text-gray-300 mb-3">{fileDescriptorsNote.summary}</p>
+    <div class="overflow-x-auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th class="w-48">Shape</th>
+            <th>Meaning</th>
+          </tr>
+        </thead>
+        <tbody>
+          {fileDescriptorsNote.redirects.map((r) => (
+            <tr>
+              <td class="font-mono text-sm">{r.shape}</td>
+              <td class="text-sm">{r.meaning}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <Gotcha label="Redirection order gotcha">
+      <p>{fileDescriptorsNote.pitfall}</p>
+    </Gotcha>
+  </section>
+
+  <!-- Permissions -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">Permissions</h2>
+    <div class="overflow-x-auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Symbolic</th>
+            <th>Octal</th>
+            <th>Meaning</th>
+          </tr>
+        </thead>
+        <tbody>
+          {permissions.map((p) => (
+            <tr>
+              <td class="font-mono">{p.symbolic}</td>
+              <td class="font-mono">{p.octal}</td>
+              <td class="text-sm">{p.meaning}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <NoteBox title="Special bits" variant="info">
+      <ul class="list-disc list-outside ml-5 space-y-1 text-sm">
+        <li><code>setuid</code> (4000): binary runs as its owner (e.g., <code>/usr/bin/passwd</code> runs as root regardless of who launched it)</li>
+        <li><code>setgid</code> (2000): binary runs as its group; on directories, new files inherit the dir's group</li>
+        <li><code>sticky</code> (1000): in a dir with this bit, only the file's owner can delete it (e.g., <code>/tmp</code>)</li>
+      </ul>
+    </NoteBox>
+  </section>
+
+  <!-- Search / text commands -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">Search &amp; text wrangling</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      {renderCommands(searchCommands).map((c) => (
+        <div>
+          <p class="text-xs text-gray-600 dark:text-gray-400 mb-1">{c.caption}</p>
+          <code class="block bg-gray-100 dark:bg-gray-800 py-2 px-3 rounded text-[13px] font-mono overflow-x-auto text-blue-700 dark:text-blue-300 whitespace-pre">
+            {c.command}
+          </code>
+          {c.note && <p class="text-xs text-gray-500 italic mt-1">{c.note}</p>}
+        </div>
+      ))}
+    </div>
+  </section>
+</DocsLayout>

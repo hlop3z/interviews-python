@@ -1,0 +1,61 @@
+---
+import type { RetrofitFields } from '@/data/types';
+import SeniorInsight from '@/components/ui/SeniorInsight.astro';
+import Gotcha from '@/components/ui/Gotcha.astro';
+import FollowUp from '@/components/ui/FollowUp.astro';
+
+interface RelatedPattern {
+  id: string;
+  name: string;
+}
+
+interface Props {
+  title: string;
+  entry: RetrofitFields;
+  relatedPatterns?: RelatedPattern[];
+}
+
+const { title, entry, relatedPatterns = [] } = Astro.props;
+const hasContent = !!(
+  entry.seniorInsight ||
+  (entry.commonTraps && entry.commonTraps.length > 0) ||
+  (entry.followUps && entry.followUps.length > 0) ||
+  relatedPatterns.length > 0
+);
+---
+
+{hasContent && (
+  <article
+    id={`insight-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
+    class="border border-gray-200 dark:border-gray-700 rounded-lg p-5 mb-5 scroll-mt-20"
+  >
+    <h3 class="text-lg font-bold mb-2">{title}</h3>
+    {entry.seniorInsight && (
+      <SeniorInsight compact>
+        <p>{entry.seniorInsight}</p>
+      </SeniorInsight>
+    )}
+    {entry.commonTraps && entry.commonTraps.length > 0 && (
+      <Gotcha items={entry.commonTraps} />
+    )}
+    {entry.followUps && entry.followUps.length > 0 && (
+      <FollowUp items={entry.followUps} />
+    )}
+    {relatedPatterns.length > 0 && (
+      <div class="mt-3 text-sm">
+        <span class="font-semibold text-gray-700 dark:text-gray-300">Patterns that use this:</span>
+        <span class="ml-2">
+          {relatedPatterns.map((p, i) => (
+            <>
+              {i > 0 && <span class="text-gray-400">, </span>}
+              <a
+                href={`/coding-algorithms/patterns/#${p.id}`}
+                class="text-blue-600 dark:text-blue-400 hover:underline"
+              >{p.name}</a>
+            </>
+          ))}
+        </span>
+      </div>
+    )}
+  </article>
+)}

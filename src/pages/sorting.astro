@@ -2,7 +2,12 @@
 import DocsLayout from '@/layouts/DocsLayout.astro';
 import ColorBadge from '@/components/ui/ColorBadge.astro';
 import SearchInput from '@/components/ui/SearchInput.astro';
+import InsightCard from '@/components/ui/InsightCard.astro';
 import { sortingAlgorithms } from '@/data/sorting-algorithms';
+
+const withInsights = sortingAlgorithms.filter(
+  (a) => a.seniorInsight || a.commonTraps?.length || a.followUps?.length,
+);
 ---
 
 <DocsLayout title="Sorting Algorithms">
@@ -38,4 +43,14 @@ import { sortingAlgorithms } from '@/data/sorting-algorithms';
       </tbody>
     </table>
   </div>
+
+  {withInsights.length > 0 && (
+    <section class="mt-12">
+      <h2 class="text-2xl font-semibold mb-2">Senior-level notes</h2>
+      <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
+        The things an interviewer expects you to know beyond the complexity table.
+      </p>
+      {withInsights.map((a) => <InsightCard title={`${a.name} Sort`} entry={a} />)}
+    </section>
+  )}
 </DocsLayout>

@@ -1,0 +1,132 @@
+---
+import DocsLayout from '@/layouts/DocsLayout.astro';
+import NoteBox from '@/components/ui/NoteBox.astro';
+import SeniorInsight from '@/components/ui/SeniorInsight.astro';
+import {
+  coreResources,
+  probes,
+  rollingUpdateCommands,
+  kubectlEssentials,
+  resourceRequestsNote,
+  k8sOutOfScope,
+} from '@/data/kubernetes-notes';
+---
+
+<DocsLayout title="Kubernetes">
+  <h1 class="text-3xl font-bold mb-2">Kubernetes</h1>
+  <p class="text-gray-600 dark:text-gray-400 mb-6">
+    SWE-literacy set. Enough to answer infra-ish questions in a backend interview
+    without panicking. Not a platform-engineering reference.
+  </p>
+
+  <!-- Core resources -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">Core resources</h2>
+    <div class="space-y-4">
+      {coreResources.map((r) => (
+        <article class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+          <h3 class="text-lg font-semibold">{r.name}</h3>
+          <p class="text-sm font-medium text-indigo-700 dark:text-indigo-300 mt-1 mb-2">
+            {r.purpose}
+          </p>
+          <p class="text-sm text-gray-700 dark:text-gray-300">{r.detail}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- Probes -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">Probes</h2>
+    <p class="text-gray-600 dark:text-gray-400 mb-4">
+      The most-asked K8s interview topic. Each probe answers a different question —
+      mixing them up is the classic mistake.
+    </p>
+    <div class="overflow-x-auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Probe</th>
+            <th>Answers</th>
+            <th>On failure</th>
+            <th>Use for</th>
+          </tr>
+        </thead>
+        <tbody>
+          {probes.map((p) => (
+            <tr>
+              <td class="font-medium">{p.probe}</td>
+              <td class="text-sm">{p.answers}</td>
+              <td class="text-sm text-gray-600 dark:text-gray-400">{p.failureBehavior}</td>
+              <td class="text-sm">{p.whenToUse}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <SeniorInsight label="Senior insight">
+      A liveness probe that calls the same HTTP endpoint as readiness is usually wrong —
+      liveness should be a <em>process-health</em> check (can the main loop run?), not a
+      <em>dependency-health</em> check. If your DB is down and liveness hits an endpoint
+      that queries the DB, the pod restarts forever instead of going out of the service
+      rotation while the DB recovers.
+    </SeniorInsight>
+  </section>
+
+  <!-- Requests / limits / QoS -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">{resourceRequestsNote.title}</h2>
+    <ul class="list-disc list-outside ml-5 space-y-1 text-sm mb-3">
+      {resourceRequestsNote.lines.map((l) => <li>{l}</li>)}
+    </ul>
+    <SeniorInsight label="Senior insight">
+      {resourceRequestsNote.insight}
+    </SeniorInsight>
+  </section>
+
+  <!-- Rolling updates -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">Rolling updates</h2>
+    <div class="space-y-2">
+      {rollingUpdateCommands.map((c) => (
+        <div>
+          <p class="text-xs text-gray-600 dark:text-gray-400 mb-1">{c.caption}</p>
+          <code class="block bg-gray-100 dark:bg-gray-800 py-2 px-3 rounded text-[13px] font-mono overflow-x-auto text-blue-700 dark:text-blue-300 whitespace-pre">
+            {c.command}
+          </code>
+          {c.note && <p class="text-xs text-gray-500 italic mt-1">{c.note}</p>}
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- kubectl essentials -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">kubectl essentials</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      {kubectlEssentials.map((c) => (
+        <div>
+          <p class="text-xs text-gray-600 dark:text-gray-400 mb-1">{c.caption}</p>
+          <code class="block bg-gray-100 dark:bg-gray-800 py-2 px-3 rounded text-[13px] font-mono overflow-x-auto text-blue-700 dark:text-blue-300 whitespace-pre">
+            {c.command}
+          </code>
+          {c.note && <p class="text-xs text-gray-500 italic mt-1">{c.note}</p>}
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Out of scope -->
+  <section class="mb-12">
+    <NoteBox title="Out of scope for a SWE interview" variant="info">
+      <p class="mb-2">
+        These topics exist, matter, and are important — but they sit in
+        platform-engineering territory. A software engineer is rarely asked to
+        design them from scratch in a loop.
+      </p>
+      <ul class="list-disc list-outside ml-5 space-y-1 text-sm">
+        {k8sOutOfScope.map((x) => <li>{x}</li>)}
+      </ul>
+    </NoteBox>
+  </section>
+</DocsLayout>

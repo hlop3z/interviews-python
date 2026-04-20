@@ -2,7 +2,28 @@
 import DocsLayout from '@/layouts/DocsLayout.astro';
 import ColorBadge from '@/components/ui/ColorBadge.astro';
 import SearchInput from '@/components/ui/SearchInput.astro';
+import InsightCard from '@/components/ui/InsightCard.astro';
 import { dataStructures, dataStructureGroups } from '@/data/data-structures';
+import { patterns } from '@/data/patterns';
+
+// Build: DataStructure.name -> patterns that list it in `usesDataStructures`.
+// Drives the "Patterns that use this" cross-link on each senior-notes card.
+const patternsByDs: Record<string, { id: string; name: string }[]> = {};
+for (const p of patterns) {
+  for (const dsName of p.usesDataStructures ?? []) {
+    (patternsByDs[dsName] ??= []).push({ id: p.id, name: p.name });
+  }
+}
+
+const cards = dataStructures
+  .map((ds) => ({ ds, relatedPatterns: patternsByDs[ds.name] ?? [] }))
+  .filter(
+    ({ ds, relatedPatterns }) =>
+      ds.seniorInsight ||
+      ds.commonTraps?.length ||
+      ds.followUps?.length ||
+      relatedPatterns.length > 0,
+  );
 ---
 
 <DocsLayout title="Data Structures" wide>
@@ -22,7 +43,7 @@ import { dataStructures, dataStructureGroups } from '@/data/data-structures';
     </div>
   </div>
 
-  <div class="overflow-x-auto">
+  <div class="overflow-x-auto mb-12">
     <table id="ds-table" class="data-table text-sm">
       <thead>
         <tr>
@@ -73,6 +94,19 @@ import { dataStructures, dataStructureGroups } from '@/data/data-structures';
       </tbody>
     </table>
   </div>
+
+  {cards.length > 0 && (
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold mb-2">Senior-level notes</h2>
+      <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
+        What an interviewer wants to hear beyond the Big-O row. Not every data
+        structure has notes yet — this list grows as interview material surfaces.
+      </p>
+      {cards.map(({ ds, relatedPatterns }) => (
+        <InsightCard title={ds.name} entry={ds} relatedPatterns={relatedPatterns} />
+      ))}
+    </section>
+  )}
 </DocsLayout>
 
 <script>

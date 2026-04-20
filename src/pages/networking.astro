@@ -1,0 +1,198 @@
+---
+import DocsLayout from '@/layouts/DocsLayout.astro';
+import NoteBox from '@/components/ui/NoteBox.astro';
+import SeniorInsight from '@/components/ui/SeniorInsight.astro';
+import {
+  osiLayers,
+  tcpHandshake,
+  udpFacts,
+  tlsHandshakeShape,
+  dnsRecords,
+  httpStatusClasses,
+  httpCachingHeaders,
+  cidrRows,
+  cidrMath,
+} from '@/data/networking-notes';
+---
+
+<DocsLayout title="Networking">
+  <h1 class="text-3xl font-bold mb-2">Networking</h1>
+  <p class="text-gray-600 dark:text-gray-400 mb-6">
+    Protocol fundamentals every backend engineer should be able to reason about.
+    Anchored on invariants — no version pins.
+  </p>
+
+  <!-- OSI -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">OSI model (the mental map)</h2>
+    <p class="text-gray-600 dark:text-gray-400 mb-4">
+      Real traffic skips the session layer and often fuses presentation into the
+      application — but the 7-layer model is how engineers agree on "where the
+      bug lives".
+    </p>
+    <div class="overflow-x-auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th class="text-center">Layer</th>
+            <th>Name</th>
+            <th>Unit</th>
+            <th>Examples</th>
+          </tr>
+        </thead>
+        <tbody>
+          {osiLayers.map((l) => (
+            <tr>
+              <td class="text-center font-mono">{l.layer}</td>
+              <td class="font-medium">{l.name}</td>
+              <td class="text-sm">{l.unit}</td>
+              <td class="text-sm">{l.examples}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- TCP / UDP -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">TCP vs UDP</h2>
+    <div class="grid md:grid-cols-2 gap-4">
+      <article class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+        <h3 class="text-lg font-semibold mb-2">TCP</h3>
+        <p class="text-sm text-gray-700 dark:text-gray-300 mb-2">{tcpHandshake.summary}</p>
+        <p class="text-sm text-gray-700 dark:text-gray-300 mb-3">{tcpHandshake.teardown}</p>
+        <ul class="list-disc list-outside ml-5 text-sm space-y-1">
+          {tcpHandshake.keyThings.map((t) => <li>{t}</li>)}
+        </ul>
+      </article>
+      <article class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+        <h3 class="text-lg font-semibold mb-2">UDP</h3>
+        <ul class="list-disc list-outside ml-5 text-sm space-y-1">
+          {udpFacts.map((f) => <li>{f}</li>)}
+        </ul>
+      </article>
+    </div>
+    <SeniorInsight label="When to reach for UDP">
+      UDP is the right choice when a retransmitted packet would arrive too late
+      to be useful (voice, video, real-time gaming) or when the protocol wants
+      its own congestion control (QUIC). For almost everything else, use TCP or
+      something built on top of it.
+    </SeniorInsight>
+  </section>
+
+  <!-- TLS -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">TLS handshake (the shape)</h2>
+    <ol class="list-decimal list-outside ml-5 space-y-1 text-sm mb-3">
+      {tlsHandshakeShape.shape.map((s) => <li>{s}</li>)}
+    </ol>
+    <ul class="list-disc list-outside ml-5 space-y-1 text-sm text-gray-600 dark:text-gray-400">
+      {tlsHandshakeShape.notes.map((n) => <li>{n}</li>)}
+    </ul>
+  </section>
+
+  <!-- DNS -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">DNS record types</h2>
+    <div class="overflow-x-auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th class="w-20">Type</th>
+            <th>Purpose</th>
+            <th>Example</th>
+          </tr>
+        </thead>
+        <tbody>
+          {dnsRecords.map((r) => (
+            <tr>
+              <td class="font-mono font-medium">{r.type}</td>
+              <td class="text-sm">{r.purpose}</td>
+              <td class="font-mono text-xs text-gray-600 dark:text-gray-400">{r.example}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- HTTP -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">HTTP status codes</h2>
+    <div class="space-y-3">
+      {httpStatusClasses.map((c) => (
+        <article class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+          <header class="flex items-baseline gap-3 mb-1">
+            <span class="font-mono font-bold text-lg">{c.range}</span>
+            <span class="text-sm font-medium">{c.meaning}</span>
+          </header>
+          <ul class="list-disc list-outside ml-5 text-sm space-y-0.5 text-gray-700 dark:text-gray-300">
+            {c.canonical.map((code) => <li>{code}</li>)}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- Caching headers -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">HTTP caching headers</h2>
+    <div class="overflow-x-auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th class="w-48">Header</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          {httpCachingHeaders.map((h) => (
+            <tr>
+              <td class="font-mono font-medium text-sm">{h.header}</td>
+              <td class="text-sm">{h.purpose}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- CIDR -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">CIDR math</h2>
+    <p class="text-gray-600 dark:text-gray-400 mb-4">
+      <code class="font-mono text-sm">10.0.0.0/24</code> = "first 24 bits are the
+      network, remaining 8 bits are hosts". Count backwards from 32 to get host
+      bits, then 2<sup>host bits</sup> is the address count.
+    </p>
+    <div class="overflow-x-auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Mask</th>
+            <th class="text-right">Addresses</th>
+            <th class="text-right">Usable hosts</th>
+            <th>Typical use</th>
+          </tr>
+        </thead>
+        <tbody>
+          {cidrRows.map((r) => (
+            <tr>
+              <td class="font-mono">{r.mask}</td>
+              <td class="text-right font-mono">{r.addresses}</td>
+              <td class="text-right font-mono">{r.usableHosts}</td>
+              <td class="text-sm">{r.typicalUse}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <NoteBox title="Rules of thumb" variant="tip">
+      <ul class="list-disc list-outside ml-5 space-y-1 text-sm">
+        {cidrMath.lines.map((l) => <li>{l}</li>)}
+        <li>{cidrMath.subnetting}</li>
+      </ul>
+    </NoteBox>
+  </section>
+</DocsLayout>

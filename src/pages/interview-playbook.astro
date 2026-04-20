@@ -1,0 +1,215 @@
+---
+import DocsLayout from '@/layouts/DocsLayout.astro';
+import NoteBox from '@/components/ui/NoteBox.astro';
+import SeniorInsight from '@/components/ui/SeniorInsight.astro';
+import {
+  playbookSteps,
+  signalRows,
+  edgeCaseChecklist,
+  complexityRecipes,
+  stuckPhrases,
+  starTemplate,
+  questionsForInterviewer,
+} from '@/data/interview-playbook';
+---
+
+<DocsLayout title="Interview Playbook">
+  <h1 class="text-3xl font-bold mb-2">Interview Playbook</h1>
+  <p class="text-gray-600 dark:text-gray-400 mb-8">
+    The meta-framework. Re-read this the morning of the interview — it is how
+    to <em>use</em> every other page on this site.
+  </p>
+
+  <!-- 1. The 7-step method -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">1. The 7-step method</h2>
+    <p class="text-gray-600 dark:text-gray-400 mb-4">
+      For any DSA problem, walk these seven steps out loud. Interviewers grade
+      the process as much as the answer.
+    </p>
+
+    <div class="space-y-4">
+      {playbookSteps.map((step) => (
+        <article class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+          <header class="flex items-baseline gap-3 mb-2">
+            <span class="text-xs font-bold px-2 py-0.5 rounded bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300">
+              Step {step.step}
+            </span>
+            <h3 class="text-lg font-semibold">{step.title}</h3>
+          </header>
+          <p class="text-gray-600 dark:text-gray-400 mb-3 italic">{step.goal}</p>
+
+          <div class="grid md:grid-cols-3 gap-3 text-sm">
+            <div>
+              <p class="font-semibold text-emerald-700 dark:text-emerald-300 mb-1">Say</p>
+              <ul class="list-disc list-outside ml-4 space-y-1">
+                {step.say.map((s) => <li>{s}</li>)}
+              </ul>
+            </div>
+            <div>
+              <p class="font-semibold text-blue-700 dark:text-blue-300 mb-1">Write</p>
+              <ul class="list-disc list-outside ml-4 space-y-1">
+                {step.write.map((w) => <li>{w}</li>)}
+              </ul>
+            </div>
+            <div>
+              <p class="font-semibold text-amber-700 dark:text-amber-300 mb-1">Avoid</p>
+              <ul class="list-disc list-outside ml-4 space-y-1">
+                {step.avoid.map((a) => <li>{a}</li>)}
+              </ul>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- 2. Pattern-signal map -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">2. Pattern from problem signals</h2>
+    <p class="text-gray-600 dark:text-gray-400 mb-4">
+      Read the signals out of the problem statement, then reach for the candidate
+      pattern. If the first candidate does not fit, cycle to the next.
+    </p>
+    <div class="overflow-x-auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th class="w-2/3">If the problem says…</th>
+            <th>Try</th>
+          </tr>
+        </thead>
+        <tbody>
+          {signalRows.map((row) => (
+            <tr>
+              <td>{row.signal}</td>
+              <td class="font-medium">{row.candidates.join(', ')}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <SeniorInsight label="Senior insight">
+      Most interview problems are dressed-up versions of a handful of canonical
+      shapes. Train yourself on <em>signals</em> — the phrases in the problem —
+      not on memorizing solutions to specific LeetCode numbers.
+    </SeniorInsight>
+  </section>
+
+  <!-- 3. Edge-case checklist -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">3. Edge-case checklist</h2>
+    <p class="text-gray-600 dark:text-gray-400 mb-4">
+      Run this list against every solution before you say "done".
+    </p>
+    <ul class="grid md:grid-cols-2 gap-x-6 gap-y-1 list-disc list-outside ml-5">
+      {edgeCaseChecklist.map((item) => <li>{item}</li>)}
+    </ul>
+  </section>
+
+  <!-- 4. Complexity cheat -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">4. Complexity computation cheat</h2>
+    <p class="text-gray-600 dark:text-gray-400 mb-4">
+      Recognize the recurrence shape and read off the answer. For most interview
+      analysis this beats invoking the Master Theorem formally.
+    </p>
+    <div class="overflow-x-auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Recurrence shape</th>
+            <th>Result</th>
+            <th>Canonical example</th>
+          </tr>
+        </thead>
+        <tbody>
+          {complexityRecipes.map((r) => (
+            <tr>
+              <td class="font-mono text-sm">{r.shape}</td>
+              <td class="font-mono text-sm font-semibold">{r.result}</td>
+              <td>{r.example}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <NoteBox title="Amortized analysis in one paragraph" variant="tip">
+      <p>
+        Some operations are expensive but happen rarely enough that the
+        <em>average</em> cost across many operations stays low. A dynamic array
+        doubles when full, costing O(n), but the cost is spread across the n−1
+        prior cheap inserts — so append is O(1) <strong>amortized</strong>, even
+        though the worst single call is O(n). Say "amortized" explicitly when
+        the worst case and the long-run average diverge.
+      </p>
+    </NoteBox>
+  </section>
+
+  <!-- 5. What to say when stuck -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">5. What to say when stuck</h2>
+    <p class="text-gray-600 dark:text-gray-400 mb-4">
+      Silence is the enemy. These phrases keep the interviewer in the loop and
+      often unlock the solution by forcing you to reason out loud.
+    </p>
+    <ul class="space-y-2">
+      {stuckPhrases.map((p) => (
+        <li class="border-l-2 border-gray-300 dark:border-gray-600 pl-3 italic">
+          {p}
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <!-- 6. STAR template -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">6. Behavioral: the STAR template</h2>
+    <p class="text-gray-600 dark:text-gray-400 mb-4">
+      A disciplined STAR answer is ~90 seconds. Budget your words accordingly —
+      over-spending on Situation is the most common mistake.
+    </p>
+    <div class="overflow-x-auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th class="w-16">Letter</th>
+            <th>Part</th>
+            <th>Budget</th>
+            <th>Hint</th>
+          </tr>
+        </thead>
+        <tbody>
+          {starTemplate.map((part) => (
+            <tr>
+              <td class="font-mono font-bold text-lg">{part.letter}</td>
+              <td class="font-medium">{part.label}</td>
+              <td class="text-sm">{part.budget}</td>
+              <td class="text-sm">{part.hint}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 7. Questions to ask -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">7. Questions to ask the interviewer</h2>
+    <p class="text-gray-600 dark:text-gray-400 mb-4">
+      The questions you ask signal seniority. Skip "what do you like about
+      working here" — ask things that only this interviewer can answer.
+    </p>
+    <ol class="list-decimal list-outside ml-5 space-y-2">
+      {questionsForInterviewer.map((q) => <li>{q}</li>)}
+    </ol>
+  </section>
+
+  <SeniorInsight label="How to actually use this page">
+    Do not read this as prose. Use it as a <em>recall</em> prompt: cover the
+    right column of the signal table and test yourself on what pattern each
+    signal points to. Cover the "Write" column of the 7-step method and see
+    if you can produce the bullets yourself. Passive reading does not transfer
+    to the interview room.
+  </SeniorInsight>
+</DocsLayout>

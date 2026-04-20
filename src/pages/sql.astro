@@ -1,11 +1,23 @@
 ---
 import DocsLayout from '@/layouts/DocsLayout.astro';
+import NoteBox from '@/components/ui/NoteBox.astro';
+import SeniorInsight from '@/components/ui/SeniorInsight.astro';
+import Gotcha from '@/components/ui/Gotcha.astro';
 import { sqlStatements } from '@/data/sql-notes';
+import {
+  indexNotes,
+  isolationLevels,
+  explainSignals,
+  paginationStrategies,
+  nPlusOneNote,
+} from '@/data/sql-depth';
 ---
 
 <DocsLayout title="SQL">
   <h1 class="text-3xl font-bold mb-8">SQL</h1>
 
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Statements</h2>
   <div class="overflow-x-auto">
     <table class="data-table">
       <thead>
@@ -45,6 +57,163 @@ import { sqlStatements } from '@/data/sql-notes';
       </tbody>
     </table>
   </div>
+  </section>
+
+  <!-- Indexing -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">Indexing</h2>
+    <p class="text-gray-600 dark:text-gray-400 mb-4">
+      Indexes trade write speed and disk space for read speed. Every index makes
+      INSERT / UPDATE slower and takes storage — so index for the queries you
+      actually run, not hypothetical ones.
+    </p>
+    <div class="overflow-x-auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Kind</th>
+            <th>Use for</th>
+            <th>Gotcha</th>
+          </tr>
+        </thead>
+        <tbody>
+          {indexNotes.map((n) => (
+            <tr>
+              <td class="font-medium">{n.kind}</td>
+              <td class="text-sm">{n.useFor}</td>
+              <td class="text-sm text-gray-600 dark:text-gray-400">{n.gotcha}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <SeniorInsight label="Senior insight">
+      "This table has 20 indexes and writes are slow" is an interview anti-pattern
+      — indexes compound. Prefer fewer, composite indexes chosen for the hot
+      query shapes over many single-column indexes.
+    </SeniorInsight>
+  </section>
+
+  <!-- Transaction isolation -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">Transaction isolation</h2>
+    <p class="text-gray-600 dark:text-gray-400 mb-4">
+      Isolation levels trade consistency guarantees for concurrency. Higher
+      levels prevent more anomalies but serialize more work.
+    </p>
+    <div class="overflow-x-auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Level</th>
+            <th class="text-center">Dirty read</th>
+            <th class="text-center">Non-repeatable read</th>
+            <th class="text-center">Phantom read</th>
+            <th>Note</th>
+          </tr>
+        </thead>
+        <tbody>
+          {isolationLevels.map((l) => (
+            <tr>
+              <td class="font-medium">{l.level}</td>
+              <td class="text-center text-sm">{l.dirtyRead}</td>
+              <td class="text-center text-sm">{l.nonRepeatableRead}</td>
+              <td class="text-center text-sm">{l.phantomRead}</td>
+              <td class="text-sm text-gray-600 dark:text-gray-400">{l.note}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <NoteBox title="The anomalies in one sentence each" variant="info">
+      <ul class="list-disc list-outside ml-5 space-y-1 text-sm">
+        <li><strong>Dirty read</strong>: you see a value another transaction wrote and then rolled back.</li>
+        <li><strong>Non-repeatable read</strong>: you re-read a row and get a different value because someone committed between your reads.</li>
+        <li><strong>Phantom read</strong>: you re-run a range query and new rows appear that a concurrent transaction committed.</li>
+        <li><strong>Lost update</strong>: two transactions read, modify, and write the same row; one overwrite is silently lost. Fix with SELECT … FOR UPDATE or optimistic version columns.</li>
+      </ul>
+    </NoteBox>
+  </section>
+
+  <!-- N+1 -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">The N+1 query problem</h2>
+    <p class="text-gray-700 dark:text-gray-300 mb-3">{nPlusOneNote.problem}</p>
+    <p class="text-gray-700 dark:text-gray-300 mb-3">
+      <strong>Signature:</strong> {nPlusOneNote.signature}
+    </p>
+    <p class="font-semibold mb-2">Fixes</p>
+    <ul class="list-disc list-outside ml-5 space-y-1 text-sm">
+      {nPlusOneNote.fixes.map((f) => <li>{f}</li>)}
+    </ul>
+    <Gotcha label="Why interviewers love this">
+      <p>
+        Every backend engineer has shipped an N+1 at least once. Being able to
+        describe the signature in DB logs (not just the abstract definition)
+        shows you have actually debugged one, not just read about it.
+      </p>
+    </Gotcha>
+  </section>
+
+  <!-- EXPLAIN -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">Reading EXPLAIN</h2>
+    <p class="text-gray-600 dark:text-gray-400 mb-4">
+      Signals to look for in a query plan, and the typical fix.
+    </p>
+    <div class="overflow-x-auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Signal</th>
+            <th>Meaning</th>
+            <th>Fix</th>
+          </tr>
+        </thead>
+        <tbody>
+          {explainSignals.map((s) => (
+            <tr>
+              <td class="font-medium text-sm">{s.signal}</td>
+              <td class="text-sm">{s.meaning}</td>
+              <td class="text-sm text-gray-600 dark:text-gray-400">{s.fix}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Pagination -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">Pagination strategies</h2>
+    <div class="overflow-x-auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th class="w-32">Strategy</th>
+            <th>Example</th>
+            <th>Pros</th>
+            <th>Cons</th>
+          </tr>
+        </thead>
+        <tbody>
+          {paginationStrategies.map((p) => (
+            <tr>
+              <td class="font-medium">{p.name}</td>
+              <td><code class="text-xs">{p.example}</code></td>
+              <td class="text-sm">{p.pros}</td>
+              <td class="text-sm text-gray-600 dark:text-gray-400">{p.cons}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <SeniorInsight label="Rule of thumb">
+      Use cursor pagination for infinite scroll, API consumers, and anything that
+      needs stable ordering. Offset is acceptable for admin consoles with small
+      result sets and a "jump to page N" requirement.
+    </SeniorInsight>
+  </section>
 </DocsLayout>
 
 <script>

@@ -1,0 +1,50 @@
+---
+import DocsLayout from '@/layouts/DocsLayout.astro';
+import PatternCard from '@/components/ui/PatternCard.astro';
+import SeniorInsight from '@/components/ui/SeniorInsight.astro';
+import { patterns, patternMap, patternSections } from '@/data/patterns';
+import { codeTemplateMap } from '@/data/code-templates';
+---
+
+<DocsLayout title="DSA Patterns" wide>
+  <h1 class="text-3xl font-bold mb-2">DSA Patterns</h1>
+  <p class="text-gray-600 dark:text-gray-400 mb-6">
+    The {patterns.length} patterns that cover the large majority of software
+    engineering interview problems. Recognize the pattern from the problem
+    signals, then fit the template to the specifics.
+  </p>
+
+  <SeniorInsight label="How to use this page">
+    Do not read top-to-bottom. Pick a recent problem you solved, identify which
+    pattern it matched, and check that your solution looks like the template
+    here. Gaps between your code and the template are your study list.
+  </SeniorInsight>
+
+  <!-- Table of contents -->
+  <nav class="my-8 p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700">
+    <p class="font-semibold mb-2">Jump to</p>
+    <ul class="grid md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-1 text-sm">
+      {patterns.map((p) => (
+        <li>
+          <a href={`#${p.id}`} class="text-indigo-600 dark:text-indigo-400 hover:underline">
+            {p.name}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+
+  {patternSections.map((section) => (
+    <section class="mb-10">
+      <h2 class="text-2xl font-semibold mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+        {section.title}
+      </h2>
+      {section.patternIds.map((id) => {
+        const pattern = patternMap[id];
+        if (!pattern) return null;
+        const template = codeTemplateMap[pattern.templateId];
+        return <PatternCard pattern={pattern} template={template} />;
+      })}
+    </section>
+  ))}
+</DocsLayout>

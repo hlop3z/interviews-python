@@ -1,0 +1,150 @@
+---
+import DocsLayout from '@/layouts/DocsLayout.astro';
+import SeniorInsight from '@/components/ui/SeniorInsight.astro';
+import { patterns } from '@/data/patterns';
+import { scenarios } from '@/data/system-design';
+import { edgeCaseChecklist, signalRows, complexityRecipes, stuckPhrases } from '@/data/interview-playbook';
+
+const sections = [
+  {
+    title: 'DSA',
+    links: [
+      { href: '/interview-playbook/', label: '7-step method + edge cases + complexity cheat' },
+      { href: '/patterns/', label: `${patterns.length} DSA patterns with templates` },
+      { href: '/data-structures/', label: 'Data structures reference' },
+      { href: '/sorting/', label: 'Sorting algorithms' },
+      { href: '/searching/', label: 'Search algorithms' },
+      { href: '/', label: 'Big-O complexities' },
+    ],
+  },
+  {
+    title: 'Backend',
+    links: [
+      { href: '/apis/', label: 'REST, GraphQL, idempotency, OAuth2, rate-limit placement' },
+      { href: '/sql/', label: 'Indexing, transactions, N+1, EXPLAIN, pagination' },
+      { href: '/system-design/', label: `System-design-lite (${scenarios.length} scenarios)` },
+      { href: '/python/', label: 'Python notes' },
+      { href: '/principles/', label: 'SOLID, design patterns, principles' },
+    ],
+  },
+  {
+    title: 'DevOps',
+    links: [
+      { href: '/docker/', label: 'Docker — images, containers, volumes, compose' },
+      { href: '/kubernetes/', label: 'Kubernetes — pods, deployments, probes, kubectl' },
+      { href: '/git/', label: 'Git + CI/CD essentials' },
+      { href: '/linux/', label: 'Linux — signals, FDs, permissions' },
+      { href: '/networking/', label: 'Networking — TCP/UDP, DNS, HTTP, CIDR' },
+      { href: '/observability/', label: 'Metrics / logs / traces, SLO' },
+      { href: '/security/', label: 'Vulnerability classes, password KDFs, JWT' },
+    ],
+  },
+];
+
+const BASE = '/coding-algorithms';
+---
+
+<DocsLayout title="Interview-day Cheat Sheet">
+  <h1 class="text-3xl font-bold mb-2">Interview-day Cheat Sheet</h1>
+  <p class="text-gray-600 dark:text-gray-400 mb-6">
+    One page, one click to anything you might need 30 minutes before the loop.
+  </p>
+
+  <SeniorInsight label="How to read this page">
+    Skim top to bottom. Click into anything that feels foggy. If more than two
+    links feel foggy, you have your study list for the day. Do not try to read
+    every linked page — pick the ones you need to reinforce.
+  </SeniorInsight>
+
+  <!-- Quick links -->
+  <section class="my-8 grid md:grid-cols-3 gap-6">
+    {sections.map((s) => (
+      <article class="border border-gray-200 dark:border-gray-700 rounded-lg p-5">
+        <h2 class="text-xl font-bold mb-3">{s.title}</h2>
+        <ul class="space-y-2">
+          {s.links.map((l) => (
+            <li>
+              <a
+                href={`${BASE}${l.href}`}
+                class="text-indigo-600 dark:text-indigo-400 hover:underline text-sm"
+              >
+                {l.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </article>
+    ))}
+  </section>
+
+  <!-- Pattern signal recall — inlined because this is the single most useful page-day table -->
+  <section class="mb-10">
+    <h2 class="text-2xl font-semibold mb-3">Pattern from signal — fast recall</h2>
+    <p class="text-gray-600 dark:text-gray-400 mb-4">
+      Cover the right column. Test yourself.
+    </p>
+    <div class="overflow-x-auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th class="w-2/3">Signal</th>
+            <th>Try</th>
+          </tr>
+        </thead>
+        <tbody>
+          {signalRows.map((r) => (
+            <tr>
+              <td class="text-sm">{r.signal}</td>
+              <td class="text-sm font-medium">{r.candidates.join(', ')}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Edge-case checklist -->
+  <section class="mb-10">
+    <h2 class="text-2xl font-semibold mb-3">Edge-case checklist</h2>
+    <ul class="grid md:grid-cols-2 gap-x-6 gap-y-1 list-disc list-outside ml-5 text-sm">
+      {edgeCaseChecklist.map((i) => <li>{i}</li>)}
+    </ul>
+  </section>
+
+  <!-- Complexity recipes -->
+  <section class="mb-10">
+    <h2 class="text-2xl font-semibold mb-3">Complexity at a glance</h2>
+    <div class="overflow-x-auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Recurrence shape</th>
+            <th>Result</th>
+            <th>Canonical example</th>
+          </tr>
+        </thead>
+        <tbody>
+          {complexityRecipes.map((r) => (
+            <tr>
+              <td class="font-mono text-sm">{r.shape}</td>
+              <td class="font-mono text-sm font-semibold">{r.result}</td>
+              <td class="text-sm">{r.example}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- What to say when stuck -->
+  <section class="mb-10">
+    <h2 class="text-2xl font-semibold mb-3">What to say when stuck</h2>
+    <ul class="space-y-2">
+      {stuckPhrases.map((p) => (
+        <li class="border-l-2 border-gray-300 dark:border-gray-600 pl-3 italic text-sm">
+          {p}
+        </li>
+      ))}
+    </ul>
+  </section>
+</DocsLayout>

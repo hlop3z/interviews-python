@@ -10,9 +10,10 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro check && astro build && npx pagefind --site dist --output-path dist/pagefind",
+    "build": "npm run check:refs && astro check && astro build && npx pagefind --site dist --output-path dist/pagefind",
     "preview": "astro preview",
     "check": "astro check",
+    "check:refs": "tsx scripts/check-refs.ts",
     "format": "prettier --write ."
   },
   "dependencies": {
@@ -29,6 +30,7 @@
     "@tailwindcss/typography": "^0.5.15",
     "lighthouse": "^13.0.1",
     "prettier": "^3.4.2",
-    "prettier-plugin-astro": "^0.14.1"
+    "prettier-plugin-astro": "^0.14.1",
+    "tsx": "^4.19.2"
   }
 }

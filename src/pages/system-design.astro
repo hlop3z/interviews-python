@@ -1,0 +1,96 @@
+---
+import { Code } from 'astro-expressive-code/components';
+import DocsLayout from '@/layouts/DocsLayout.astro';
+import SeniorInsight from '@/components/ui/SeniorInsight.astro';
+import FollowUp from '@/components/ui/FollowUp.astro';
+import TradeoffTable from '@/components/ui/TradeoffTable.astro';
+import { scenarios, rateLimiterAlgorithms } from '@/data/system-design';
+---
+
+<DocsLayout title="System Design Lite" wide>
+  <h1 class="text-3xl font-bold mb-2">System Design Lite</h1>
+  <p class="text-gray-600 dark:text-gray-400 mb-6">
+    The 30-minute whiteboard scenarios that appear in nearly every senior SWE
+    loop. Each one names the invariants, not a vendor product.
+  </p>
+
+  <SeniorInsight label="How to use this page">
+    Cover the Approach section and see if you can derive it from the Problem
+    statement and the Clarifying Questions. The Follow-ups are what interviewers
+    probe once you have an initial answer — be ready for all of them before you
+    consider a scenario "done".
+  </SeniorInsight>
+
+  <!-- Table of contents -->
+  <nav class="my-8 p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700">
+    <p class="font-semibold mb-2">Scenarios</p>
+    <ul class="grid md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-1 text-sm">
+      {scenarios.map((s) => (
+        <li>
+          <a href={`#${s.id}`} class="text-indigo-600 dark:text-indigo-400 hover:underline">
+            {s.title}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+
+  {scenarios.map((s) => (
+    <article
+      id={s.id}
+      class="border border-gray-200 dark:border-gray-700 rounded-lg p-5 mb-6 scroll-mt-20"
+    >
+      <header class="mb-3">
+        <h2 class="text-2xl font-bold">{s.title}</h2>
+        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+          <span class="font-mono">Time</span> {s.complexity.time}
+          &nbsp;·&nbsp;
+          <span class="font-mono">Space</span> {s.complexity.space}
+        </p>
+      </header>
+
+      <div class="mb-4">
+        <p class="font-semibold text-sm text-indigo-700 dark:text-indigo-300 uppercase tracking-wide mb-1">
+          Problem
+        </p>
+        <p class="text-gray-700 dark:text-gray-300">{s.problem}</p>
+      </div>
+
+      <div class="mb-4">
+        <p class="font-semibold text-sm text-indigo-700 dark:text-indigo-300 uppercase tracking-wide mb-1">
+          Clarify first
+        </p>
+        <ul class="list-disc list-outside ml-5 space-y-1 text-sm">
+          {s.clarifyingQuestions.map((q) => <li>{q}</li>)}
+        </ul>
+      </div>
+
+      <div class="mb-4">
+        <p class="font-semibold text-sm text-indigo-700 dark:text-indigo-300 uppercase tracking-wide mb-1">
+          Approach
+        </p>
+        <div class="text-gray-700 dark:text-gray-300 whitespace-pre-wrap text-sm leading-relaxed">
+          {s.approach}
+        </div>
+      </div>
+
+      {s.snippet && s.snippetLang && (
+        <div class="mb-4">
+          <p class="font-semibold text-sm text-indigo-700 dark:text-indigo-300 uppercase tracking-wide mb-1">
+            Reference implementation
+          </p>
+          <Code code={s.snippet} lang={s.snippetLang} />
+        </div>
+      )}
+
+      {/* Inline trade-off table for the rate-limiter scenario */}
+      {s.id === 'rate-limiter' && (
+        <div class="mb-4">
+          <TradeoffTable tradeoff={rateLimiterAlgorithms} />
+        </div>
+      )}
+
+      <FollowUp items={s.followUps} />
+    </article>
+  ))}
+</DocsLayout>

@@ -1,0 +1,127 @@
+---
+import DocsLayout from '@/layouts/DocsLayout.astro';
+import SeniorInsight from '@/components/ui/SeniorInsight.astro';
+import {
+  pillars,
+  metricTypes,
+  methods,
+  sloTerms,
+  tracingModel,
+} from '@/data/observability-notes';
+---
+
+<DocsLayout title="Observability">
+  <h1 class="text-3xl font-bold mb-2">Observability</h1>
+  <p class="text-gray-600 dark:text-gray-400 mb-6">
+    The shape of observable systems: three pillars, four canonical metric types,
+    two measurement methods, and the SLO vocabulary. Vendor-agnostic — no SDK
+    APIs, no product feature matrices.
+  </p>
+
+  <!-- Pillars -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">The three pillars</h2>
+    <div class="space-y-4">
+      {pillars.map((p) => (
+        <article class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+          <h3 class="text-lg font-semibold">{p.name}</h3>
+          <p class="text-sm font-medium text-indigo-700 dark:text-indigo-300 mt-1">{p.question}</p>
+          <dl class="mt-2 grid md:grid-cols-2 gap-x-4 gap-y-1 text-sm">
+            <div><dt class="inline font-semibold">Shape:</dt> <dd class="inline">{p.shape}</dd></div>
+            <div><dt class="inline font-semibold">Cost shape:</dt> <dd class="inline">{p.costShape}</dd></div>
+            <div><dt class="inline font-semibold">Strength:</dt> <dd class="inline">{p.strength}</dd></div>
+            <div><dt class="inline font-semibold">Weakness:</dt> <dd class="inline">{p.weakness}</dd></div>
+          </dl>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- Metric types -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">The four canonical metric types</h2>
+    <p class="text-gray-600 dark:text-gray-400 mb-4">
+      Nearly every metrics system inherits this taxonomy. Names may vary, but the
+      shapes are stable.
+    </p>
+    <div class="overflow-x-auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Invariant</th>
+            <th>Use for</th>
+            <th>Example</th>
+            <th>Pitfall</th>
+          </tr>
+        </thead>
+        <tbody>
+          {metricTypes.map((m) => (
+            <tr>
+              <td class="font-medium">{m.type}</td>
+              <td class="text-sm">{m.invariant}</td>
+              <td class="text-sm">{m.useFor}</td>
+              <td class="text-sm font-mono text-xs">{m.example}</td>
+              <td class="text-sm text-gray-600 dark:text-gray-400">{m.pitfall}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <SeniorInsight label="Histogram vs summary">
+      Prefer histograms when you need to aggregate quantiles across replicas —
+      summary quantiles are incorrect when merged. Use summaries only when one
+      source has the full truth and cross-instance aggregation is not required.
+    </SeniorInsight>
+  </section>
+
+  <!-- RED / USE -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">RED vs USE</h2>
+    <p class="text-gray-600 dark:text-gray-400 mb-4">
+      Two complementary methods. RED describes request flow; USE describes resource health.
+    </p>
+    <div class="grid md:grid-cols-2 gap-4">
+      {methods.map((m) => (
+        <article class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+          <h3 class="text-lg font-semibold">{m.method}</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1 mb-2">{m.target}</p>
+          <ul class="list-disc list-outside ml-5 text-sm space-y-1">
+            {m.measure.map((x) => <li>{x}</li>)}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- SLO vocabulary -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">SLI / SLO / SLA / error budget</h2>
+    <div class="space-y-3">
+      {sloTerms.map((t) => (
+        <article class="border-l-4 border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20 p-4 rounded-r-md">
+          <h3 class="font-semibold mb-1">{t.term}</h3>
+          <p class="text-sm text-gray-700 dark:text-gray-300">{t.body}</p>
+        </article>
+      ))}
+    </div>
+    <SeniorInsight label="Why budgets are load-bearing">
+      An error budget turns reliability from a preference into a trade-off.
+      When the budget is spent, risky launches pause by policy — nobody has to
+      argue about it. When the budget is healthy, velocity is authorized. Teams
+      without budgets argue about reliability forever because there is no shared
+      currency.
+    </SeniorInsight>
+  </section>
+
+  <!-- Tracing model -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">Distributed tracing — the mental model</h2>
+    <ul class="list-disc list-outside ml-5 space-y-2 text-sm mb-3">
+      {tracingModel.lines.map((l) => <li>{l}</li>)}
+    </ul>
+    <SeniorInsight label="Senior insight">
+      {tracingModel.insight}
+    </SeniorInsight>
+  </section>
+</DocsLayout>

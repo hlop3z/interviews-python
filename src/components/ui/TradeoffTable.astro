@@ -1,0 +1,36 @@
+---
+import type { Tradeoff } from '@/data/types';
+
+interface Props {
+  tradeoff: Tradeoff;
+}
+
+const { tradeoff } = Astro.props;
+---
+
+<div class="my-4">
+  <h3 class="text-lg font-semibold mb-2">{tradeoff.topic}</h3>
+  <div class="overflow-x-auto">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th class="w-1/3">Criterion</th>
+          <th>{tradeoff.labelA}</th>
+          <th>{tradeoff.labelB}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {tradeoff.criteria.map((row) => (
+          <tr>
+            <td class="font-medium">{row.criterion}</td>
+            <td>{row.optionA}</td>
+            <td>{row.optionB}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p class="mt-2 text-sm italic text-gray-600 dark:text-gray-400">
+    <span class="font-semibold not-italic">Rule of thumb:</span> {tradeoff.rule}
+  </p>
+</div>

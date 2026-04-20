@@ -8,18 +8,55 @@ interface Props {
 
 const { currentPath } = Astro.props;
 
-const navItems = [
-  { label: 'Big-O', href: '/' },
-  { label: 'Data Structures', href: '/data-structures' },
-  { label: 'Sorting', href: '/sorting' },
-  { label: 'Searching', href: '/searching' },
-  { label: 'Principles', href: '/principles' },
-  { label: 'APIs', href: '/apis' },
-  { label: 'SQL', href: '/sql' },
-  { label: 'Python', href: '/python' },
-  { label: 'Docker', href: '/docker' },
-  { label: 'Git', href: '/git' },
-  { label: 'Resources', href: '/resources' },
+type NavItem = { label: string; href: string };
+type NavGroup = { name: string; items: NavItem[] };
+
+const navGroups: NavGroup[] = [
+  {
+    name: 'Meta',
+    items: [
+      { label: 'Cheat Sheet', href: '/cheat-sheet' },
+      { label: 'Playbook', href: '/interview-playbook' },
+    ],
+  },
+  {
+    name: 'DSA',
+    items: [
+      { label: 'Patterns', href: '/patterns' },
+      { label: 'Big-O', href: '/' },
+      { label: 'Data Structures', href: '/data-structures' },
+      { label: 'Sorting', href: '/sorting' },
+      { label: 'Searching', href: '/searching' },
+    ],
+  },
+  {
+    name: 'Backend',
+    items: [
+      { label: 'System Design', href: '/system-design' },
+      { label: 'APIs', href: '/apis' },
+      { label: 'SQL', href: '/sql' },
+      { label: 'Python', href: '/python' },
+      { label: 'Principles', href: '/principles' },
+    ],
+  },
+  {
+    name: 'DevOps',
+    items: [
+      { label: 'Docker', href: '/docker' },
+      { label: 'Kubernetes', href: '/kubernetes' },
+      { label: 'Git', href: '/git' },
+      { label: 'Linux', href: '/linux' },
+      { label: 'Networking', href: '/networking' },
+      { label: 'Observability', href: '/observability' },
+      { label: 'Security', href: '/security' },
+    ],
+  },
+  {
+    name: 'More',
+    items: [
+      { label: 'Resources', href: '/resources' },
+    ],
+  },
 ];
 
 function isActive(href: string): boolean {
@@ -30,27 +67,34 @@ function isActive(href: string): boolean {
 ---
 
 <nav class="bg-brand-dark text-white sticky top-0 z-50">
-  <div class="max-w-7xl mx-auto px-4">
+  <div class="max-w-[95vw] mx-auto px-4">
     <div class="flex items-center justify-between h-14">
       <!-- Logo -->
-      <a href="/coding-algorithms/" class="font-bold text-lg hover:text-gray-300 transition-colors">
+      <a href="/coding-algorithms/" class="font-bold text-lg hover:text-gray-300 transition-colors shrink-0">
         Coding Algorithms
       </a>
 
       <!-- Desktop Nav -->
-      <div class="hidden lg:flex items-center gap-1">
-        {navItems.map((item) => (
-          <a
-            href={`/coding-algorithms${item.href === '/' ? '/' : item.href + '/'}`}
-            class:list={[
-              'px-3 py-2 rounded-md text-sm font-medium transition-colors',
-              isActive(item.href)
-                ? 'bg-gray-700 text-white'
-                : 'text-gray-300 hover:bg-gray-700 hover:text-white'
-            ]}
-          >
-            {item.label}
-          </a>
+      <div class="hidden xl:flex items-center gap-0.5 flex-wrap">
+        {navGroups.map((group, gi) => (
+          <>
+            {gi > 0 && (
+              <span class="text-gray-600 mx-1 select-none" aria-hidden="true">·</span>
+            )}
+            {group.items.map((item) => (
+              <a
+                href={`/coding-algorithms${item.href === '/' ? '/' : item.href + '/'}`}
+                class:list={[
+                  'px-2.5 py-1.5 rounded-md text-sm font-medium transition-colors',
+                  isActive(item.href)
+                    ? 'bg-gray-700 text-white'
+                    : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                ]}
+              >
+                {item.label}
+              </a>
+            ))}
+          </>
         ))}
         <div class="ml-2">
           <GlobalSearch />
@@ -61,7 +105,7 @@ function isActive(href: string): boolean {
       </div>
 
       <!-- Mobile Menu Button -->
-      <div class="lg:hidden flex items-center gap-2">
+      <div class="xl:hidden flex items-center gap-2">
         <ThemeToggle />
         <button
           id="mobile-menu-btn"
@@ -81,20 +125,29 @@ function isActive(href: string): boolean {
   </div>
 
   <!-- Mobile Menu -->
-  <div id="mobile-menu" class="hidden lg:hidden bg-brand-dark border-t border-gray-700">
-    <div class="px-2 pt-2 pb-3 space-y-1">
-      {navItems.map((item) => (
-        <a
-          href={`/coding-algorithms${item.href === '/' ? '/' : item.href + '/'}`}
-          class:list={[
-            'block px-3 py-2 rounded-md text-base font-medium',
-            isActive(item.href)
-              ? 'bg-gray-700 text-white'
-              : 'text-gray-300 hover:bg-gray-700 hover:text-white'
-          ]}
-        >
-          {item.label}
-        </a>
+  <div id="mobile-menu" class="hidden xl:hidden bg-brand-dark border-t border-gray-700">
+    <div class="px-2 pt-2 pb-3 space-y-4">
+      {navGroups.map((group) => (
+        <div>
+          <p class="px-3 py-1 text-xs uppercase tracking-wider text-gray-500 font-semibold">
+            {group.name}
+          </p>
+          <div class="space-y-1">
+            {group.items.map((item) => (
+              <a
+                href={`/coding-algorithms${item.href === '/' ? '/' : item.href + '/'}`}
+                class:list={[
+                  'block px-3 py-2 rounded-md text-base font-medium',
+                  isActive(item.href)
+                    ? 'bg-gray-700 text-white'
+                    : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                ]}
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
+        </div>
       ))}
     </div>
   </div>

@@ -1,4 +1,16 @@
 // ============================================
+// Shared Retrofit Fields
+// ============================================
+
+// Optional senior-grade context that can be attached to any reference record.
+// All fields are optional so existing data remains valid; renderers gate on presence.
+export interface RetrofitFields {
+  seniorInsight?: string;
+  commonTraps?: string[];
+  followUps?: string[];
+}
+
+// ============================================
 // Complexity Types
 // ============================================
 
@@ -17,7 +29,7 @@ export interface ComplexityOperations {
 
 export type DataStructureGroup = 'List' | 'Tree' | 'Other';
 
-export interface DataStructure {
+export interface DataStructure extends RetrofitFields {
   name: string;
   shape: string;
   group: DataStructureGroup;
@@ -35,7 +47,7 @@ export interface DataStructure {
 // Algorithm Types
 // ============================================
 
-export interface SortingAlgorithm {
+export interface SortingAlgorithm extends RetrofitFields {
   name: string;
   description: string;
   time: {
@@ -50,7 +62,7 @@ export interface SortingAlgorithm {
 
 export type SearchCategory = 'array' | 'graph';
 
-export interface SearchAlgorithm {
+export interface SearchAlgorithm extends RetrofitFields {
   name: string;
   description: string;
   average: string;
@@ -85,7 +97,7 @@ export interface TimeComplexity {
 // Concept Types
 // ============================================
 
-export interface Concept {
+export interface Concept extends RetrofitFields {
   name: string;
   description: string;
 }
@@ -113,7 +125,7 @@ export interface PythonDunder {
   description: string;
 }
 
-export interface SqlStatement {
+export interface SqlStatement extends RetrofitFields {
   statement: string;
   description: string;
   example: string;
@@ -123,17 +135,17 @@ export interface SqlStatement {
 // API Types
 // ============================================
 
-export interface RestConstraint {
+export interface RestConstraint extends RetrofitFields {
   name: string;
   description: string;
 }
 
-export interface RestMethod {
+export interface RestMethod extends RetrofitFields {
   method: string;
   crud: string;
 }
 
-export interface GraphQLOperation {
+export interface GraphQLOperation extends RetrofitFields {
   operation: string;
   description: string;
 }
@@ -202,4 +214,95 @@ export interface Resource {
   name: string;
   url: string;
   description?: string;
+}
+
+// ============================================
+// Pattern Library Types (DSA)
+// ============================================
+
+export type PatternCategory =
+  | 'two-pointer'
+  | 'sliding-window'
+  | 'fast-slow'
+  | 'bfs'
+  | 'dfs'
+  | 'backtracking'
+  | 'binary-search'
+  | 'monotonic-stack'
+  | 'union-find'
+  | 'top-k-heap'
+  | 'dp'
+  | 'greedy'
+  | 'bit-manipulation'
+  | 'intervals'
+  | 'topological-sort';
+
+export type TemplateLang = 'python' | 'typescript' | 'go';
+
+export interface CodeTemplate {
+  id: string;
+  patternId: string;
+  languages: {
+    lang: TemplateLang;
+    code: string;
+  }[];
+}
+
+export interface PatternExample {
+  title: string;
+  leetcodeNum?: number;
+  note?: string;
+}
+
+export interface Pattern {
+  id: string;
+  name: string;
+  category: PatternCategory;
+  signals: string[];
+  whenToUse: string;
+  complexity: {
+    time: string;
+    space: string;
+  };
+  templateId: string;
+  pitfalls: string[];
+  examples: PatternExample[];
+  usesDataStructures?: string[];
+}
+
+// ============================================
+// Trade-off Table Type
+// ============================================
+
+export interface TradeoffCriterion {
+  criterion: string;
+  optionA: string;
+  optionB: string;
+}
+
+export interface Tradeoff {
+  topic: string;
+  labelA: string;
+  labelB: string;
+  criteria: TradeoffCriterion[];
+  rule: string;
+}
+
+// ============================================
+// System-Design-Lite Scenario Type
+// ============================================
+
+export interface Scenario {
+  id: string;
+  title: string;
+  problem: string;
+  clarifyingQuestions: string[];
+  approach: string;
+  complexity: {
+    time: string;
+    space: string;
+  };
+  snippet?: string;
+  snippetLang?: TemplateLang;
+  followUps: string[];
 }

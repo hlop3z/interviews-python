@@ -6,18 +6,48 @@ export const sortingAlgorithms: SortingAlgorithm[] = [
     description: 'Uses a binary heap to extract the maximum (or minimum) element and place it in the sorted array.',
     time: { best: 'Ω(n log(n))', average: 'Θ(n log(n))', worst: 'O(n log(n))' },
     space: { worst: 'O(1)' },
+    seniorInsight:
+      'The only O(n log n) comparison sort that is strictly in-place (O(1) aux). Not stable. Loses to merge-sort and quicksort in wall-clock time because of poor cache behavior — the sift-down jumps around the array.',
+    commonTraps: [
+      'Assuming it is stable — it is not',
+      'Using it when the array fits in cache and quicksort would be ~2× faster',
+    ],
+    followUps: [
+      'Why is heap-sort slower than quicksort in practice despite the same asymptotic bound?',
+    ],
   },
   {
     name: 'Merge',
     description: 'Divides the array, recursively sorts halves, and merges them.',
     time: { best: 'Ω(n log(n))', average: 'Θ(n log(n))', worst: 'O(n log(n))' },
     space: { worst: 'O(n)' },
+    seniorInsight:
+      'Stable and O(n log n) worst-case — the canonical choice when stability matters or you need guaranteed performance. The O(n) extra space rules it out for memory-constrained environments. External sort (sorting data that does not fit in RAM) is always merge-based.',
+    commonTraps: [
+      'Allocating a new temp array on every recursive call — allocate once at the top',
+      'Forgetting that the merge itself is O(n) — the "log n" comes from the recursion depth, not the merge',
+    ],
+    followUps: [
+      'How would you sort a 100 GB file on a machine with 16 GB of RAM?',
+      'What makes merge-sort stable, and what would break that?',
+    ],
   },
   {
     name: 'Quick',
     description: 'Chooses a pivot, partitions the array, and recursively sorts partitions.',
     time: { best: 'Ω(n log(n))', average: 'Θ(n log(n))', worst: 'O(n²)' },
     space: { worst: 'O(log(n))' },
+    seniorInsight:
+      'Fastest comparison sort in practice on random data — cache-friendly, in-place (ignoring the O(log n) stack). The worst-case O(n²) is what pivot-choice strategies (median-of-three, randomized) defend against. Not stable.',
+    commonTraps: [
+      'Using the first / last element as pivot on already-sorted input — degrades to O(n²)',
+      'Recursing on the larger partition first — blows the stack; always recurse on the smaller',
+      'Claiming stability — quicksort is not stable unless you go out of your way',
+    ],
+    followUps: [
+      'How does Introsort combine quicksort with heapsort to guarantee O(n log n)?',
+      'Implement quickselect — how does it differ from quicksort in complexity?',
+    ],
   },
   {
     name: 'Tree',
@@ -48,6 +78,15 @@ export const sortingAlgorithms: SortingAlgorithm[] = [
     description: 'A hybrid sorting algorithm derived from merge sort and insertion sort, designed to perform well on real-world data and exploit existing order in the input sequence.',
     time: { best: 'Ω(n)', average: 'Θ(n log(n))', worst: 'O(n log(n))' },
     space: { worst: 'O(n)' },
+    seniorInsight:
+      'The default sort in Python, Java (objects), and V8. Exploits "runs" — already-sorted subsequences — giving O(n) on nearly-sorted input. Stable, which is why Java uses it for objects but Dual-Pivot Quicksort for primitives.',
+    commonTraps: [
+      'Writing a custom comparator that is not a total order — Timsort (and every comparison sort) will misbehave',
+    ],
+    followUps: [
+      'Why does Java use Timsort for Object[] but Dual-Pivot Quicksort for int[]?',
+      'What is a "run" in Timsort and how does it accelerate nearly-sorted input?',
+    ],
   },
   {
     name: 'Bubble',

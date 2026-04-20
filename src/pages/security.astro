@@ -1,0 +1,174 @@
+---
+import { Code } from 'astro-expressive-code/components';
+import DocsLayout from '@/layouts/DocsLayout.astro';
+import NoteBox from '@/components/ui/NoteBox.astro';
+import SeniorInsight from '@/components/ui/SeniorInsight.astro';
+import {
+  vulnerabilityClasses,
+  passwordStorage,
+  jwtTradeoffs,
+  secretsPatterns,
+  canonicalFixes,
+} from '@/data/security-notes';
+---
+
+<DocsLayout title="Security">
+  <h1 class="text-3xl font-bold mb-2">Security</h1>
+  <p class="text-gray-600 dark:text-gray-400 mb-6">
+    Anchored on vulnerability classes, not a numbered list from any particular
+    year. Classes are stable; the list ordering shifts every few cycles.
+  </p>
+
+  <!-- Vulnerability classes -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">Canonical web vulnerability classes</h2>
+    <div class="space-y-3">
+      {vulnerabilityClasses.map((v) => (
+        <article class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+          <h3 class="font-semibold mb-2">{v.name}</h3>
+          <p class="text-sm text-gray-700 dark:text-gray-300 mb-2">
+            <span class="font-semibold text-amber-700 dark:text-amber-300">How it works:</span>{' '}
+            {v.how}
+          </p>
+          <p class="text-sm text-gray-700 dark:text-gray-300">
+            <span class="font-semibold text-emerald-700 dark:text-emerald-300">Fix pattern:</span>{' '}
+            {v.fix}
+          </p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- Authn vs Authz -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">Authentication vs Authorization</h2>
+    <div class="grid md:grid-cols-2 gap-4">
+      <article class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+        <h3 class="text-lg font-semibold">Authentication (authn)</h3>
+        <p class="text-sm text-gray-700 dark:text-gray-300 mt-2">
+          "Who are you?" Proves identity — password, token, cert, MFA.
+          Successful authn produces a verified identity (user id + maybe a set of claims).
+        </p>
+      </article>
+      <article class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+        <h3 class="text-lg font-semibold">Authorization (authz)</h3>
+        <p class="text-sm text-gray-700 dark:text-gray-300 mt-2">
+          "What are you allowed to do?" Decides whether this identity can perform
+          this action on this resource. Runs on every protected request, not
+          just at login.
+        </p>
+      </article>
+    </div>
+    <SeniorInsight label="Common mistake">
+      Treating authn = authz. The user logged in; that does not mean they can
+      read tenant 42's data. Horizontal access-control bugs almost always start
+      here.
+    </SeniorInsight>
+  </section>
+
+  <!-- Password storage -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">Password storage</h2>
+    <div class="overflow-x-auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Kind</th>
+            <th>Verdict</th>
+            <th>Reason</th>
+          </tr>
+        </thead>
+        <tbody>
+          {passwordStorage.map((p) => (
+            <tr>
+              <td class="font-medium">{p.kind}</td>
+              <td class="text-sm font-semibold">{p.verdict}</td>
+              <td class="text-sm text-gray-700 dark:text-gray-300">{p.reason}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <NoteBox title="Why 'just hash it with SHA-256' is wrong" variant="warning">
+      <p class="text-sm">
+        SHA-256 was designed to be <em>fast</em> — billions of hashes per second
+        on a GPU. A password KDF must be slow and memory-hard so an attacker
+        cannot brute-force the distribution of plausible passwords faster than
+        real users can log in. Slow is the feature.
+      </p>
+    </NoteBox>
+  </section>
+
+  <!-- JWTs -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">JWT trade-offs</h2>
+    <div class="grid md:grid-cols-2 gap-4 mb-4">
+      <article class="border-l-4 border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 p-4 rounded-r-md">
+        <h3 class="font-semibold mb-2">Good for</h3>
+        <ul class="list-disc list-outside ml-5 text-sm space-y-1">
+          {jwtTradeoffs.goodFor.map((x) => <li>{x}</li>)}
+        </ul>
+      </article>
+      <article class="border-l-4 border-amber-500 bg-amber-50 dark:bg-amber-900/20 p-4 rounded-r-md">
+        <h3 class="font-semibold mb-2">Bad for</h3>
+        <ul class="list-disc list-outside ml-5 text-sm space-y-1">
+          {jwtTradeoffs.badFor.map((x) => <li>{x}</li>)}
+        </ul>
+      </article>
+    </div>
+    <h3 class="font-semibold mb-2">Mitigations</h3>
+    <ul class="list-disc list-outside ml-5 text-sm space-y-1">
+      {jwtTradeoffs.mitigations.map((m) => <li>{m}</li>)}
+    </ul>
+  </section>
+
+  <!-- Secrets patterns -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">Secrets management patterns</h2>
+    <div class="overflow-x-auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Pattern</th>
+            <th>Good for</th>
+            <th>Weakness</th>
+          </tr>
+        </thead>
+        <tbody>
+          {secretsPatterns.map((s) => (
+            <tr>
+              <td class="font-medium">{s.pattern}</td>
+              <td class="text-sm">{s.goodFor}</td>
+              <td class="text-sm text-gray-600 dark:text-gray-400">{s.weakness}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Canonical fixes (SQL injection, XSS, CSRF) -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">Canonical fixes — side by side</h2>
+    <div class="space-y-6">
+      {canonicalFixes.map((f) => (
+        <article class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+          <h3 class="font-semibold mb-3">{f.name}</h3>
+          <div class="grid md:grid-cols-2 gap-3 mb-3">
+            <div>
+              <p class="text-xs uppercase tracking-wide text-amber-700 dark:text-amber-300 mb-1">Don't</p>
+              <Code code={f.badCode} lang="text" />
+            </div>
+            <div>
+              <p class="text-xs uppercase tracking-wide text-emerald-700 dark:text-emerald-300 mb-1">Do</p>
+              <Code code={f.goodCode} lang="text" />
+            </div>
+          </div>
+          <p class="text-sm text-gray-700 dark:text-gray-300">
+            <span class="font-semibold">Why:</span> {f.why}
+          </p>
+        </article>
+      ))}
+    </div>
+  </section>
+</DocsLayout>

@@ -22,6 +22,16 @@ export const dataStructures: DataStructure[] = [
       },
     },
     space: { worst: "O(n)" },
+    seniorInsight:
+      "Contiguous memory is the secret. Access is O(1) because the CPU computes `base + i · stride` and prefetches the next cache line — linked lists lose on every traversal for the same Big-O because they thrash the cache. In realtime systems, pre-size the array or use a ring buffer to avoid the O(n) doubling spike that tail-latency charts will show.",
+    commonTraps: [
+      "Mid-array insert / delete is O(n), even though access is O(1)",
+      "Treating amortized O(1) append as if every single append is O(1) — one in log₂n calls is O(n)",
+    ],
+    followUps: [
+      "When would a linked list actually beat a dynamic array in practice?",
+      "How does cache-line size (typically 64 bytes) affect the constant factor?",
+    ],
   },
   {
     name: "Stack",
@@ -43,6 +53,16 @@ export const dataStructures: DataStructure[] = [
       },
     },
     space: { worst: "O(n)" },
+    seniorInsight:
+      "Recursive algorithms quietly use the program call stack as this data structure — so any recursive DFS is one stack-overflow away from the same bug that explicit iterative DFS avoids. Reach for an explicit stack when depth might exceed ~10k frames.",
+    commonTraps: [
+      "Not handling the empty-stack case on pop / peek (language-dependent: None vs exception)",
+      "Using a stack where a monotonic stack would solve the problem in O(n) amortized",
+    ],
+    followUps: [
+      "How would you evaluate an expression in reverse Polish notation?",
+      "When would you prefer a deque over a stack for LIFO work?",
+    ],
   },
   {
     name: "Queue",
@@ -64,6 +84,16 @@ export const dataStructures: DataStructure[] = [
       },
     },
     space: { worst: "O(n)" },
+    seniorInsight:
+      "An unbounded queue is a latent memory leak — producers faster than consumers will consume all RAM. Production queues always have a bound, plus a policy for what to do when full (backpressure, drop-oldest, drop-newest, block).",
+    commonTraps: [
+      "Using a plain list as a queue in Python (`pop(0)` is O(n)) — use `collections.deque`",
+      "Treating an in-process queue as a message broker without durability guarantees",
+    ],
+    followUps: [
+      "Implement a circular queue in a fixed-size array",
+      "What does a bounded queue give you that an unbounded one does not?",
+    ],
   },
   {
     name: "Deque",
@@ -130,6 +160,16 @@ export const dataStructures: DataStructure[] = [
       },
     },
     space: { worst: "O(n)" },
+    seniorInsight:
+      "The O(1) insert is only at the head (or at a known node) — arbitrary-position insert still requires an O(n) traversal to find the predecessor. The cache-unfriendly layout makes linked lists slower than arrays in practice for almost all workloads. Real wins: constant-time splicing of known nodes (LRU cache), persistent data structures, intrusive lists in kernels.",
+    commonTraps: [
+      "Losing the head reference while reversing — always save `next` before updating a pointer",
+      "Leaking the predecessor's `next` pointer when deleting a node in the middle",
+    ],
+    followUps: [
+      "Reverse a linked list iteratively and recursively — complexity of each?",
+      "Why does LRU cache use a doubly-linked list specifically?",
+    ],
   },
   {
     name: "Double-Linked-List",
@@ -195,6 +235,16 @@ export const dataStructures: DataStructure[] = [
       },
     },
     space: { worst: "O(n)" },
+    seniorInsight:
+      "A plain BST degrades to a linked list under sorted insertion — worst case O(n) per op. Production code always uses a self-balancing variant (Red-Black, AVL, B-tree). Java's `TreeMap` uses Red-Black because it tolerates more imbalance per rotation than AVL, giving faster writes; AVL wins on read-heavy workloads.",
+    commonTraps: [
+      "Using a plain BST for unsorted input without noticing the adversarial case",
+      "Deleting a node with two children without the predecessor / successor swap",
+    ],
+    followUps: [
+      "Why Red-Black over AVL in most stdlibs?",
+      "How do B-trees trade node fan-out for fewer disk seeks?",
+    ],
   },
   {
     name: "Cartesian-Tree",
@@ -348,6 +398,16 @@ export const dataStructures: DataStructure[] = [
       },
     },
     space: { worst: "O(n)" },
+    seniorInsight:
+      "Binary heaps are stored as arrays: index i has children 2i+1 and 2i+2. That's why the constant factor is tiny and the structure fits in cache. For Top-K problems, a size-K heap beats a full sort at O(n log k) — mentioning this out loud signals seniority.",
+    commonTraps: [
+      "Forgetting Python's `heapq` is a min-heap only — invert signs for max-heap behavior",
+      "Using a heap to find the median of a stream with just one heap (two heaps are required)",
+    ],
+    followUps: [
+      "Implement a priority queue with custom keys",
+      "Streaming median: why two heaps and how do you keep them balanced?",
+    ],
   },
   {
     name: "Max-Heap",
@@ -412,6 +472,18 @@ export const dataStructures: DataStructure[] = [
       },
     },
     space: { worst: "O(n)" },
+    seniorInsight:
+      "Amortized O(1), but the worst case is O(n) under collisions or adversarial input — hash-flooding DoS attacks exploit this, which is why runtimes use randomized hash seeds. Resize is O(n) and stops the world: in latency-sensitive code, pre-size with an expected capacity.",
+    commonTraps: [
+      "Using as an unbounded cache — memory grows without bound (see LRU / LFU)",
+      "Mutating a key after insertion — the entry becomes unreachable",
+      "Iteration order is not insertion order in older languages (Python 3.7+ preserves it; Go randomizes it intentionally)",
+    ],
+    followUps: [
+      "Implement an LRU cache on top of a hash map + doubly-linked list",
+      "Open addressing vs separate chaining — which is faster and when?",
+      "What is hash flooding and how does SipHash mitigate it?",
+    ],
   },
   {
     name: "Graph",
@@ -433,6 +505,16 @@ export const dataStructures: DataStructure[] = [
       },
     },
     space: { worst: "O(V + E)" },
+    seniorInsight:
+      "Representation choice dominates complexity. Adjacency list is O(V + E) space — right for sparse graphs. Adjacency matrix is O(V²) space with O(1) edge-existence checks — right for dense graphs or when you're doing many edge queries.",
+    commonTraps: [
+      "Using BFS on a weighted graph for shortest path — it's wrong; use Dijkstra",
+      "Forgetting that undirected edges must be added in both directions in an adjacency list",
+    ],
+    followUps: [
+      "When does Bellman-Ford beat Dijkstra?",
+      "Detect a cycle in a directed vs undirected graph — different approaches, why?",
+    ],
   },
 ];
 

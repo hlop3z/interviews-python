@@ -18,3 +18,14 @@ export { pythonModules, allPythonMethods, pythonModuleGroups } from './python-mo
 export { dockerCategories, dockerTips } from './docker-notes';
 export { gitCategories, gitTips } from './git-notes';
 export { resources } from './resources';
+export { patterns, patternMap, patternSections, patternCategoryLabels } from './patterns';
+export { codeTemplates, codeTemplateMap } from './code-templates';
+export {
+  playbookSteps,
+  signalRows,
+  edgeCaseChecklist,
+  complexityRecipes,
+  stuckPhrases,
+  starTemplate,
+  questionsForInterviewer,
+} from './interview-playbook';

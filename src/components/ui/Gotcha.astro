@@ -1,0 +1,25 @@
+---
+interface Props {
+  label?: string;
+  items?: string[];
+}
+
+const { label = 'Common traps', items } = Astro.props;
+---
+
+<div class="border-l-4 border-amber-500 bg-amber-50 dark:bg-amber-900/20 rounded-r-md p-4 my-3">
+  <p class="font-semibold text-amber-700 dark:text-amber-300 mb-2 uppercase tracking-wide text-xs">
+    {label}
+  </p>
+  {items && items.length > 0 ? (
+    <ul class="list-disc list-outside ml-5 space-y-1 text-gray-700 dark:text-gray-300">
+      {items.map((item) => (
+        <li>{item}</li>
+      ))}
+    </ul>
+  ) : (
+    <div class="text-gray-700 dark:text-gray-300">
+      <slot />
+    </div>
+  )}
+</div>

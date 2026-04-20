@@ -2,7 +2,16 @@
 import DocsLayout from '@/layouts/DocsLayout.astro';
 import SimpleTable from '@/components/tables/SimpleTable.astro';
 import NoteBox from '@/components/ui/NoteBox.astro';
+import SeniorInsight from '@/components/ui/SeniorInsight.astro';
+import TradeoffTable from '@/components/ui/TradeoffTable.astro';
 import { restMethods, restConstraints, graphqlConcepts } from '@/data/api-notes';
+import {
+  idempotencyTable,
+  idempotencyKeyPattern,
+  oauthGrants,
+  rateLimitPlacement,
+  restVsRpcVsGraphqlTradeoff,
+} from '@/data/api-depth';
 
 const methodColumns = [
   { key: 'name', label: 'Method', class: 'font-mono font-medium' },
@@ -36,5 +45,125 @@ const conceptColumns = [
   <section class="mb-12">
     <h2 class="text-2xl font-semibold mb-4">GraphQL</h2>
     <SimpleTable data={graphqlConcepts} columns={conceptColumns} />
+  </section>
+
+  <!-- REST vs GraphQL tradeoff -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">REST vs GraphQL</h2>
+    <TradeoffTable tradeoff={restVsRpcVsGraphqlTradeoff} />
+  </section>
+
+  <!-- HTTP method semantics -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">Safety & idempotency by method</h2>
+    <p class="text-gray-600 dark:text-gray-400 mb-4">
+      <strong>Safe</strong> = no server-side state change. <strong>Idempotent</strong>
+      = same request sent twice has the same effect as once. These two properties
+      drive caching, retry logic, and CDN behavior — get them wrong and clients
+      silently double-charge, duplicate orders, or leak updates.
+    </p>
+    <div class="overflow-x-auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th class="text-center">Safe?</th>
+            <th class="text-center">Idempotent?</th>
+            <th>Note</th>
+          </tr>
+        </thead>
+        <tbody>
+          {idempotencyTable.map((r) => (
+            <tr>
+              <td class="font-mono font-medium">{r.method}</td>
+              <td class="text-center text-sm">{r.safe}</td>
+              <td class="text-center text-sm">{r.idempotent}</td>
+              <td class="text-sm text-gray-600 dark:text-gray-400">{r.note}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="text-lg font-semibold mt-6 mb-2">Idempotency keys for POST</h3>
+    <p class="text-gray-700 dark:text-gray-300 mb-3">{idempotencyKeyPattern.shape}</p>
+    <p class="font-semibold mb-2">Invariants</p>
+    <ul class="list-disc list-outside ml-5 space-y-1 text-sm">
+      {idempotencyKeyPattern.invariants.map((inv) => <li>{inv}</li>)}
+    </ul>
+    <SeniorInsight label="Why this matters">
+      Every payment, booking, and "send" button on the internet has this
+      requirement. Talking through the TTL choice, the payload-hash check, and
+      the cached status-code is what separates the senior answer from the
+      textbook one.
+    </SeniorInsight>
+  </section>
+
+  <!-- OAuth2 grants -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">OAuth 2.0 grant types</h2>
+    <p class="text-gray-600 dark:text-gray-400 mb-4">
+      Pick the grant that fits the client. OAuth 2.1 consolidates on PKCE-backed
+      flows and retires the legacy ones.
+    </p>
+    <div class="overflow-x-auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Grant</th>
+            <th>Use case</th>
+            <th>Flow</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {oauthGrants.map((g) => (
+            <tr>
+              <td class="font-medium">{g.name}</td>
+              <td class="text-sm">{g.useCase}</td>
+              <td class="text-sm text-gray-600 dark:text-gray-400">{g.flow}</td>
+              <td class="text-sm font-medium">{g.status}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Rate-limiting placement -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-3">Rate limiting: where to put it</h2>
+    <p class="text-gray-600 dark:text-gray-400 mb-4">
+      The algorithm (token bucket, sliding window, etc.) is a separate decision —
+      placement is where interviews probe design sense. In practice you layer:
+      coarse at the edge, finer as you move inward.
+    </p>
+    <div class="overflow-x-auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Where</th>
+            <th>Good at</th>
+            <th>Weakness</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rateLimitPlacement.map((p) => (
+            <tr>
+              <td class="font-medium">{p.where}</td>
+              <td class="text-sm">{p.good}</td>
+              <td class="text-sm text-gray-600 dark:text-gray-400">{p.bad}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <NoteBox title="See the Patterns page" variant="tip">
+      <p>
+        The rate-limit <em>algorithm</em> trade-offs (token bucket vs leaky
+        bucket vs sliding window) will live on the System Design page —
+        algorithms are a separate concern from placement.
+      </p>
+    </NoteBox>
   </section>
 </DocsLayout>

@@ -1,0 +1,101 @@
+---
+import { Code } from 'astro-expressive-code/components';
+import type { Pattern, CodeTemplate } from '@/data/types';
+import Gotcha from '@/components/ui/Gotcha.astro';
+
+interface Props {
+  pattern: Pattern;
+  template: CodeTemplate | undefined;
+}
+
+const { pattern, template } = Astro.props;
+
+const pythonSnippet = template?.languages.find((l) => l.lang === 'python');
+const tsSnippet = template?.languages.find((l) => l.lang === 'typescript');
+---
+
+<article
+  id={pattern.id}
+  class="border border-gray-200 dark:border-gray-700 rounded-lg p-5 mb-6 scroll-mt-20"
+>
+  <header class="mb-3">
+    <h3 class="text-xl font-bold">{pattern.name}</h3>
+    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+      <span class="font-mono">Time</span> {pattern.complexity.time}
+      &nbsp;·&nbsp;
+      <span class="font-mono">Space</span> {pattern.complexity.space}
+    </p>
+  </header>
+
+  <!-- Signals -->
+  <div class="mb-4">
+    <p class="font-semibold text-sm text-indigo-700 dark:text-indigo-300 uppercase tracking-wide mb-1">
+      Signals in the problem
+    </p>
+    <ul class="list-disc list-outside ml-5 text-sm space-y-1">
+      {pattern.signals.map((s) => <li>{s}</li>)}
+    </ul>
+  </div>
+
+  <!-- When to use -->
+  <div class="mb-4">
+    <p class="font-semibold text-sm text-indigo-700 dark:text-indigo-300 uppercase tracking-wide mb-1">
+      When to use
+    </p>
+    <p class="text-sm text-gray-700 dark:text-gray-300">{pattern.whenToUse}</p>
+  </div>
+
+  <!-- Code templates -->
+  {template && (
+    <div class="mb-4 space-y-3">
+      <p class="font-semibold text-sm text-indigo-700 dark:text-indigo-300 uppercase tracking-wide">
+        Template
+      </p>
+      {pythonSnippet && (
+        <div>
+          <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-1">
+            Python
+          </p>
+          <Code code={pythonSnippet.code} lang="python" />
+        </div>
+      )}
+      {tsSnippet && (
+        <div>
+          <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-1">
+            TypeScript
+          </p>
+          <Code code={tsSnippet.code} lang="typescript" />
+        </div>
+      )}
+    </div>
+  )}
+
+  <!-- Pitfalls -->
+  {pattern.pitfalls.length > 0 && (
+    <Gotcha label="Pitfalls" items={pattern.pitfalls} />
+  )}
+
+  <!-- Examples -->
+  <div class="mt-4">
+    <p class="font-semibold text-sm text-indigo-700 dark:text-indigo-300 uppercase tracking-wide mb-1">
+      Canonical problems
+    </p>
+    <ul class="list-disc list-outside ml-5 text-sm space-y-1">
+      {pattern.examples.map((ex) => (
+        <li>
+          {ex.title}
+          {ex.leetcodeNum !== undefined && (
+            <span class="text-gray-500 dark:text-gray-400 font-mono text-xs">
+              &nbsp;(LC {ex.leetcodeNum})
+            </span>
+          )}
+          {ex.note && (
+            <span class="text-gray-500 dark:text-gray-400 italic text-xs">
+              &nbsp;— {ex.note}
+            </span>
+          )}
+        </li>
+      ))}
+    </ul>
+  </div>
+</article>

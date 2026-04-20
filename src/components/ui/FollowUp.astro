@@ -1,0 +1,28 @@
+---
+interface Props {
+  label?: string;
+  items?: string[];
+}
+
+const { label = 'Follow-up questions', items } = Astro.props;
+---
+
+<div class="border-l-4 border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 rounded-r-md p-4 my-3">
+  <p class="font-semibold text-emerald-700 dark:text-emerald-300 mb-2 uppercase tracking-wide text-xs">
+    {label}
+  </p>
+  {items && items.length > 0 ? (
+    <ul class="space-y-1 text-gray-700 dark:text-gray-300">
+      {items.map((item) => (
+        <li class="flex gap-2">
+          <span class="text-emerald-600 dark:text-emerald-400 font-bold shrink-0">?</span>
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <div class="text-gray-700 dark:text-gray-300">
+      <slot />
+    </div>
+  )}
+</div>
