@@ -20,26 +20,33 @@ const sections = [
   {
     title: 'Backend',
     links: [
-      { href: '/apis/', label: 'REST, GraphQL, idempotency, OAuth2, rate-limit placement' },
-      { href: '/sql/', label: 'Indexing, transactions, N+1, EXPLAIN, pagination' },
-      { href: '/system-design/', label: `System-design-lite (${scenarios.length} scenarios)` },
-      { href: '/python/', label: 'Python notes' },
       { href: '/principles/', label: 'SOLID, design patterns, principles' },
+      { href: '/python/', label: 'Python — data model, asyncio, typing' },
+      { href: '/sql/', label: 'Indexing, transactions, N+1, EXPLAIN, pagination' },
+      { href: '/apis/', label: 'REST, GraphQL, idempotency, OAuth2, retries' },
+      { href: '/concurrency/', label: 'GIL, asyncio, locks, deadlock, idempotency' },
+      { href: '/testing/', label: 'Pyramid, doubles, pytest, flakes' },
+      { href: '/behavioral/', label: 'STAR prompts, jr/mid/sr answer shapes' },
     ],
   },
   {
-    title: 'DevOps',
+    title: 'System Design',
     links: [
-      { href: '/docker/', label: 'Docker — images, containers, volumes, compose' },
-      { href: '/kubernetes/', label: 'Kubernetes — pods, deployments, probes, kubectl' },
-      { href: '/git/', label: 'Git + CI/CD essentials' },
-      { href: '/linux/', label: 'Linux — signals, FDs, permissions' },
-      { href: '/networking/', label: 'Networking — TCP/UDP, DNS, HTTP, CIDR' },
-      { href: '/observability/', label: 'Metrics / logs / traces, SLO' },
-      { href: '/security/', label: 'Vulnerability classes, password KDFs, JWT' },
+      { href: '/system-design/', label: `${scenarios.length} end-to-end scenarios` },
+      { href: '/caching/', label: 'Cache types, invalidation, stampede' },
+      { href: '/databases/', label: 'SQL vs NoSQL, isolation, replication, sharding' },
+      { href: '/queues/', label: 'Kafka/SQS, DLQ, backpressure, delivery semantics' },
+      { href: '/consistency/', label: 'CAP, PACELC, linearizability, quorum' },
+      { href: '/scaling/', label: 'Vertical/horizontal, stateless services, edges' },
     ],
   },
 ];
+
+// Platform (demoted DevOps) — one-liner pointer, not a primary bucket.
+const platformLink = {
+  href: '/platform/',
+  label: 'Platform — Docker, Git, Linux, and the rest of the DevOps hub',
+};
 
 const BASE = '/coding-algorithms';
 ---
@@ -75,6 +82,16 @@ const BASE = '/coding-algorithms';
         </ul>
       </article>
     ))}
+  </section>
+
+  <!-- Platform — demoted DevOps, one-liner pointer -->
+  <section class="mb-10">
+    <a
+      href={`${BASE}${platformLink.href}`}
+      class="block border border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-4 text-sm text-gray-600 dark:text-gray-400 hover:border-indigo-400 dark:hover:border-indigo-500 transition-colors"
+    >
+      {platformLink.label} →
+    </a>
   </section>
 
   <!-- Pattern signal recall — inlined because this is the single most useful page-day table -->

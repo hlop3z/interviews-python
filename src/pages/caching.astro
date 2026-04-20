@@ -1,0 +1,66 @@
+---
+import DocsLayout from '@/layouts/DocsLayout.astro';
+import SimpleTable from '@/components/tables/SimpleTable.astro';
+import SeniorInsight from '@/components/ui/SeniorInsight.astro';
+import NoteBox from '@/components/ui/NoteBox.astro';
+import { strategies, tiers, pitfalls, invalidationRule } from '@/data/caching';
+
+const strategyCols = [
+  { key: 'name', label: 'Strategy', class: 'font-semibold' },
+  { key: 'readFlow', label: 'Read flow' },
+  { key: 'writeFlow', label: 'Write flow' },
+  { key: 'whenToUse', label: 'When to use' },
+  { key: 'pitfall', label: 'Pitfall' },
+];
+
+const tierCols = [
+  { key: 'tier', label: 'Tier', class: 'font-semibold' },
+  { key: 'latency', label: 'Latency', class: 'font-mono text-sm' },
+  { key: 'capacity', label: 'Capacity' },
+  { key: 'example', label: 'Example' },
+  { key: 'note', label: 'Note' },
+];
+
+const pitfallCols = [
+  { key: 'name', label: 'Pitfall', class: 'font-semibold' },
+  { key: 'symptom', label: 'Symptom' },
+  { key: 'fix', label: 'Fix' },
+];
+---
+
+<DocsLayout title="Caching" wide>
+  <h1 class="text-3xl font-bold mb-2">Caching</h1>
+  <p class="text-gray-600 dark:text-gray-400 mb-6">
+    Where to cache, which strategy to pick, and the standard pitfalls that show
+    up the instant a cache goes to production.
+  </p>
+
+  <SeniorInsight label="How interviewers grade this">
+    Everyone says "add a cache." The signal interviewers want is: which tier,
+    which strategy, what happens on stampede, and what the invalidation story
+    is. Lead with the access pattern, not the product name.
+  </SeniorInsight>
+
+  <section class="my-8">
+    <h2 class="text-2xl font-semibold mb-3">Cache strategies</h2>
+    <SimpleTable data={strategies} columns={strategyCols} />
+  </section>
+
+  <section class="my-8">
+    <h2 class="text-2xl font-semibold mb-3">Where the cache lives (tiers)</h2>
+    <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
+      Latency + capacity shape the decision. A 50 ms CDN hit beats a 1 ms Redis
+      hit when the Redis hit is behind a 40 ms egress.
+    </p>
+    <SimpleTable data={tiers} columns={tierCols} />
+  </section>
+
+  <section class="my-8">
+    <h2 class="text-2xl font-semibold mb-3">Pitfalls</h2>
+    <SimpleTable data={pitfalls} columns={pitfallCols} />
+  </section>
+
+  <NoteBox title="The invalidation rule" variant="warning">
+    {invalidationRule}
+  </NoteBox>
+</DocsLayout>

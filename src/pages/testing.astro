@@ -1,0 +1,101 @@
+---
+import { Code } from 'astro-expressive-code/components';
+import DocsLayout from '@/layouts/DocsLayout.astro';
+import SimpleTable from '@/components/tables/SimpleTable.astro';
+import SeniorInsight from '@/components/ui/SeniorInsight.astro';
+import NoteBox from '@/components/ui/NoteBox.astro';
+import {
+  pyramidLevels,
+  testDoubles,
+  pytestIdioms,
+  flakeCauses,
+  seniorRules,
+  tddNotes,
+} from '@/data/testing-notes';
+
+const pyramidCols = [
+  { key: 'level', label: 'Level', class: 'font-semibold' },
+  { key: 'scope', label: 'Scope' },
+  { key: 'speed', label: 'Speed' },
+  { key: 'fragility', label: 'Fragility' },
+  { key: 'roleInInterviews', label: 'Role' },
+];
+
+const doubleCols = [
+  { key: 'name', label: 'Double', class: 'font-semibold' },
+  { key: 'what', label: 'What it is' },
+  { key: 'useFor', label: 'Use for' },
+  { key: 'avoid', label: 'Avoid' },
+];
+
+const flakeCols = [
+  { key: 'cause', label: 'Cause', class: 'font-semibold' },
+  { key: 'symptom', label: 'Symptom' },
+  { key: 'fix', label: 'Fix' },
+];
+---
+
+<DocsLayout title="Testing" wide>
+  <h1 class="text-3xl font-bold mb-2">Testing</h1>
+  <p class="text-gray-600 dark:text-gray-400 mb-6">
+    The test pyramid, the five test doubles everyone conflates, pytest idioms
+    to know by heart, and the real causes of flakes.
+  </p>
+
+  <SeniorInsight label="What interviewers grade">
+    Juniors say "I write unit tests." Seniors can distinguish unit / integration /
+    e2e, pick the right test double for the seam, and explain why a specific
+    test flakes. If you can diagnose a flake in two sentences, you signal real
+    production experience.
+  </SeniorInsight>
+
+  <section class="my-8">
+    <h2 class="text-2xl font-semibold mb-3">The test pyramid</h2>
+    <SimpleTable data={pyramidLevels} columns={pyramidCols} />
+  </section>
+
+  <section class="my-8">
+    <h2 class="text-2xl font-semibold mb-3">Test doubles</h2>
+    <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
+      Five distinct things that get called "mock" in casual conversation. Knowing
+      the difference is a senior tell.
+    </p>
+    <SimpleTable data={testDoubles} columns={doubleCols} />
+  </section>
+
+  <section class="my-8">
+    <h2 class="text-2xl font-semibold mb-3">pytest idioms</h2>
+    <div class="space-y-4">
+      {pytestIdioms.map((i) => (
+        <article class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+          <header class="mb-2 flex items-baseline gap-3">
+            <h3 class="text-lg font-semibold">{i.name}</h3>
+            <span class="text-sm text-gray-600 dark:text-gray-400">— {i.use}</span>
+          </header>
+          <Code code={i.snippet} lang="python" />
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="my-8">
+    <h2 class="text-2xl font-semibold mb-3">Flake causes</h2>
+    <SimpleTable data={flakeCauses} columns={flakeCols} />
+  </section>
+
+  <section class="my-8">
+    <h2 class="text-2xl font-semibold mb-3">Senior rules of thumb</h2>
+    <ul class="space-y-3">
+      {seniorRules.map((r) => (
+        <li class="border-l-4 border-indigo-500 pl-4 py-2">
+          <p class="font-semibold">{r.rule}</p>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">{r.why}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <NoteBox title="TDD — when to reach for it" variant="tip">
+    {tddNotes}
+  </NoteBox>
+</DocsLayout>

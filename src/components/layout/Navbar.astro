@@ -11,19 +11,24 @@ const { currentPath } = Astro.props;
 type NavItem = { label: string; href: string };
 type NavGroup = { name: string; items: NavItem[] };
 
-const navGroups: NavGroup[] = [
-  {
-    name: 'Meta',
-    items: [
-      { label: 'Cheat Sheet', href: '/cheat-sheet' },
-      { label: 'Playbook', href: '/interview-playbook' },
-    ],
-  },
+const basePath = '/coding-algorithms';
+const toHref = (href: string): string =>
+  href === '/' ? `${basePath}/` : `${basePath}${href}/`;
+
+// Interview-day hubs + the Big-O home page: always directly visible, no dropdown.
+const primaryLinks: NavItem[] = [
+  { label: 'Big-O', href: '/' },
+  { label: 'Cheat Sheet', href: '/cheat-sheet' },
+  { label: 'Playbook', href: '/interview-playbook' },
+];
+
+// Categorized links — dropdowns on desktop, collapsible sections on mobile.
+// Audience is Python backend candidates; DevOps is demoted to a trailing link.
+const groups: NavGroup[] = [
   {
     name: 'DSA',
     items: [
       { label: 'Patterns', href: '/patterns' },
-      { label: 'Big-O', href: '/' },
       { label: 'Data Structures', href: '/data-structures' },
       { label: 'Sorting', href: '/sorting' },
       { label: 'Searching', href: '/searching' },
@@ -32,91 +37,150 @@ const navGroups: NavGroup[] = [
   {
     name: 'Backend',
     items: [
-      { label: 'System Design', href: '/system-design' },
-      { label: 'APIs', href: '/apis' },
-      { label: 'SQL', href: '/sql' },
-      { label: 'Python', href: '/python' },
       { label: 'Principles', href: '/principles' },
+      { label: 'Python', href: '/python' },
+      { label: 'SQL', href: '/sql' },
+      { label: 'APIs', href: '/apis' },
+      { label: 'Concurrency', href: '/concurrency' },
+      { label: 'Testing', href: '/testing' },
+      { label: 'Behavioral', href: '/behavioral' },
     ],
   },
   {
-    name: 'DevOps',
+    name: 'System Design',
     items: [
-      { label: 'Docker', href: '/docker' },
-      { label: 'Kubernetes', href: '/kubernetes' },
-      { label: 'Git', href: '/git' },
-      { label: 'Linux', href: '/linux' },
-      { label: 'Networking', href: '/networking' },
-      { label: 'Observability', href: '/observability' },
-      { label: 'Security', href: '/security' },
+      { label: 'Overview', href: '/system-design' },
+      { label: 'Caching', href: '/caching' },
+      { label: 'Databases', href: '/databases' },
+      { label: 'Queues', href: '/queues' },
+      { label: 'Consistency', href: '/consistency' },
+      { label: 'Scaling', href: '/scaling' },
     ],
   },
-  {
-    name: 'More',
-    items: [
-      { label: 'Resources', href: '/resources' },
-    ],
-  },
+];
+
+// Reference pages + demoted DevOps hub — tail links, not worth their own dropdown.
+const trailingLinks: NavItem[] = [
+  { label: 'Platform', href: '/platform' },
+  { label: 'Titles', href: '/titles' },
+  { label: 'Resources', href: '/resources' },
 ];
 
 function isActive(href: string): boolean {
   const normalizedPath = currentPath.replace(/\/$/, '') || '/';
   if (href === '/') return normalizedPath === '/';
-  return normalizedPath.startsWith(href);
+  // Boundary-matched prefix so /data-structures doesn't light up for /data-structures-v2.
+  return normalizedPath === href || normalizedPath.startsWith(href + '/');
+}
+
+function groupIsActive(group: NavGroup): boolean {
+  return group.items.some((i) => isActive(i.href));
 }
 ---
 
-<nav class="bg-brand-dark text-white sticky top-0 z-50">
+<nav class="bg-brand-dark text-white sticky top-0 z-50 border-b border-white/5 backdrop-blur-sm">
   <div class="max-w-[95vw] mx-auto px-4">
-    <div class="flex items-center justify-between h-14">
+    <div class="flex items-center h-14 gap-2">
       <!-- Logo -->
-      <a href="/coding-algorithms/" class="font-bold text-lg hover:text-gray-300 transition-colors shrink-0">
+      <a
+        href={`${basePath}/`}
+        class="font-bold text-lg tracking-tight hover:text-gray-300 transition-colors shrink-0 mr-2"
+      >
         Coding Algorithms
       </a>
 
       <!-- Desktop Nav -->
-      <div class="hidden xl:flex items-center gap-0.5 flex-wrap">
-        {navGroups.map((group, gi) => (
-          <>
-            {gi > 0 && (
-              <span class="text-gray-600 mx-1 select-none" aria-hidden="true">·</span>
-            )}
-            {group.items.map((item) => (
-              <a
-                href={`/coding-algorithms${item.href === '/' ? '/' : item.href + '/'}`}
-                class:list={[
-                  'px-2.5 py-1.5 rounded-md text-sm font-medium transition-colors',
-                  isActive(item.href)
-                    ? 'bg-gray-700 text-white'
-                    : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                ]}
-              >
-                {item.label}
-              </a>
-            ))}
-          </>
+      <div class="hidden lg:flex items-center gap-0.5 flex-1 justify-end">
+        {primaryLinks.map((item) => (
+          <a
+            href={toHref(item.href)}
+            class:list={[
+              'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
+              isActive(item.href)
+                ? 'bg-white/10 text-white'
+                : 'text-gray-300 hover:bg-white/5 hover:text-white',
+            ]}
+          >
+            {item.label}
+          </a>
         ))}
-        <div class="ml-2">
-          <GlobalSearch />
-        </div>
-        <div class="ml-1">
-          <ThemeToggle />
-        </div>
+
+        <span class="w-px h-5 bg-white/10 mx-2" aria-hidden="true"></span>
+
+        {groups.map((group) => (
+          <div class="nav-dropdown relative">
+            <button
+              type="button"
+              class:list={[
+                'nav-dropdown-btn px-3 py-1.5 rounded-md text-sm font-medium transition-colors inline-flex items-center gap-1.5',
+                groupIsActive(group)
+                  ? 'bg-white/10 text-white'
+                  : 'text-gray-300 hover:bg-white/5 hover:text-white',
+              ]}
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <span>{group.name}</span>
+              <svg class="nav-chevron w-3 h-3 opacity-70 transition-transform duration-150" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div
+              class="nav-dropdown-panel absolute right-0 top-full mt-1 min-w-[13rem] bg-brand-dark border border-white/10 rounded-md shadow-xl shadow-black/40 py-1 hidden"
+              role="menu"
+            >
+              {group.items.map((item) => (
+                <a
+                  href={toHref(item.href)}
+                  role="menuitem"
+                  class:list={[
+                    'block px-3 py-2 text-sm transition-colors',
+                    isActive(item.href)
+                      ? 'bg-white/10 text-white border-l-2 border-white/40'
+                      : 'text-gray-300 hover:bg-white/5 hover:text-white border-l-2 border-transparent',
+                  ]}
+                >
+                  {item.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        ))}
+
+        {trailingLinks.map((item) => (
+          <a
+            href={toHref(item.href)}
+            class:list={[
+              'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
+              isActive(item.href)
+                ? 'bg-white/10 text-white'
+                : 'text-gray-300 hover:bg-white/5 hover:text-white',
+            ]}
+          >
+            {item.label}
+          </a>
+        ))}
+
+        <span class="w-px h-5 bg-white/10 mx-2" aria-hidden="true"></span>
+
+        <GlobalSearch />
+        <ThemeToggle />
       </div>
 
-      <!-- Mobile Menu Button -->
-      <div class="xl:hidden flex items-center gap-2">
+      <!-- Mobile controls -->
+      <div class="lg:hidden flex items-center gap-1 ml-auto">
         <ThemeToggle />
         <button
           id="mobile-menu-btn"
-          class="p-2 rounded-md hover:bg-gray-700"
+          class="p-2 rounded-md text-gray-300 hover:bg-white/10 hover:text-white transition-colors"
           aria-label="Toggle menu"
+          aria-controls="mobile-menu"
           aria-expanded="false"
         >
-          <svg id="menu-icon-open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg id="menu-icon-open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
-          <svg id="menu-icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg id="menu-icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
@@ -125,44 +189,147 @@ function isActive(href: string): boolean {
   </div>
 
   <!-- Mobile Menu -->
-  <div id="mobile-menu" class="hidden xl:hidden bg-brand-dark border-t border-gray-700">
-    <div class="px-2 pt-2 pb-3 space-y-4">
-      {navGroups.map((group) => (
-        <div>
-          <p class="px-3 py-1 text-xs uppercase tracking-wider text-gray-500 font-semibold">
-            {group.name}
-          </p>
-          <div class="space-y-1">
+  <div id="mobile-menu" class="hidden lg:hidden bg-brand-dark border-t border-white/10 max-h-[calc(100vh-3.5rem)] overflow-y-auto">
+    <div class="px-3 py-3 space-y-1">
+      <!-- Mobile search -->
+      <div class="pb-2 mb-2 border-b border-white/10">
+        <GlobalSearch />
+      </div>
+
+      <!-- Primary links -->
+      {primaryLinks.map((item) => (
+        <a
+          href={toHref(item.href)}
+          class:list={[
+            'block px-3 py-2 rounded-md text-sm font-medium transition-colors',
+            isActive(item.href)
+              ? 'bg-white/10 text-white'
+              : 'text-gray-300 hover:bg-white/5 hover:text-white',
+          ]}
+        >
+          {item.label}
+        </a>
+      ))}
+
+      <div class="h-px bg-white/10 my-2"></div>
+
+      <!-- Grouped links as collapsible sections -->
+      {groups.map((group) => (
+        <details class="mobile-group group" open={groupIsActive(group)}>
+          <summary class:list={[
+            'flex items-center justify-between px-3 py-2 rounded-md text-sm font-semibold cursor-pointer list-none transition-colors',
+            groupIsActive(group)
+              ? 'text-white'
+              : 'text-gray-300 hover:bg-white/5 hover:text-white',
+          ]}>
+            <span class="tracking-wider uppercase text-xs">{group.name}</span>
+            <svg class="w-4 h-4 opacity-60 transition-transform duration-150 group-open:rotate-180" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </summary>
+          <div class="mt-1 ml-2 pl-3 border-l border-white/10 space-y-0.5">
             {group.items.map((item) => (
               <a
-                href={`/coding-algorithms${item.href === '/' ? '/' : item.href + '/'}`}
+                href={toHref(item.href)}
                 class:list={[
-                  'block px-3 py-2 rounded-md text-base font-medium',
+                  'block px-3 py-1.5 rounded-md text-sm transition-colors',
                   isActive(item.href)
-                    ? 'bg-gray-700 text-white'
-                    : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                    ? 'bg-white/10 text-white'
+                    : 'text-gray-400 hover:bg-white/5 hover:text-white',
                 ]}
               >
                 {item.label}
               </a>
             ))}
           </div>
-        </div>
+        </details>
+      ))}
+
+      <div class="h-px bg-white/10 my-2"></div>
+
+      {trailingLinks.map((item) => (
+        <a
+          href={toHref(item.href)}
+          class:list={[
+            'block px-3 py-2 rounded-md text-sm font-medium transition-colors',
+            isActive(item.href)
+              ? 'bg-white/10 text-white'
+              : 'text-gray-300 hover:bg-white/5 hover:text-white',
+          ]}
+        >
+          {item.label}
+        </a>
       ))}
     </div>
   </div>
 </nav>
 
+<style>
+  /* Hide default <details> marker across browsers. */
+  .mobile-group > summary::-webkit-details-marker { display: none; }
+  .mobile-group > summary { list-style: none; }
+
+  /* Dropdown panel reveal animation. */
+  .nav-dropdown-panel:not(.hidden) {
+    animation: nav-fade-in 140ms ease-out;
+  }
+  @keyframes nav-fade-in {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Chevron rotation tracks aria-expanded so state stays accessible. */
+  .nav-dropdown-btn[aria-expanded="true"] .nav-chevron {
+    transform: rotate(180deg);
+  }
+</style>
+
 <script>
-  const btn = document.getElementById('mobile-menu-btn');
-  const menu = document.getElementById('mobile-menu');
+  // Desktop dropdown disclosure — click to toggle, click-outside / Esc to close.
+  const dropdowns = document.querySelectorAll<HTMLElement>('.nav-dropdown');
+
+  function closeAllExcept(keep: HTMLElement | null) {
+    dropdowns.forEach((d) => {
+      if (d === keep) return;
+      const panel = d.querySelector<HTMLElement>('.nav-dropdown-panel');
+      const btn = d.querySelector<HTMLButtonElement>('.nav-dropdown-btn');
+      panel?.classList.add('hidden');
+      btn?.setAttribute('aria-expanded', 'false');
+    });
+  }
+
+  dropdowns.forEach((d) => {
+    const btn = d.querySelector<HTMLButtonElement>('.nav-dropdown-btn');
+    const panel = d.querySelector<HTMLElement>('.nav-dropdown-panel');
+    if (!btn || !panel) return;
+
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const wasOpen = !panel.classList.contains('hidden');
+      closeAllExcept(wasOpen ? null : d);
+      panel.classList.toggle('hidden', wasOpen);
+      btn.setAttribute('aria-expanded', String(!wasOpen));
+    });
+
+    // Prevent inside-panel clicks from bubbling to the document handler.
+    panel.addEventListener('click', (e) => e.stopPropagation());
+  });
+
+  document.addEventListener('click', () => closeAllExcept(null));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeAllExcept(null);
+  });
+
+  // Mobile menu toggle.
+  const mobileBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
   const iconOpen = document.getElementById('menu-icon-open');
   const iconClose = document.getElementById('menu-icon-close');
 
-  btn?.addEventListener('click', () => {
-    const isHidden = menu?.classList.toggle('hidden');
+  mobileBtn?.addEventListener('click', () => {
+    const isHidden = mobileMenu?.classList.toggle('hidden');
     iconOpen?.classList.toggle('hidden', !isHidden);
     iconClose?.classList.toggle('hidden', isHidden);
-    btn.setAttribute('aria-expanded', String(!isHidden));
+    mobileBtn.setAttribute('aria-expanded', String(!isHidden));
   });
 </script>

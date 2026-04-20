@@ -1,0 +1,54 @@
+---
+import DocsLayout from '@/layouts/DocsLayout.astro';
+import SimpleTable from '@/components/tables/SimpleTable.astro';
+import SeniorInsight from '@/components/ui/SeniorInsight.astro';
+import NoteBox from '@/components/ui/NoteBox.astro';
+import { axes, patterns, orderOfOperations } from '@/data/scaling';
+
+const axesCols = [
+  { key: 'axis', label: 'Axis', class: 'font-semibold' },
+  { key: 'what', label: 'What it is' },
+  { key: 'firstMove', label: 'First move' },
+  { key: 'ceiling', label: 'Ceiling' },
+  { key: 'cost', label: 'Cost' },
+];
+
+const patternCols = [
+  { key: 'name', label: 'Pattern', class: 'font-semibold' },
+  { key: 'description', label: 'Description' },
+  { key: 'whenToUse', label: 'When to use' },
+  { key: 'gotcha', label: 'Gotcha' },
+];
+---
+
+<DocsLayout title="Scaling" wide>
+  <h1 class="text-3xl font-bold mb-2">Scaling</h1>
+  <p class="text-gray-600 dark:text-gray-400 mb-6">
+    The axes you can push on, in roughly the order you should push them. Most
+    teams reach for sharding or microservices long before the simpler moves are
+    exhausted.
+  </p>
+
+  <SeniorInsight label="The senior move">
+    When asked "how would you scale this?", resist naming an architecture.
+    Start with the bottleneck: where is time actually spent, what is the hot
+    path, what is the cheapest reversible move? Sharding is the <em>last</em>
+    move, not the first one.
+  </SeniorInsight>
+
+  <NoteBox title="Order of operations" variant="tip">
+    <ol class="list-decimal list-outside ml-5 space-y-1">
+      {orderOfOperations.map((s) => <li>{s.replace(/^\d+\.\s*/, '')}</li>)}
+    </ol>
+  </NoteBox>
+
+  <section class="my-8">
+    <h2 class="text-2xl font-semibold mb-3">Scaling axes</h2>
+    <SimpleTable data={axes} columns={axesCols} />
+  </section>
+
+  <section class="my-8">
+    <h2 class="text-2xl font-semibold mb-3">Patterns worth naming</h2>
+    <SimpleTable data={patterns} columns={patternCols} />
+  </section>
+</DocsLayout>

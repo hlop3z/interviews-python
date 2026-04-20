@@ -1,0 +1,67 @@
+---
+import DocsLayout from '@/layouts/DocsLayout.astro';
+import SimpleTable from '@/components/tables/SimpleTable.astro';
+import SeniorInsight from '@/components/ui/SeniorInsight.astro';
+import NoteBox from '@/components/ui/NoteBox.astro';
+import { deliverySemantics, brokerShapes, problems, idempotencyRule } from '@/data/queues';
+
+const semanticsCols = [
+  { key: 'name', label: 'Semantic', class: 'font-semibold' },
+  { key: 'means', label: 'Means' },
+  { key: 'achieveWith', label: 'Achieve with' },
+  { key: 'risk', label: 'Risk' },
+];
+
+const shapeCols = [
+  { key: 'shape', label: 'Shape', class: 'font-semibold' },
+  { key: 'semantics', label: 'Delivery' },
+  { key: 'ordering', label: 'Ordering' },
+  { key: 'examples', label: 'Examples' },
+  { key: 'bestFor', label: 'Best for' },
+];
+
+const problemCols = [
+  { key: 'problem', label: 'Problem', class: 'font-semibold' },
+  { key: 'cause', label: 'Cause' },
+  { key: 'mitigation', label: 'Mitigation' },
+];
+---
+
+<DocsLayout title="Queues & Messaging" wide>
+  <h1 class="text-3xl font-bold mb-2">Queues &amp; Messaging</h1>
+  <p class="text-gray-600 dark:text-gray-400 mb-6">
+    Three broker shapes, three delivery semantics, and the operational problems
+    they all share. Pick the shape that matches your workload, not the product
+    you saw on a blog.
+  </p>
+
+  <SeniorInsight label="The senior framing">
+    Every async system is at-least-once in practice. "Exactly-once" is a
+    marketing claim — what you actually deliver is "at-least-once + idempotent
+    consumer." If an interviewer hears you say "exactly-once" unguarded, they
+    know you have not shipped one.
+  </SeniorInsight>
+
+  <section class="my-8">
+    <h2 class="text-2xl font-semibold mb-3">Delivery semantics</h2>
+    <SimpleTable data={deliverySemantics} columns={semanticsCols} />
+  </section>
+
+  <section class="my-8">
+    <h2 class="text-2xl font-semibold mb-3">Broker shapes</h2>
+    <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
+      Anchor on shape, not product. Products bolt features on; the shape is the
+      stable decision.
+    </p>
+    <SimpleTable data={brokerShapes} columns={shapeCols} />
+  </section>
+
+  <section class="my-8">
+    <h2 class="text-2xl font-semibold mb-3">Operational problems</h2>
+    <SimpleTable data={problems} columns={problemCols} />
+  </section>
+
+  <NoteBox title="Idempotency rule" variant="warning">
+    {idempotencyRule}
+  </NoteBox>
+</DocsLayout>

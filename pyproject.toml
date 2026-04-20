@@ -1,9 +1,0 @@
-[project]
-name = "coding-algorithms"
-version = "0.1.0"
-description = "Add your description here"
-readme = "README.md"
-requires-python = ">=3.14"
-dependencies = [
-    "pillow>=12.2.0",
-]

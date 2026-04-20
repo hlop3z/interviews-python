@@ -1,0 +1,109 @@
+---
+import DocsLayout from '@/layouts/DocsLayout.astro';
+import SimpleTable from '@/components/tables/SimpleTable.astro';
+import SeniorInsight from '@/components/ui/SeniorInsight.astro';
+import NoteBox from '@/components/ui/NoteBox.astro';
+import { models, capTheorem, pacelcTheorem, anomalies, quorumFormula } from '@/data/consistency';
+
+const modelCols = [
+  { key: 'name', label: 'Model', class: 'font-semibold' },
+  { key: 'guarantee', label: 'Guarantee' },
+  { key: 'whenItFits', label: 'When it fits' },
+  { key: 'cost', label: 'Cost' },
+];
+
+const anomalyCols = [
+  { key: 'anomaly', label: 'Anomaly', class: 'font-semibold' },
+  { key: 'scenario', label: 'Scenario' },
+  { key: 'fixedBy', label: 'Fixed by' },
+];
+---
+
+<DocsLayout title="Consistency" wide>
+  <h1 class="text-3xl font-bold mb-2">Consistency &amp; CAP</h1>
+  <p class="text-gray-600 dark:text-gray-400 mb-6">
+    The theorems people cite wrong, the models people actually pick, and the
+    read/write anomalies that force the decision.
+  </p>
+
+  <SeniorInsight label="The trap to avoid">
+    Never say "we chose CP" or "we chose AP" without naming the partition
+    scenario you are choosing against. The decision is only meaningful during
+    a partition — and PACELC says there is a second decision waiting even when
+    the network is healthy.
+  </SeniorInsight>
+
+  <section class="my-8">
+    <h2 class="text-2xl font-semibold mb-3">Consistency models</h2>
+    <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
+      Ordered strongest → weakest. Most systems are not "strong" or "eventual" —
+      they are somewhere in the middle, and naming the model precisely is the
+      senior signal.
+    </p>
+    <SimpleTable data={models} columns={modelCols} />
+  </section>
+
+  <section class="my-8">
+    <h2 class="text-2xl font-semibold mb-3">CAP theorem</h2>
+    <div class="border-l-4 border-indigo-500 pl-4 py-2 my-3">
+      <p class="italic text-gray-700 dark:text-gray-300">{capTheorem.statement}</p>
+    </div>
+    <NoteBox title="The common misreading" variant="warning">
+      {capTheorem.commonMisunderstanding}
+    </NoteBox>
+    <div class="mt-4 grid md:grid-cols-2 gap-4 text-sm">
+      {capTheorem.examples.map((e) => (
+        <div class="border border-gray-200 dark:border-gray-700 rounded p-3">
+          <p class="font-semibold mb-1">{e.label}</p>
+          <p class="text-gray-600 dark:text-gray-400">{e.systems}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="my-8">
+    <h2 class="text-2xl font-semibold mb-3">PACELC</h2>
+    <div class="border-l-4 border-indigo-500 pl-4 py-2 my-3">
+      <p class="italic text-gray-700 dark:text-gray-300">{pacelcTheorem.statement}</p>
+    </div>
+    <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">{pacelcTheorem.why}</p>
+    <div class="grid md:grid-cols-3 gap-4 text-sm">
+      {pacelcTheorem.examples.map((e) => (
+        <div class="border border-gray-200 dark:border-gray-700 rounded p-3">
+          <p class="font-semibold font-mono mb-1">{e.label}</p>
+          <p class="text-gray-600 dark:text-gray-400">{e.systems}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="my-8">
+    <h2 class="text-2xl font-semibold mb-3">Read/write anomalies</h2>
+    <SimpleTable data={anomalies} columns={anomalyCols} />
+  </section>
+
+  <section class="my-8">
+    <h2 class="text-2xl font-semibold mb-3">Quorum math</h2>
+    <div class="border-l-4 border-indigo-500 pl-4 py-2 my-3">
+      <p class="font-mono text-sm text-gray-700 dark:text-gray-300">{quorumFormula.headline}</p>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Configuration</th>
+            <th>Effect</th>
+          </tr>
+        </thead>
+        <tbody>
+          {quorumFormula.choices.map((c) => (
+            <tr>
+              <td class="font-mono text-sm font-semibold">{c.config}</td>
+              <td class="text-sm">{c.effect}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</DocsLayout>

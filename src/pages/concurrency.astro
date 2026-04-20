@@ -1,0 +1,122 @@
+---
+import DocsLayout from '@/layouts/DocsLayout.astro';
+import SimpleTable from '@/components/tables/SimpleTable.astro';
+import SeniorInsight from '@/components/ui/SeniorInsight.astro';
+import NoteBox from '@/components/ui/NoteBox.astro';
+import {
+  modes,
+  gilFacts,
+  asyncioPitfalls,
+  lockPrimitives,
+  deadlockConditions,
+  lockingStrategies,
+  idempotencyTricks,
+  exactlyOnceMyth,
+} from '@/data/concurrency-notes';
+
+const modeCols = [
+  { key: 'mode', label: 'Mode', class: 'font-semibold' },
+  { key: 'pythonTool', label: 'Python tool', class: 'font-mono text-sm' },
+  { key: 'bestFor', label: 'Best for' },
+  { key: 'blindSpot', label: 'Blind spot' },
+];
+
+const gilCols = [
+  { key: 'fact', label: 'Fact', class: 'font-semibold' },
+  { key: 'implication', label: 'Implication' },
+];
+
+const pitfallCols = [
+  { key: 'name', label: 'Pitfall', class: 'font-semibold' },
+  { key: 'symptom', label: 'Symptom' },
+  { key: 'fix', label: 'Fix' },
+];
+
+const primitiveCols = [
+  { key: 'primitive', label: 'Primitive', class: 'font-semibold' },
+  { key: 'purpose', label: 'Purpose' },
+  { key: 'pythonApi', label: 'Python API', class: 'font-mono text-sm' },
+  { key: 'pitfall', label: 'Pitfall' },
+];
+
+const strategyCols = [
+  { key: 'name', label: 'Strategy', class: 'font-semibold' },
+  { key: 'flow', label: 'Flow' },
+  { key: 'bestFor', label: 'Best for' },
+  { key: 'cost', label: 'Cost' },
+];
+
+const idemCols = [
+  { key: 'name', label: 'Technique', class: 'font-semibold' },
+  { key: 'description', label: 'Description' },
+  { key: 'example', label: 'Example' },
+];
+---
+
+<DocsLayout title="Concurrency" wide>
+  <h1 class="text-3xl font-bold mb-2">Concurrency</h1>
+  <p class="text-gray-600 dark:text-gray-400 mb-6">
+    Python-flavored: which mode fits the workload, the GIL, asyncio pitfalls,
+    lock primitives, deadlock, and the idempotency toolkit that makes retries
+    safe.
+  </p>
+
+  <SeniorInsight label="The first decision">
+    Before writing any concurrent code, name whether the workload is
+    <strong>I/O-bound</strong> or <strong>CPU-bound</strong>. Get this wrong and
+    you will either add threads that cannot speed up CPU (GIL) or add processes
+    with massive IPC overhead you did not need. Everything else follows from
+    this decision.
+  </SeniorInsight>
+
+  <section class="my-8">
+    <h2 class="text-2xl font-semibold mb-3">Concurrency modes</h2>
+    <SimpleTable data={modes} columns={modeCols} />
+  </section>
+
+  <section class="my-8">
+    <h2 class="text-2xl font-semibold mb-3">The GIL</h2>
+    <SimpleTable data={gilFacts} columns={gilCols} />
+  </section>
+
+  <section class="my-8">
+    <h2 class="text-2xl font-semibold mb-3">Asyncio pitfalls</h2>
+    <SimpleTable data={asyncioPitfalls} columns={pitfallCols} />
+  </section>
+
+  <section class="my-8">
+    <h2 class="text-2xl font-semibold mb-3">Synchronization primitives</h2>
+    <SimpleTable data={lockPrimitives} columns={primitiveCols} />
+  </section>
+
+  <section class="my-8">
+    <h2 class="text-2xl font-semibold mb-3">Deadlock</h2>
+    <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">{deadlockConditions.headline}</p>
+    <div class="grid md:grid-cols-2 gap-3 mb-4">
+      {deadlockConditions.items.map((c) => (
+        <div class="border border-gray-200 dark:border-gray-700 rounded p-3">
+          <p class="font-semibold mb-1">{c.name}</p>
+          <p class="text-sm text-gray-600 dark:text-gray-400">{c.explanation}</p>
+        </div>
+      ))}
+    </div>
+    <NoteBox title="Breaking deadlock" variant="tip">
+      <ul class="list-disc list-outside ml-5 space-y-1">
+        {deadlockConditions.fixes.map((f) => <li>{f}</li>)}
+      </ul>
+    </NoteBox>
+  </section>
+
+  <section class="my-8">
+    <h2 class="text-2xl font-semibold mb-3">Locking strategies</h2>
+    <SimpleTable data={lockingStrategies} columns={strategyCols} />
+  </section>
+
+  <section class="my-8">
+    <h2 class="text-2xl font-semibold mb-3">Idempotency toolkit</h2>
+    <SimpleTable data={idempotencyTricks} columns={idemCols} />
+    <NoteBox title='"Exactly-once" is a myth' variant="warning">
+      {exactlyOnceMyth}
+    </NoteBox>
+  </section>
+</DocsLayout>

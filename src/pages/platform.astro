@@ -1,0 +1,74 @@
+---
+import DocsLayout from '@/layouts/DocsLayout.astro';
+import SeniorInsight from '@/components/ui/SeniorInsight.astro';
+
+const BASE = '/coding-algorithms';
+
+const links = [
+  {
+    href: '/docker/',
+    label: 'Docker',
+    note: 'Images, containers, volumes, compose. Asked at almost every backend loop.',
+  },
+  {
+    href: '/git/',
+    label: 'Git + CI/CD',
+    note: 'Rebase vs merge, reset vs revert, common CI gates.',
+  },
+  {
+    href: '/linux/',
+    label: 'Linux',
+    note: 'Signals, file descriptors, permissions, one-line grep/awk/ps.',
+  },
+  {
+    href: '/networking/',
+    label: 'Networking',
+    note: 'TCP/UDP, DNS, HTTP status codes, CIDR. Comes up in system design too.',
+  },
+  {
+    href: '/kubernetes/',
+    label: 'Kubernetes',
+    note: 'Pods, deployments, probes. Skip unless you hit platform/SRE roles.',
+  },
+  {
+    href: '/observability/',
+    label: 'Observability',
+    note: 'Metrics / logs / traces, SLO vs SLI. Senior signal topic.',
+  },
+  {
+    href: '/security/',
+    label: 'Security',
+    note: 'Vulnerability classes, password KDFs, JWT gotchas.',
+  },
+];
+---
+
+<DocsLayout title="Platform (optional)">
+  <h1 class="text-3xl font-bold mb-2">Platform — DevOps basics devs still get asked</h1>
+  <p class="text-gray-600 dark:text-gray-400 mb-6 max-w-2xl">
+    This site targets Python backend interviews. Pure DevOps topics live here as
+    a reference — most backend loops ask Docker and Git, sometimes Linux and
+    networking basics. The rest is only in-depth relevant for platform/SRE roles.
+  </p>
+
+  <SeniorInsight label="How to read this page">
+    If you are interviewing for a backend role, skim <strong>Docker</strong>,
+    <strong>Git</strong>, and <strong>Linux</strong>. If you are interviewing
+    for a platform / SRE / infra role, all of these matter and this is not
+    enough — treat it as a warm-up.
+  </SeniorInsight>
+
+  <section class="my-8 grid md:grid-cols-2 gap-4">
+    {links.map((l) => (
+      <a
+        href={`${BASE}${l.href}`}
+        class="block border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:border-indigo-400 dark:hover:border-indigo-500 transition-colors"
+      >
+        <h2 class="text-lg font-semibold text-indigo-600 dark:text-indigo-400 mb-1">
+          {l.label}
+        </h2>
+        <p class="text-sm text-gray-600 dark:text-gray-400">{l.note}</p>
+      </a>
+    ))}
+  </section>
+</DocsLayout>

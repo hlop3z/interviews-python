@@ -1,0 +1,190 @@
+---
+import DocsLayout from '@/layouts/DocsLayout.astro';
+import NoteBox from '@/components/ui/NoteBox.astro';
+import {
+  coreTitles,
+  seniorityLevels,
+  specializations,
+  ambiguousAbbrs,
+  roleBuckets,
+  type TitleEntry,
+} from '@/data/titles';
+
+// Small helper so entries render consistently everywhere they appear.
+function renderNote(t: TitleEntry): string {
+  const parts: string[] = [];
+  if (t.note) parts.push(t.note);
+  if (t.conflictsWith) parts.push(`conflicts with ${t.conflictsWith}`);
+  return parts.join(' · ');
+}
+---
+
+<DocsLayout title="Job Titles">
+  <h1 class="text-3xl font-bold mb-2">Job Titles — the decoder</h1>
+  <p class="text-gray-600 dark:text-gray-400 mb-8 max-w-2xl">
+    SWE, SDE, SRE, PE, DE, PM… the alphabet soup of software-engineering job
+    posts, decoded. Skim the TL;DR below, then drill into specializations.
+  </p>
+
+  <!-- TL;DR: the five real buckets -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-2">TL;DR — what all these titles really are</h2>
+    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+      Despite the variation, almost every engineering title collapses into one
+      of five buckets.
+    </p>
+    <ol class="space-y-2">
+      {roleBuckets.map((b, i) => (
+        <li class="flex gap-3 items-start border border-gray-200 dark:border-gray-700 rounded-lg p-3">
+          <span class="shrink-0 w-7 h-7 rounded-full bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300 font-bold text-sm inline-flex items-center justify-center">
+            {i + 1}
+          </span>
+          <div class="flex-1">
+            <p class="font-semibold">{b.name}</p>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mt-0.5">
+              {b.examples.map((ex, j) => (
+                <>
+                  {j > 0 && <span class="text-gray-400">, </span>}
+                  <code class="font-mono text-xs px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800">{ex}</code>
+                </>
+              ))}
+            </p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <!-- Core titles -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-2">Core engineering titles</h2>
+    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+      Baseline "builds software" roles. Often interchangeable — a SWE at one
+      company is an SDE at the next.
+    </p>
+    <ul class="grid sm:grid-cols-2 gap-2">
+      {coreTitles.map((t) => (
+        <li class="border border-gray-200 dark:border-gray-700 rounded-lg p-3 flex items-baseline gap-3">
+          {t.abbr && (
+            <code class="font-mono text-sm font-bold px-2 py-0.5 rounded bg-indigo-50 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300 shrink-0">
+              {t.abbr}
+            </code>
+          )}
+          <div class="flex-1">
+            <span class="font-medium">{t.title}</span>
+            {renderNote(t) && (
+              <span class="text-xs text-gray-500 dark:text-gray-400 ml-1.5">— {renderNote(t)}</span>
+            )}
+          </div>
+        </li>
+      ))}
+    </ul>
+    <NoteBox variant="warning" title="Heads up">
+      SWE / SDE / SD are typically <strong>the same job</strong>. Title variation is
+      usually a company-branding decision, not a scope difference.
+    </NoteBox>
+  </section>
+
+  <!-- Seniority -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-2">Seniority levels</h2>
+    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+      Prefixes that stack on top of a core title: <em>Sr SWE</em>, <em>Staff Eng</em>,
+      <em>Principal Engineer</em>, and so on.
+    </p>
+    <ol class="space-y-1.5">
+      {seniorityLevels.map((t, i) => (
+        <li class="flex items-baseline gap-3 border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2">
+          <span class="text-xs font-mono text-gray-400 dark:text-gray-500 shrink-0 w-5">{i + 1}.</span>
+          {t.abbr && (
+            <code class="font-mono text-sm font-bold px-2 py-0.5 rounded bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 shrink-0">
+              {t.abbr}
+            </code>
+          )}
+          <div class="flex-1">
+            <span class="font-medium">{t.title}</span>
+            {renderNote(t) && (
+              <span class="text-xs text-gray-500 dark:text-gray-400 ml-1.5">— {renderNote(t)}</span>
+            )}
+          </div>
+          {t.conflictsWith && (
+            <span
+              class="shrink-0 text-xs px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-200"
+              title={`Conflicts with ${t.conflictsWith}`}
+            >⚠ ambiguous</span>
+          )}
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <!-- Specializations -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-2">Specialization by area</h2>
+    <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
+      Each group is a distinct concern — the tech stack, the work cadence, and
+      the interview loop differ between them.
+    </p>
+    <div class="grid md:grid-cols-2 gap-5">
+      {specializations.map((area) => (
+        <article class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+          <h3 class="font-semibold text-lg mb-1">{area.area}</h3>
+          {area.description && (
+            <p class="text-xs text-gray-500 dark:text-gray-400 mb-3 italic">{area.description}</p>
+          )}
+          <ul class="space-y-1.5">
+            {area.titles.map((t) => (
+              <li class="flex items-baseline gap-2 text-sm">
+                {t.abbr && (
+                  <code class="font-mono text-xs font-bold px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 shrink-0">
+                    {t.abbr}
+                  </code>
+                )}
+                <div class="flex-1">
+                  <span>{t.title}</span>
+                  {t.note && (
+                    <span class="text-xs text-gray-500 dark:text-gray-400 ml-1">— {t.note}</span>
+                  )}
+                  {t.conflictsWith && (
+                    <span class="ml-1.5 text-xs text-amber-700 dark:text-amber-300">
+                      ⚠ conflicts with {t.conflictsWith}
+                    </span>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- Ambiguous abbreviations -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-2">Overloaded abbreviations</h2>
+    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+      The real source of confusion — same letters, different roles. When a job
+      post uses one of these, assume nothing until you read the description.
+    </p>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+      {ambiguousAbbrs.map((a) => (
+        <div class="border-l-4 border-amber-400 bg-amber-50 dark:bg-amber-900/20 rounded-r-lg p-4">
+          <div class="font-mono text-2xl font-bold text-amber-800 dark:text-amber-200 mb-2">
+            {a.abbr}
+          </div>
+          <ul class="text-sm space-y-1 text-gray-700 dark:text-gray-300">
+            {a.meanings.map((m) => <li>• {m}</li>)}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <NoteBox variant="tip" title="How to read a job post">
+    <ol class="list-decimal list-outside ml-5 space-y-1">
+      <li>Find the title + seniority prefix. Decode to one of the five buckets above.</li>
+      <li>If the abbreviation is ambiguous (SE, PE, DE, PM), read the day-in-the-life paragraph before trusting the acronym.</li>
+      <li>Judge scope from responsibilities, not the title — a "Staff" at a startup ≠ a Staff at a FAANG.</li>
+    </ol>
+  </NoteBox>
+</DocsLayout>

@@ -1,8 +1,42 @@
 ---
+import { Code } from 'astro-expressive-code/components';
 import DocsLayout from '@/layouts/DocsLayout.astro';
 import SearchInput from '@/components/ui/SearchInput.astro';
+import SimpleTable from '@/components/tables/SimpleTable.astro';
+import SeniorInsight from '@/components/ui/SeniorInsight.astro';
+import NoteBox from '@/components/ui/NoteBox.astro';
 import { pythonZen, pythonMagicMethods, pythonUsefulNotes } from '@/data/python-notes';
 import { allPythonMethods, pythonModuleGroups } from '@/data/python-modules';
+import {
+  typingFeatures,
+  dataShapes,
+  dataShapeRule,
+  contextManagers,
+  generatorPatterns,
+  descriptorFacts,
+  footguns,
+  interviewProbes,
+} from '@/data/python-depth';
+
+const typingCols = [
+  { key: 'feature', label: 'Feature', class: 'font-semibold font-mono text-sm' },
+  { key: 'purpose', label: 'Purpose' },
+  { key: 'example', label: 'Example', class: 'font-mono text-xs' },
+];
+
+const dataShapeCols = [
+  { key: 'name', label: 'Shape', class: 'font-semibold' },
+  { key: 'immutable', label: 'Immutable?' },
+  { key: 'validation', label: 'Validation' },
+  { key: 'perf', label: 'Perf' },
+  { key: 'useWhen', label: 'Use when' },
+];
+
+const footgunCols = [
+  { key: 'name', label: 'Footgun', class: 'font-semibold' },
+  { key: 'code', label: 'Code', class: 'font-mono text-xs' },
+  { key: 'fix', label: 'Fix' },
+];
 ---
 
 <DocsLayout title="Python">
@@ -30,6 +64,16 @@ import { allPythonMethods, pythonModuleGroups } from '@/data/python-modules';
         class="tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
       >
         Modules
+      </button>
+      <button
+        type="button"
+        role="tab"
+        data-tab="depth"
+        aria-selected="false"
+        aria-controls="tab-depth"
+        class="tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+      >
+        Depth
       </button>
     </div>
   </div>
@@ -133,6 +177,88 @@ import { allPythonMethods, pythonModuleGroups } from '@/data/python-modules';
         </tbody>
       </table>
     </div>
+  </section>
+
+  <!-- Depth Tab -->
+  <section id="tab-depth" role="tabpanel" class="tab-panel hidden">
+    <p class="text-gray-600 dark:text-gray-400 mb-6">
+      Senior-grade language topics. Concurrency, GIL, and asyncio live on the
+      dedicated Concurrency page.
+    </p>
+
+    <SeniorInsight label="What interviewers probe">
+      Juniors prove they can write Python. Seniors prove they understand the
+      data model — typing, descriptors, immutability tradeoffs, and the
+      footguns. If you can answer "when would you pick Pydantic vs dataclass"
+      cleanly, you have signalled years of backend experience.
+    </SeniorInsight>
+
+    <section class="my-8">
+      <h2 class="text-2xl font-semibold mb-3">Typing</h2>
+      <SimpleTable data={typingFeatures} columns={typingCols} />
+    </section>
+
+    <section class="my-8">
+      <h2 class="text-2xl font-semibold mb-3">Data shapes — dataclass, Pydantic, attrs</h2>
+      <SimpleTable data={dataShapes} columns={dataShapeCols} />
+      <NoteBox title="Rule of thumb" variant="tip">
+        {dataShapeRule}
+      </NoteBox>
+    </section>
+
+    <section class="my-8">
+      <h2 class="text-2xl font-semibold mb-3">Context managers</h2>
+      <div class="space-y-4">
+        {contextManagers.map((c) => (
+          <article class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+            <header class="mb-2 flex items-baseline gap-3">
+              <h3 class="text-lg font-semibold">{c.name}</h3>
+              <span class="text-sm text-gray-600 dark:text-gray-400">— {c.note}</span>
+            </header>
+            <Code code={c.snippet} lang="python" />
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="my-8">
+      <h2 class="text-2xl font-semibold mb-3">Generators &amp; iterators</h2>
+      <div class="space-y-4">
+        {generatorPatterns.map((g) => (
+          <article class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+            <header class="mb-2 flex items-baseline gap-3">
+              <h3 class="text-lg font-semibold">{g.name}</h3>
+              <span class="text-sm text-gray-600 dark:text-gray-400">— {g.use}</span>
+            </header>
+            <Code code={g.snippet} lang="python" />
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="my-8">
+      <h2 class="text-2xl font-semibold mb-3">Descriptors, properties, metaclasses</h2>
+      <ul class="space-y-3">
+        {descriptorFacts.map((d) => (
+          <li class="border-l-4 border-indigo-500 pl-4 py-2">
+            <p class="font-semibold font-mono text-sm">{d.name}</p>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">{d.why}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="my-8">
+      <h2 class="text-2xl font-semibold mb-3">Common footguns</h2>
+      <SimpleTable data={footguns} columns={footgunCols} />
+    </section>
+
+    <section class="my-8">
+      <h2 class="text-2xl font-semibold mb-3">Interview probes</h2>
+      <ul class="list-disc list-outside ml-5 space-y-1 text-sm">
+        {interviewProbes.map((p) => <li>{p}</li>)}
+      </ul>
+    </section>
   </section>
 </DocsLayout>
 
