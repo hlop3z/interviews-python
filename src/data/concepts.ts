@@ -121,16 +121,30 @@ export const concepts: ConceptGroups = {
       description: 'Separates cross-cutting concerns (such as logging or security) from the main application logic.',
     },
     {
-      name: 'Service-Oriented Architecture (SOA)',
-      description: 'Designs software as a collection of services that communicate through standardized protocols.',
+      name: 'Reactive Programming',
+      description: 'Deals with asynchronous data streams and the propagation of changes, allowing for reactive and scalable systems.',
     },
     {
-      name: 'Microservices Architecture',
-      description: 'Breaks down applications into small, independently deployable services that work together.',
+      name: 'Actor Model',
+      description: 'Models concurrent computation as a collection of actors that communicate via asynchronous messages.',
     },
     {
-      name: 'Component-Based Architecture',
-      description: 'Constructs software from reusable, self-contained components with well-defined interfaces.',
+      name: 'Distributed Computing',
+      description: 'Designs software to run across multiple interconnected computers, enabling scalability and fault tolerance.',
+    },
+  ],
+  architectures: [
+    {
+      name: 'Monolithic',
+      description: 'Single, unified codebase deployed as one unit — simple to start, harder to scale and evolve independently as it grows.',
+    },
+    {
+      name: 'Layered (N-Tier)',
+      description: 'Organizes the system into horizontal layers (presentation, business, data); each layer only depends on the one directly below it.',
+    },
+    {
+      name: 'Client-Server',
+      description: 'Splits responsibility between requesters (clients) and providers (servers) communicating over a network.',
     },
     {
       name: 'Model-View-Controller (MVC)',
@@ -138,39 +152,67 @@ export const concepts: ConceptGroups = {
     },
     {
       name: 'Model-View-ViewModel (MVVM)',
-      description: 'A variation of MVC where the ViewModel mediates communication between the View and Model.',
+      description: 'A variation of MVC where the ViewModel mediates communication between the View and Model, enabling data binding in UI frameworks.',
     },
     {
-      name: 'Model-Driven Architecture (MDA)',
-      description: 'Focuses on models as the primary artifacts of the development process, generating code from these models.',
+      name: 'Hexagonal (Ports & Adapters)',
+      description: 'Isolates core domain logic from external concerns via ports (interfaces) and adapters (implementations), keeping the core independent of frameworks, UI, and databases.',
     },
     {
-      name: 'Domain-Driven Design (DDD)',
-      description: 'Centers software design around a rich understanding of the domain and domain logic.',
+      name: 'Onion Architecture',
+      description: 'Concentric layers around a domain core with dependencies pointing inward only — outer layers depend on inner ones, never the reverse.',
     },
     {
-      name: 'Event Sourcing',
-      description: 'Stores all changes to application state as a sequence of events, allowing for easy replay and auditing.',
+      name: 'Clean Architecture',
+      description: 'Robert Martin\'s synthesis of hexagonal and onion: entities at the center, use cases around them, and the Dependency Rule enforcing inward-pointing dependencies.',
     },
     {
-      name: 'CQRS (Command Query Responsibility Segregation)',
-      description: 'Separates read and write operations for data storage, optimizing each for its specific purpose.',
+      name: 'Component-Based',
+      description: 'Constructs software from reusable, self-contained components with well-defined interfaces.',
     },
     {
-      name: 'Actor Model',
-      description: 'Models concurrent computation as a collection of actors that communicate via asynchronous messages.',
+      name: 'Service-Oriented Architecture (SOA)',
+      description: 'Designs software as a collection of coarse-grained services that communicate through standardized protocols, often via an enterprise service bus.',
     },
     {
-      name: 'Reactive Programming',
-      description: 'Deals with asynchronous data streams and the propagation of changes, allowing for reactive and scalable systems.',
+      name: 'Microservices',
+      description: 'Decomposes the application into small, independently deployable services that own their data and communicate over the network.',
     },
     {
       name: 'Service-Oriented Integration (SOI)',
-      description: 'Integrates software systems using services exposed via well-defined interfaces.',
+      description: 'Integrates disparate systems by exposing capabilities as services through well-defined interfaces.',
     },
     {
-      name: 'Distributed Computing',
-      description: 'Designs software to run across multiple interconnected computers, enabling scalability and fault tolerance.',
+      name: 'Serverless',
+      description: 'Application logic runs as ephemeral, event-driven functions on managed infrastructure, with no server provisioning or capacity planning.',
+    },
+    {
+      name: 'Event-Driven Architecture (EDA)',
+      description: 'Components communicate by producing and consuming events asynchronously, decoupling producers from consumers in time and identity.',
+    },
+    {
+      name: 'Event Sourcing',
+      description: 'Persists application state as an append-only log of events; current state is derived by replaying them, enabling full audit and time travel.',
+    },
+    {
+      name: 'CQRS (Command Query Responsibility Segregation)',
+      description: 'Separates read and write models so each side can be optimized, scaled, and evolved independently.',
+    },
+    {
+      name: 'Pipes and Filters',
+      description: 'Processes data through a sequence of independent transformation stages (filters) connected by pipes, each stage doing one thing.',
+    },
+    {
+      name: 'Space-Based',
+      description: 'Removes the central database bottleneck by distributing state across an in-memory data grid; processing units scale horizontally for high-load systems.',
+    },
+    {
+      name: 'Domain-Driven Design (DDD)',
+      description: 'Models software around a rich understanding of the business domain, using ubiquitous language and bounded contexts to align code with the problem space.',
+    },
+    {
+      name: 'Model-Driven Architecture (MDA)',
+      description: 'Treats models as the primary development artifacts, generating code from platform-independent and platform-specific models.',
     },
   ],
   principles: [

@@ -107,6 +107,7 @@ export interface ConceptGroups {
   solid: Concept[];
   design: Concept[];
   paradigms: Concept[];
+  architectures: Concept[];
   principles: Concept[];
 }
 
